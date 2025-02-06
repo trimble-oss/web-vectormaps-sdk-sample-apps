@@ -1,0 +1,426 @@
+<div class="modus-panel panel-lg h-100 shadow">
+  <div class="panel-header">
+    <h4>Content Layers</h4>
+
+  </div>
+  <div class="accordion thead-light" id="contentLayer" *ngIf ="license">
+    <div class="card">
+      <div
+        class="card-header"
+        id="accordionHeadingOne"
+        [attr.aria-expanded] ="activeAccordionIndex === 0?'true':'false'"
+        aria-controls="codeCollapseOne"
+        (click)="license.traffic?openLayer(0):null"
+        (keyup)="license.traffic?openLayer(0):null"
+        [ngClass]="{ 'unlicensed': !license.traffic }"
+        role="button"
+        tabindex="0">
+        <h6  [ngClass]="{ 'disabled': !license.traffic }" class="mb-0 accordion-title" id="collapsible-group-item-1">Traffic</h6>
+        <app-tooltip [showTooltip] ="!license.traffic"></app-tooltip>
+
+
+      </div>
+      <div
+        id="codeCollapseOne"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show':license.traffic&&activeAccordionIndex === 0  }"
+        aria-labelledby="accordionHeadingOne"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>Indicates the flow of traffic based on 4 congestion levels.</li>
+            <li>Visible at zoom level 9 and greater.</li>
+          </ul>
+          <div
+            class="panel-header bg-transparent mb-1"
+           >
+            <h5>Traffic Key</h5>
+          </div>
+          <svg
+            class="bi pe-none me-2"
+            width="18"
+            height="18"
+            style="background: green"></svg>
+          No/Little Traffic<br />
+          <svg
+            class="bi pe-none me-2"
+            width="18"
+            height="18"
+            style="background: orange"></svg>
+          Light Traffic<br />
+          <svg
+            class="bi pe-none me-2"
+            width="18"
+            height="18"
+            style="background: red"></svg>
+          Heavy Traffic<br />
+          <svg
+            class="bi pe-none me-2"
+            width="18"
+            height="18"
+            style="background: black"></svg>
+          Road Closed
+        </div>
+      </div>
+    </div>
+    <div class="card" >
+      <div
+        class="card-header"
+        id="accordionHeadingTwo"
+        [attr.aria-expanded] ="activeAccordionIndex === 1?'true':'false'"
+        aria-controls="codeCollapseTwo"
+        role="button"
+        (click)="license.weatherRadar&&openLayer(1)"
+        (keyup)="license.weatherRadar&&openLayer(1)"
+        [ngClass]="{ 'unlicensed': !license.weatherRadar }" tabindex="0">
+         <h6  [ngClass]="{ 'disabled': !license.weatherRadar}" class="mb-0 accordion-title" id="collapsible-group-item-2">Weather Radar</h6>
+         <app-tooltip [showTooltip] ="!license.weatherRadar"></app-tooltip>
+
+      </div>
+      <div
+        id="codeCollapseTwo"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show': activeAccordionIndex === 1 }"
+        aria-labelledby="accordionHeadingTwo"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>Displays weather radar overlay on map.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="isNA">
+      <div
+        class="card-header"
+        id="accordionHeadingThree"
+        data-toggle="collapse"
+        aria-controls="codeCollapseThree"
+        role="button"
+        [ngClass]="{ 'unlicensed': !(isNA && license.weatherAlerts) }"
+        (click)="isNA && license.weatherAlerts&&openLayer(2)"
+        (keyup)="isNA && license.weatherAlerts&&openLayer(2)"
+        tabindex="0">
+         <h6   [ngClass]="{ 'disabled': !(isNA && license.weatherAlerts) }"class="mb-0 accordion-title" id="collapsible-group-item-3">Weather Alerts</h6>
+         <app-tooltip [showTooltip] ="(isNA && !license.weatherAlerts)"
+      ></app-tooltip>
+      </div>
+      <div
+        id="codeCollapseThree"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show':activeAccordionIndex === 2 }"
+        aria-labelledby="accordionHeadingThree"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>
+              Displays weather alerts for various weather events only in North
+              America.
+            </li>
+            <li>Can add click event to layer to display event information.</li>
+            <li>
+              Alert Filter Control can toggle visibility of different alert
+              severity, urgency and certainty.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="isNA">
+      <div
+        class="card-header"
+        id="accordionHeadingFour"
+        [attr.aria-expanded] ="activeAccordionIndex === 3?'true':'false'"
+        aria-controls="codeCollapseFour"
+        role="button"
+        [ngClass]="{ 'unlicensed': !(isNA && license.roadSurface) }"
+        (click)="isNA && license.roadSurface&&openLayer(3)"
+        (keyup)="isNA && license.roadSurface&&openLayer(3)"
+        tabindex="0">
+         <h6 [ngClass]="{ 'disabled': !(isNA && license.roadSurface) }"class="mb-0 accordion-title" id="collapsible-group-item-4">Road Surface</h6>
+         <app-tooltip [showTooltip] ="(isNA && !license.roadSurface)"
+        ></app-tooltip>
+      </div>
+      <div
+        id="codeCollapseFour"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show': activeAccordionIndex === 3 }"
+        aria-labelledby="accordionHeadingFour"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>Displays road surface condition for North America.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="isNA">
+      <div
+        class="card-header"
+        id="accordionHeadingFive"
+        [attr.aria-expanded] ="activeAccordionIndex === 4?'true':'false'"
+        aria-controls="codeCollapseFive"
+        role="button"
+        (click)="openLayer(4)"
+        (keyup)="openLayer(4)"
+        tabindex="0">
+         <h6 class="mb-0 accordion-title" id="collapsible-group-item-5">Places</h6>
+      </div>
+      <div
+        id="codeCollapseFive"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show': activeAccordionIndex === 4 }"
+        aria-labelledby="accordionHeadingFive"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>
+              Displays place polygon on the map, such as distribution centers
+              and manufacturing facilities.
+            </li>
+            <li>
+              Place information includes site polygon and truck entry/exit gates
+              (where available).
+            </li>
+            <li>Includes points of interest icons.</li>
+          </ul>
+          <div
+           class=" panel-header
+            bg-transparent mb-1"
+            >
+            <h5>Gate Icons</h5>
+          </div>
+          <img
+            src="assets/circle-outline-green.png"
+            width="22"
+            height="22"
+            alt="" />Entrance Gate<br />
+          <img
+            src="assets/circle-outline-cyan.png"
+            width="22"
+            height="22"
+            alt="" />Two-Way Gate<br />
+          <img
+            src="assets/circle-outline-red.png"
+            width="22"
+            height="22"
+            alt="" />Exit Gate<br />
+        </div>
+      </div>
+    </div>
+
+    <div class="card" >
+      <div
+        class="card-header"
+        id="accordionHeadingSix"
+        [attr.aria-expanded] ="activeAccordionIndex === 5?'true':'false'"
+        aria-controls="codeCollapseSix"
+        role="button"
+        (click)="license.poi&&openLayer(5)"
+        (keyup)="license.poi&&openLayer(5)"
+        [ngClass]="{ 'unlicensed': !(license.poi) }"
+        tabindex="0">
+         <h6 [ngClass]="{ 'disabled': !license.poi }" class="mb-0 accordion-title" id="collapsible-group-item-6">Points of Interest</h6>
+         <app-tooltip [showTooltip] ="!license.poi"
+        ></app-tooltip>
+      </div>
+      <div
+        id="codeCollapseSix"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show': activeAccordionIndex === 5 }"
+        aria-labelledby="accordionHeadingSix"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>Display points of interest icons on the map.</li>
+          </ul>
+          <div
+            class="panel-header
+            bg-transparent mb-1"
+           >
+            <h5>Example Place Icons</h5>
+          </div>
+          <img
+            src="assets/poi_distribution_center.png"
+            width="22"
+            height="22"
+            alt="" />Distribution Center<br />
+          <img
+            src="assets/poi_fuel.png"
+            width="22"
+            height="22"
+            alt="" />Fuel<br />
+          <img
+            src="assets/poi_manufacturing_plant.png"
+            width="22"
+            height="22"
+            alt="" />Manufacturing Plant<br />
+          <img
+            src="assets/poi_rest_area.png"
+            width="22"
+            height="22"
+            alt="" />Rest Area<br />
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div
+        class="card-header"
+        id="accordionHeadingSeven"
+        [attr.aria-expanded] ="activeAccordionIndex === 6?'true':'false'"
+        aria-controls="codeCollapseSeven"
+        role="button"
+        (click)="openLayer(6)"
+        (keyup)="openLayer(6)"
+        tabindex="0">
+         <h6 class="mb-0 accordion-title" id="collapsible-group-item-7">3D Buildings</h6>
+      </div>
+      <div
+        id="codeCollapseSeven"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show':activeAccordionIndex ===6 }"
+        aria-labelledby="accordionHeadingSeven"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>Displays 3D buildings.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card" >
+      <div
+        class="card-header"
+        id="accordionHeadingEight"
+        [attr.aria-expanded] ="activeAccordionIndex === 7?'true':'false'"
+        aria-controls="codeCollapseEight"
+        role="button"
+        (click)="license.traffic&&openLayer(7)"
+        (keyup)="license.traffic&&openLayer(7)"
+        [ngClass]="{ 'unlicensed': !(license.traffic) }"
+        tabindex="0">
+         <h6 [ngClass]="{ 'disabled': !license.traffic }" class="mb-0 accordion-title" id="collapsible-group-item-8">Traffic Incidents</h6>
+         <app-tooltip [showTooltip]  ="!license.traffic"
+        ></app-tooltip>
+
+      </div>
+      <div
+        id="codeCollapseEight"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show': activeAccordionIndex === 7 }"
+        aria-labelledby="accordionHeadingEight"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>Displays current traffic incidents.</li>
+            <li>
+              Click event can be added to layer to show incident information.
+            </li>
+            <li>Control can be added to layer to filter incident types.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card" >
+      <div
+        class="card-header"
+        id="accordionHeadingNine"
+        [attr.aria-expanded] ="activeAccordionIndex === 8?'true':'false'"
+        aria-controls="codeCollapseNine"
+        role="button"
+        (click)="license.truckRestriction&&openLayer(8)"
+        (keyup)="license.truckRestriction&&openLayer(8)"
+        [ngClass]="{ 'unlicensed': !(license.truckRestriction) }"
+        tabindex="0">
+         <h6  [ngClass]="{ 'disabled': !license.truckRestriction }" class="mb-0 accordion-title" id="collapsible-group-item-9">Truck Restrictions</h6>
+         <app-tooltip [showTooltip] ="!license.truckRestriction"
+        ></app-tooltip>
+      </div>
+      <div
+        id="codeCollapseNine"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show': activeAccordionIndex === 8 }"
+        aria-labelledby="accordionHeadingNine"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <ul>
+            <li>Displays truck restrictions on the map.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div
+        class="card-header"
+        id="accordionHeadingTen"
+        [attr.aria-expanded] ="activeAccordionIndex === 9?'true':'false'"
+        aria-controls="codeCollapseTen"
+        role="button"
+        (click)="license.customData&&openLayer(9)"
+        (keyup)="license.customData&&openLayer(9)"
+        [ngClass]="{ 'unlicensed': !(license.customData) }"
+        tabindex="0">
+         <h6 [ngClass]="{ 'disabled': !license.customData }" class="mb-0 accordion-title" id="collapsible-group-item-10">Custom Content</h6>
+         <app-tooltip [showTooltip] ="!license.customData"
+        ></app-tooltip>
+      </div>
+      <div
+        id="codeCollapseTen"
+        class="collapse bg-gray-light"
+        [ngClass]="{ 'show': activeAccordionIndex === 9 }"
+        aria-labelledby="accordionHeadingTen"
+        data-parent="#contentLayer">
+        <div class="card-body">
+          <div *ngIf="isNA">
+            <ul>
+              <li>
+                Ability to plot custom data onto the map via geoJson objects.
+              </li>
+              <li>
+                Information for this example is comprised of a geojson source
+                that is broken down into 3 different custom content layers:
+              </li>
+              <ul>
+                <li>
+                  <b>Fill Layer</b>: Creates the state boundary polygon of New
+                  Jersey and sets the opacity.
+                </li>
+                <li>
+                  <b>Line Layer</b>: Forms the outline around the New Jersey
+                  polygon.
+                </li>
+                <li>
+                  <b>Symbol Layer</b>: Adds the Trimble Maps logo to the map.
+                </li>
+              </ul>
+            </ul>
+          </div>
+          <div *ngIf="isEU">
+            <ul>
+              <li>
+                Ability to plot custom data onto the map via geoJson objects.
+              </li>
+              <li>
+                Information for this example is comprised of a geojson source
+                that is broken down into 3 different custom content layers:
+              </li>
+              <ul>
+                <li>
+                  <b>Fill Layer</b>: Creates the country boundary polygon of
+                  Great Britain and sets the opacity.
+                </li>
+                <li>
+                  <b>Line Layer</b>: Forms the outline around the Great Britain
+                  polygon.
+                </li>
+                <li>
+                  <b>Symbol Layer</b>: Adds the Trimble Maps logo to the map.
+                </li>
+              </ul>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

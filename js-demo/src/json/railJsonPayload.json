@@ -1,0 +1,20 @@
+{
+  "Stops": [
+    {
+      "Format": "StationState",
+      "Name": "Denver, CO",
+      "Railroad": "BNSF"
+    },
+    {
+      "Format": "StationState",
+      "Name": "pueblo co",
+      "Railroad": "BNSF"
+    }
+  ],
+  "Options": {
+    "RoutingPreference": "Practical",
+    "AmtrakRoutes": true,
+    "IntermodalOnlyStations": true,
+    "DistUnit": "Miles"
+  }
+}

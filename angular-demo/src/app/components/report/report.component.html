@@ -1,0 +1,261 @@
+<div class="modal-content">
+  <div class="modal-header justify-content-start d-print-none">
+    <h4 class="ml-3 my-1">Reports</h4>
+    <button type="button" class="close" (click)="close()" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-container>
+      <ul
+        class="nav nav-tabs nav-tabs-sm mt-3 d-print-none"
+        id="reportsTab"
+        role="tablist"
+      >
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            category="Reports"
+            id="mileageRouteTab"
+            data-toggle="tab"
+            href="#mileageReport"
+            role="tab"
+            aria-controls="mileageRoute"
+            aria-selected="true"
+            >Mileage Report</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            action="Detailed_Route"
+            category="Reports"
+            id="detailedRouteTab"
+            data-toggle="tab"
+            href="#detailedRoute"
+            role="tab"
+            aria-controls="detailedRoute"
+            aria-selected="true"
+            >Detailed Route</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            category="Reports"
+            id="drivingDirectionsTab"
+            data-toggle="tab"
+            href="#drivingDirections"
+            role="tab"
+            aria-controls="drivingDirections"
+            aria-selected="false"
+          >
+            Directions</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            category="Reports"
+            id="stateCountryDistancesTab"
+            data-toggle="tab"
+            href="#stateCountryDistances"
+            role="tab"
+            aria-controls="stateCountryDistances"
+            aria-selected="false"
+            >State</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            category="Reports"
+            id="roadTypeDistancesTab"
+            data-toggle="tab"
+            href="#roadTypeDistances"
+            role="tab"
+            aria-controls="roadTypeDistances"
+            aria-selected="false"
+            >Road
+          </a>
+        </li>
+      </ul>
+      <div class="tab-content py-3" id="reportsTabContent" #reportTab>
+        <div
+          class="tab-pane active"
+          id="mileageReport"
+          role="tabpanel"
+          aria-labelledby="mileageTab"
+        >
+          <table id="mileageTable" class="table table-hover">
+            <thead class="bg-gray-light" id="mileageTableHeader">
+              <tr>
+                <th>Location</th>
+                <th>Leg {{ mileageType }}</th>
+                <th>Cumulative {{ mileageType }}</th>
+                <th>Leg Drive Time</th>
+                <th>Cumulative Drive Time</th>
+              </tr>
+            </thead>
+            <tbody id="mileageTableBody">
+              <tr *ngFor="let mileageReport of mileageReports">
+                <td>{{ mileageReport.location }}</td>
+                <td>{{ mileageReport.legMiles }}</td>
+                <td>{{ mileageReport.cumulativeMiles }}</td>
+                <td>{{ mileageReport.driveTime }}</td>
+                <td>{{ mileageReport.cumulativeDriveTime }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="detailedRoute"
+          role="tabpanel"
+          aria-labelledby="detailedRouteTab"
+        >
+          <table id="detailTable" class="table table-hover">
+            <thead class="bg-gray-light" id="detailTableHeader">
+              <tr>
+                <th scope="col">Stop</th>
+                <th scope="col">{{ mileageType }}</th>
+                <th scope="col">Time</th>
+                <th scope="col">Interchange</th>
+                <th scope="col">Cumulative {{ mileageType }}</th>
+                <th scope="col">Cumulative Drive Time</th>
+                <th scope="col">Toll Plaza</th>
+                <th scope="col">Toll Cost</th>
+              </tr>
+            </thead>
+            <tbody id="detailTableBody">
+              <tr *ngFor="let detailReport of detailedReports">
+                <td>{{ detailReport.stop }}</td>
+                <td>{{ detailReport.miles }}</td>
+                <td>{{ detailReport.time }}</td>
+                <td>{{ detailReport.interchange }}</td>
+                <td>{{ detailReport.cumulativeMiles }}</td>
+                <td>{{ detailReport.cumulativeDriveTime }}</td>
+                <td>{{ detailReport.tollPlaza }}</td>
+                <td>{{ detailReport.tollAmount }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="drivingDirections"
+          role="tabpanel"
+          aria-labelledby="drivingDirectionsTab"
+        >
+          <table id="directionsTable" class="table table-hover">
+            <thead class="bg-gray-light">
+              <tr>
+                <th scope="col">Direction</th>
+                <th scope="col">Distance</th>
+                <th scope="col">Time</th>
+              </tr>
+            </thead>
+            <tbody id="directionsTableBody">
+              <tr *ngFor="let directionReport of directionReports">
+                <td>{{ directionReport.direction }}</td>
+                <td>{{ directionReport.distance }}</td>
+                <td>{{ directionReport.time }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="stateCountryDistances"
+          role="tabpanel"
+          aria-labelledby="stateCountryDistancesTab"
+        >
+          <table id="stateTable" class="table table-hover">
+            <thead class="bg-gray-light">
+              <tr>
+                <th scope="col">State</th>
+                <th scope="col">Total</th>
+                <th scope="col">Toll</th>
+                <th scope="col">Free</th>
+                <th scope="col">Ferry</th>
+                <th scope="col">Loaded</th>
+                <th scope="col">Empty</th>
+                <th scope="col">Tolls</th>
+                <th scope="col">Energy</th>
+              </tr>
+            </thead>
+            <tbody id="stateTableBody">
+              <tr *ngFor="let state of stateReports">
+                <td>{{ state.state }}</td>
+                <td>{{ state.total }}</td>
+                <td>{{ state.toll }}</td>
+                <td>{{ state.free }}</td>
+                <td>{{ state.ferry }}</td>
+                <td>{{ state.loaded }}</td>
+                <td>{{ state.empty }}</td>
+                <td>{{ state.tolls }}</td>
+                <td>{{ state.energy }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="roadTypeDistances"
+          role="tabpanel"
+          aria-labelledby="roadTypeDistancesTab"
+        >
+          <table id="roadTable" class="table table-hover">
+            <thead class="bg-gray-light">
+              <tr>
+                <th scope="col">Location</th>
+                <th scope="col">Miles</th>
+                <th scope="col">Interstate</th>
+                <th scope="col">Divided Highway</th>
+                <th scope="col">Primary Highway</th>
+                <th scope="col">Ferry</th>
+                <th scope="col">Secondary Highway</th>
+                <th scope="col">Ramp</th>
+                <th scope="col">Local</th>
+                <th scope="col">Pathway</th>
+                <th scope="col">Toll</th>
+                <th scope="col">Energy</th>
+              </tr>
+            </thead>
+            <tbody id="roadTableBody">
+              <tr *ngFor="let road of roadReports">
+                <td>{{ road.location }}</td>
+                <td>{{ road.miles }}</td>
+                <td>{{ road.interState }}</td>
+                <td>{{ road.dividedHighWay }}</td>
+                <td>{{ road.primaryHighway }}</td>
+                <td>{{ road.ferry }}</td>
+                <td>{{ road.secondaryHighWay }}</td>
+                <td>{{ road.ramp }}</td>
+                <td>{{ road.local }}</td>
+                <td>{{ road.pathway }}</td>
+                <td>{{ road.toll }}</td>
+                <td>{{ road.energy }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-dismiss="modal"
+      (click)="close()"
+    >
+      Close
+    </button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div>Loading</div>
+</ng-template>

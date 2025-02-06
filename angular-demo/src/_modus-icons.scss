@@ -1,0 +1,25 @@
+@font-face {
+  font-family: modus-icons;
+  font-display: block;
+  src:
+    url("https://cdn.jsdelivr.net/npm/@trimble-oss/modus-icons@1/dist/transportation/fonts/modus-icons.woff2?fe7a91292ae53e82720441e48d337dc4") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/@trimble-oss/modus-icons@1/dist/transportation/fonts/modus-icons.woff?fe7a91292ae53e82720441e48d337dc4") format("woff");
+}
+
+.modus-icons {
+  font-family: modus-icons;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "liga";
+}

@@ -1,0 +1,155 @@
+<div class="modus-layout">
+  <nav class="navbar navbar-expand-sm modus-header pl-1" id="modus-header">
+    <a
+      id="menuButton"
+      data-modus-item="menu-btn"
+      class="btn btn-lg btn-icon-only btn-text-dark shadow-none mr-2"
+      (click)="isSidebarOpen = !isSidebarOpen"
+      (keypress)="isSidebarOpen = !isSidebarOpen"
+      tabindex="0"
+      ><i class="modus-icons menu-btn">menu</i></a
+    >
+    <app-branding-name
+      [appName]="'Vector Maps Demo'"
+      [logoPath]="'assets/trimble-logo.svg'"
+      [isClickable]="true"></app-branding-name>
+    <div class="navbar-nav justify-content-end"></div>
+  </nav>
+  <div
+    class="modus-body sidebar-closed"
+    data-modus-item="body"
+    id="modusBody"
+    [ngClass]="{
+      'sidebar-open': isSidebarOpen,
+      'sidebar-closed': !isSidebarOpen
+    }">
+    <nav id="mainSidebar" class="nav flex-column modus-sidebar">
+      <ul>
+        <li>
+          <a
+            class="nav-link"
+            routerLink="selectRegion"
+            routerLinkActive="active" title="Select Region">
+            <span
+              class="left-nav-icon"
+                ><i class="modus-icons notranslate" aria-hidden="true"
+                >globe</i
+              ></span
+            >
+            Select Region
+          </a>
+        </li>
+        <li>
+          <a
+            class="nav-link"
+            routerLink="mapStyle"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="active" title="Base Map and Styles">
+            <span
+              class="left-nav-icon"
+
+              ><i class="modus-icons notranslate" aria-hidden="true"
+                >map</i
+              ></span
+            >
+            Base Map and Styles
+          </a>
+        </li>
+        <li>
+          <a
+            class="nav-link"
+            routerLink="contentLayers"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="active" title ="Content Layers">
+            <span
+              class="left-nav-icon"
+              ><i class="modus-icons notranslate" aria-hidden="true"
+                >map_layers</i
+              ></span
+            >
+            Content Layers
+          </a>
+        </li>
+        <li>
+          <a
+            class="nav-link"
+            routerLink="routing"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="active"  title="Basic Routing">
+            <span
+              class="left-nav-icon"
+              ><i class="modus-icons notranslate" aria-hidden="true"
+                >route</i
+              ></span
+            >
+            Basic Routing
+          </a>
+        </li>
+        <li>
+          <a
+            class="nav-link"
+            [routerLink]="license && license.timeWindowOptimization?'timeWindowRouting':null"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="active" [title]="license.timeWindowOptimization ? 'Time Window Routing' : 'Time Window Routing (' + unlicensed_msg + ')'">
+            <span  class="d-flex" [class.disabled]="!license.timeWindowOptimization">
+            <span
+              class="left-nav-icon"
+              ><i class="modus-icons notranslate"  aria-hidden="true"
+                >dispatch</i
+              ></span
+            >
+            Time Window Routing
+            </span>
+            <app-tooltip [showTooltip]
+            ="!license.timeWindowOptimization"
+           ></app-tooltip>
+          </a>
+
+        </li>
+        <li *ngIf="isNA | async">
+          <a
+            class="nav-link"
+            routerLink="siteLocationRouting"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="active" title="Site Location and Routing">
+            <span
+              class="left-nav-icon"
+
+              ><i class="modus-icons notranslate" aria-hidden="true"
+                >site_manager</i
+              ></span
+            >
+            Site Location and Routing
+          </a>
+        </li>
+        <li *ngIf="isNA | async">
+          <a
+            class="nav-link"
+            routerLink="railRouting"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="active"  title="Rail Routing">
+            <span
+              class="left-nav-icon"
+               ><i class="modus-icons notranslate" aria-hidden="true"
+                >train</i
+              ></span
+            >
+            Rail Routing Display
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="modus-content-rows">
+      <div class="modus-content-columns container-body">
+        <router-outlet (activate)="onActivate()"></router-outlet>
+
+        <div class="modus-content" style="flex-basis: 50%">
+          <div class="map-container h-100" *ngIf="isLoading$ | async">
+            <app-map></app-map>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-toast-msg></app-toast-msg>
+</div>

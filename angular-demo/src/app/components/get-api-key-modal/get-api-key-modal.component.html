@@ -1,0 +1,21 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-title">Authentication</h5>
+  </div>
+  <div class="modal-body">
+    <label for="keyInput">API Key:</label>
+    <input
+      class="form-control"
+      id="keyInput"
+      placeholder="API Key"
+      type="password"
+      required
+      [(ngModel)]="apiKey"
+    />
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" (click)="submit()">
+      Submit
+    </button>
+  </div>
+</div>

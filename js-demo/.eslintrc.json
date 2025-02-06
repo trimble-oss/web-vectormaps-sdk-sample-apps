@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "jquery": true,
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-async-promise-executor": "off",
+    "no-case-declarations": "off",
+    "no-empty": "off",
+    "no-import-assign": "off",
+    "no-undef": "off",
+    "no-unused-vars": "off"
+  }
+}

@@ -1,0 +1,137 @@
+{
+    "Settings": {
+        "Method": 1,
+        "HistoricSpeedFixedDayOfWeek": 1,
+        "MaxWaitTime": 10000
+    },
+    "Route": {
+        "Options": {
+            "RoutingType": 0,
+            "VehicleType": 1,
+            "FuelRoute": false,
+            "HighwayOnly": false,
+            "TollDiscourage": false,
+            "BordersOpen": true,
+            "OverrideRestrict": false,
+            "ClassOverrides": 0,
+            "DistanceUnits": 0,
+            "AFSetIDs": [],
+            "FerryDiscourage": false,
+            "UseAvoidsandFavors": false
+        },
+        "Stops": [
+            {
+                "Location": {
+                    "Coords": {
+                "Lat": "52.46248",
+                "Lon": "-2.11521"
+            },
+					"Label": "Aldi of Brierley Hill"
+                },
+                "WaitTime": 0,
+                "TimeWindow": {
+                    "StartTime": "08:00",
+                    "EndTime": "17:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "43 Delph Dr",
+                        "Zip": "DY5 2LQ"
+                    },
+					"Label": "Customer 1"
+                },
+                "WaitTime": 600,
+                "TimeWindow": {
+                    "StartTime": "08:00",
+                    "EndTime": "09:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "31 Chawn Hill",
+                        "Zip": "DY9 7JB"
+                    },
+					"Label": "Customer 2"
+                },
+                "WaitTime": 600,
+                "TimeWindow": {
+                    "StartTime": "08:00",
+                    "EndTime": "09:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "3 Old Grove Gardens",
+                        "Zip": "DY9 0US"
+                    },
+					"Label": "Customer 3"
+                },
+                "WaitTime": 600,
+                "TimeWindow": {
+                    "StartTime": "9:00",
+                    "EndTime": "10:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "10 Beecher St",
+                        "Zip": "B63 2DP"
+                    },
+					"Label": "Priority Customer 1"
+                },
+                "WaitTime": 600,
+                "TimeWindow": {
+                    "StartTime": "08:00",
+                    "EndTime": "08:30"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "14 Hardwicke Way",
+                        "Zip": "DY9 7NS"
+                    },
+					"Label": "Customer 4"
+                },
+                "WaitTime": 600,
+                "TimeWindow": {
+                    "StartTime": "08:00",
+                    "EndTime": "09:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "3 Bethesda Gardens",
+                        "Zip": "B63 2UN"
+                    },
+					"Label": "Priority Customer 2"
+                },
+                "WaitTime": 600,
+                "TimeWindow": {
+                    "StartTime": "08:30",
+                    "EndTime": "09:00"
+                }
+            },
+            {
+                "Location": {
+                    "Coords": {
+                "Lat": "52.46248",
+                "Lon": "-2.11521"
+            },
+					"Label": "Aldi of Brierley Hill"
+                },
+                "WaitTime": 0,
+                "TimeWindow": {
+                    "StartTime": "08:00",
+                    "EndTime": "17:00"
+                }
+            }
+        ]
+    }
+}

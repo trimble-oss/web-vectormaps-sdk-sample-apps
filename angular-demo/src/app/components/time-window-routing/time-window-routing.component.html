@@ -1,0 +1,92 @@
+<div class="modus-panel panel-lg h-100 shadow">
+  <div class="panel-header">
+    <h4>{{ titleText }}</h4>
+  </div>
+  <div class="panel-body flex-fill">
+    <div
+      class="static-container d-flex align-items-center justify-content-start">
+      <div class="form-group">
+        <ul [innerHtml]="displayText"></ul>
+        <table class="table table-bordered table-sm" id="timeWindowTable">
+          <thead>
+            <tr>
+              <th>Stop #</th>
+              <th>Location</th>
+              <th>Arrival</th>
+              <th>Departure</th>
+              <th>Time Window</th>
+              <th>Window Met</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="routeOptimization === 2">
+              <tr *ngFor="let routeDetail of unOptimizeRouteDetails$">
+                <td>{{ routeDetail.stopNo }}</td>
+                <td>{{ routeDetail.location }}</td>
+                <td>{{ routeDetail.arrival }}</td>
+                <td>{{ routeDetail.departure }}</td>
+                <td>{{ routeDetail.timeWindow }}</td>
+
+                <td>
+                  <span *ngIf="routeDetail.windowMet"
+                    ><i
+                      class="modus-icons"
+                      aria-hidden="true"
+                      style="color: green"
+                      >check_circle</i
+                    ></span
+                  >
+                  <span *ngIf="!routeDetail.windowMet"
+                    ><i
+                      class="modus-icons"
+                      aria-hidden="true"
+                      style="color: red"
+                      >warning</i
+                    ></span
+                  >
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="routeOptimization === 1">
+              <tr *ngFor="let routeDetail of optimizeRouteDetails$">
+                <td>{{ routeDetail.stopNo }}</td>
+                <td>{{ routeDetail.location }}</td>
+                <td>{{ routeDetail.arrival }}</td>
+                <td>{{ routeDetail.departure }}</td>
+                <td>{{ routeDetail.timeWindow }}</td>
+
+                <td>
+                  <span *ngIf="routeDetail.windowMet"
+                    ><i
+                      class="modus-icons"
+                      aria-hidden="true"
+                      style="color: green"
+                      >check_circle</i
+                    ></span
+                  >
+                  <span *ngIf="!routeDetail.windowMet"
+                    ><i
+                      class="modus-icons"
+                      aria-hidden="true"
+                      style="color: red"
+                      >warning</i
+                    ></span
+                  >
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <div>
+          <button
+            type="button"
+            class="btn btn-primary col-md-12"
+            id="optimizeBtn"
+            (click)="toggleTimeWindowRouting()">
+            {{ twBtnText }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

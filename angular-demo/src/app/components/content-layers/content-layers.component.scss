@@ -1,0 +1,20 @@
+.accordion .card .card-header.unlicensed::after {
+  display: none;
+}
+
+.accordion-title {
+  display: inline-block;
+}
+
+.tooltip-inner {
+  font-size: 14px;
+  /* Set font size */
+  padding: 8px 12px;
+  /* Adjust padding if needed */
+  background-color: #333;
+  /* Set background color */
+  color: #fff;
+  /* Set text color */
+  border-radius: 4px;
+  /* Optional: rounded corners */
+}

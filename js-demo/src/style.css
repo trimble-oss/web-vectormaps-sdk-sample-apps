@@ -1,0 +1,98 @@
+@font-face {
+  font-family: modus-icons;
+  font-display: block;
+  src: url('https://modus.trimble.com/assets/0.5.1/fonts/modus-icons.woff2?50783e4f41ce4a8b1c9426e5c9375829') format('woff2'),
+    url("https://modus.trimble.com/assets/0.5.1/fonts/modus-icons.woff?50783e4f41ce4a8b1c9426e5c9375829") format("woff");
+}
+
+.modus-icons {
+  font-family: modus-icons;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "liga";
+}
+
+.trimblemaps-ctrl-walist {
+  padding-left: 10px;
+}
+
+#building_3d_toast {
+  position: absolute;
+  top: 64px;
+  margin: 0 auto;
+  max-width: fit-content;
+  z-index: 1000;
+  right: 0%;
+}
+
+.close {
+  line-height: 1.05;
+}
+
+h1.app-name {
+  font-weight: 400;
+  color: #004f83;
+  font-size: 22px;
+  position: relative;
+  margin-bottom: 1px;
+}
+
+.disabled {
+  pointer-events: none;
+  color: gray;
+  opacity: 0.6;
+}
+
+.unlicensed h6 {
+  color: gray;
+  opacity: 0.6;
+}
+
+option:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.help-icon {
+  color: #004f83;
+  font-size: 18px;
+}
+
+.accordion .card .card-header.unlicensed::after {
+  display: none;
+}
+
+.accordion-title {
+  display: inline-block;
+}
+
+.tooltip-inner {
+  font-size: 14px;
+  /* Set font size */
+  padding: 8px 12px;
+  /* Adjust padding if needed */
+  background-color: #333;
+  /* Set background color */
+  color: #fff;
+  /* Set text color */
+  border-radius: 4px;
+  /* Optional: rounded corners */
+}
+
+/* Make the Submit button disabled when the form is invalid */
+.modal-content:has(input:required:invalid) button[type="submit"] {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(1);
+}

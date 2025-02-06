@@ -1,0 +1,137 @@
+{
+    "Settings": {
+        "Method": 1,
+        "HistoricSpeedFixedDayOfWeek": 1,
+        "MaxWaitTime": 10000
+    },
+    "Route": {
+        "Options": {
+            "RoutingType": 0,
+            "VehicleType": 0,
+            "FuelRoute": false,
+            "HighwayOnly": false,
+            "TollDiscourage": false,
+            "BordersOpen": true,
+            "OverrideRestrict": false,
+            "ClassOverrides": 0,
+            "DistanceUnits": 0,
+            "AFSetIDs": [],
+            "FerryDiscourage": false,
+            "UseAvoidsandFavors": false
+        },
+        "Stops": [
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "61 Station Road",
+                        "Zip": "08512"
+                    },
+					"Label": "East Windsor DC"
+                },
+                "WaitTime": 0,
+                "TimeWindow": {
+                    "StartTime": "08:00",
+                    "EndTime": "20:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "280 US-9",
+                        "Zip": "07751"
+                    },
+					"Label": "Marlboro"
+                },
+                "WaitTime": 2400,
+                "TimeWindow": {
+                    "StartTime": "07:00",
+                    "EndTime": "11:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "1035 US-1",
+                        "Zip": "08837"
+                    },
+					"Label": "Edison"
+                },
+                "WaitTime": 2400,
+                "TimeWindow": {
+                    "StartTime": "11:00",
+                    "EndTime": "20:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "739 NJ-33 West",
+                        "Zip": "08520"
+                    },
+					"Label": "East Windsor"
+                },
+                "WaitTime": 2400,
+                "TimeWindow": {
+                    "StartTime": "9:00",
+                    "EndTime": "11:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "736 Route 202 South",
+                        "Zip": "08807"
+                    },
+					"Label": "Bridgewater"
+                },
+                "WaitTime": 2400,
+                "TimeWindow": {
+                    "StartTime": "11:00",
+                    "EndTime": "15:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "4095 US-1",
+                        "Zip": "08852"
+                    },
+					"Label": "Monmouth Junction"
+                },
+                "WaitTime": 2400,
+                "TimeWindow": {
+                    "StartTime": "09:00",
+                    "EndTime": "12:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "373 US-9",
+                        "Zip": "07095"
+                    },
+					"Label": "Woodbridge"
+                },
+                "WaitTime": 2400,
+                "TimeWindow": {
+                    "StartTime": "10:00",
+                    "EndTime": "14:00"
+                }
+            },
+            {
+                "Location": {
+                    "Address": {
+                        "StreetAddress": "61 Station Road",
+                        "Zip": "08512"
+                    },
+					"Label": "East Windsor DC"
+                },
+                "WaitTime": 0,
+                "TimeWindow": {
+                    "StartTime": "08:00",
+                    "EndTime": "20:00"
+                }
+            }
+        ]
+    }
+}

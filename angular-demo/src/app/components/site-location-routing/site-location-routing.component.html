@@ -1,0 +1,58 @@
+<div class="modus-panel panel-lg h-100 shadow">
+  <div class="panel-header">
+    <h4>Site Routing</h4>
+  </div>
+  <div class="panel-body flex-fill">
+    <div
+      class="static-container d-flex align-items-center justify-content-start">
+      <div class="form-group">
+        <ul *ngIf="isNA">
+          <li>
+            Verified Trimble Maps Places are publicly available locations that
+            contain site information such as place name, address, operating
+            hours, amenities and entry/exit gates.
+          </li>
+          <li>
+            Over 5 million locations with unique site geofence data (as of
+            October 2023).
+          </li>
+          <li>
+            Site gates used in routing can increase routing accuracy for final
+            mile stretches and alleviate driver frustration when arriving at new
+            locations.
+          </li>
+          <li>
+            Demonstration uses geojson layer to place Trimble Maps gate icons
+            onto the map.
+          </li>
+        </ul>
+        <ul *ngIf="isEU">
+          <li>
+            Through the use of Content Tools, customized sites and entrance/exit
+            gates can be created for more personalized routing.
+          </li>
+          <li>
+            Site gates used in routing can increase routing accuracy for final
+            mile stretches and alleviate driver frustration when arriving at new
+            locations.
+          </li>
+          <li>
+            Demonstration uses geojson layers to place Trimble Maps gate icons
+            onto the map and fill site perimeter.
+          </li>
+        </ul>
+
+        <div class="">
+          <button
+            type="button"
+            class="btn btn-primary col-md-12"
+            id="optimizeBtn"
+            (click)="toggleSiteLocationRouting()">
+            <span *ngIf="!siteEnabled">Enable Site Routing</span>
+            <span *ngIf="siteEnabled">Disable Site Routing</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

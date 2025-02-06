@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "modus-imports";
+@import "modus-icons";
+
+.trimblemaps-ctrl-walist {
+  padding-left: 10px;
+}
+
+.tooltip-inner {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+.disabled {
+  pointer-events: none;
+  color: gray;
+  opacity: 0.6;
+}
+
+option:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.help-icon {
+  color: #004f83;
+  font-size: 18px;
+}
+
+// Make the Submit button disabled when the form is invalid
+.modal-content:has(input:required:invalid) button[type="submit"] {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(1);
+}
