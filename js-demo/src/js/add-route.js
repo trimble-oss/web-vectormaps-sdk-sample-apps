@@ -7,13 +7,15 @@ class Routing {
   apiKey;
   myRoute;
   mapService;
+  locationListContents = [];
+  stopsList = [];
   constructor(mapService) {
     this.regionName = mapService.regionName;
     this.myRoute = mapService.myRoute;
     this.mapService = mapService;
     this.routeLocations = mapService.routeLocations;
   }
-  singlesearchLookup(apiKey, regionName) {
+  singlesearchLookup(apiKey, regionName, input) {
     this.regionName = regionName;
     let timeout;
 
@@ -21,7 +23,7 @@ class Routing {
       .getElementById("routeLocationInput")
       .classList.remove("is-invalid");
 
-    if (document.getElementById("routeLocationInput").value != "") {
+    if (input.trim() != "") {
       document.getElementById("singleSearchLoading").removeAttribute("hidden");
 
       clearTimeout(timeout);
@@ -44,7 +46,7 @@ class Routing {
           "/api/search?authToken=" +
           apiKey +
           "&query=" +
-          document.getElementById("routeLocationInput").value +
+          input +
           "&maxResults=5";
 
         //Geocode the location.
@@ -67,7 +69,7 @@ class Routing {
               x++
             ) {
               listContents +=
-                '<li class="list-group-item">' +
+                '<li class="list-group-item" role="button">' +
                 this.singlesearchLocationList["Locations"][x]["ShortString"] +
                 "</li>";
             }
@@ -83,6 +85,9 @@ class Routing {
               .classList.add("is-invalid");
             document.getElementById("singleSearchErrorText").innerHTML =
               "No results found.";
+            document
+              .getElementById("locationSelectionDiv")
+              .setAttribute("hidden", null);
           }
 
           document
@@ -93,28 +98,105 @@ class Routing {
             .getElementById("routeLocationInput")
             .classList.add("is-invalid");
           document.getElementById("singleSearchErrorText").innerHTML =
-            "Single search error.";
+            "Single search API error. Please try again";
           document
             .getElementById("singleSearchLoading")
             .setAttribute("hidden", null);
         }
       }, 500);
+    } else {
+      document.getElementById("singleSearchErrorText").innerHTML =
+        "Please enter a location.";
+      document
+        .getElementById("singleSearchLoading")
+        .setAttribute("hidden", null);
     }
   }
+
+  addTableRow() {
+    const container = document.getElementById("locationListTable");
+    container.innerHTML = "";
+
+    const table = document.createElement("table");
+    table.className = "w-100";
+
+    // Header row
+    const headerRow = document.createElement("tr");
+    headerRow.className = "route-stop-row";
+
+    const th1 = document.createElement("th");
+    th1.colSpan = 2;
+
+    const th2 = document.createElement("th");
+    th2.className = "route-stop-detail-cell";
+
+    headerRow.appendChild(th1);
+    headerRow.appendChild(th2);
+    table.appendChild(headerRow);
+
+    // Data rows
+    this.locationListContents.forEach((stop, index) => {
+      const row = document.createElement("tr");
+      row.className = "route-stop-row";
+
+      const iconCell = document.createElement("td");
+      iconCell.className = "route-stop-icon-cell";
+
+      if (this.stopsList.length > 0) {
+        const line = document.createElement("span");
+        line.className = "route-stop-line";
+
+        if (this.stopsList.length > 1 && index === 0) {
+          line.classList.add("top");
+        } else if (
+          index === this.locationListContents.length - 1 &&
+          index !== 0
+        ) {
+          line.classList.add("bottom");
+        } else if (
+          index !== 0 &&
+          index !== this.locationListContents.length - 1
+        ) {
+          line.classList.add("middle");
+        }
+
+        iconCell.appendChild(line);
+      }
+
+      if (stop.stopType === "O" || stop.stopType === "D") {
+        const circle = document.createElement("span");
+        circle.className = "route-stop-circle";
+        if (stop.stopType === "O") circle.classList.add("origin");
+        if (stop.stopType === "D") circle.classList.add("destination");
+        iconCell.appendChild(circle);
+      }
+
+      if (stop.stopType === "S") {
+        const number = document.createElement("span");
+        number.className = "route-stop-number routeColor";
+        number.textContent = index;
+        iconCell.appendChild(number);
+      }
+
+      const addressCell = document.createElement("td");
+      addressCell.className = "route-stop-address";
+      const addressDiv = document.createElement("div");
+      addressDiv.className = "font-weight-bolder";
+      addressDiv.textContent = stop.shortAddress;
+      addressCell.appendChild(addressDiv);
+
+      row.appendChild(iconCell);
+      row.appendChild(addressCell);
+
+      table.appendChild(row);
+    });
+
+    container.appendChild(table);
+  }
   locationSelect(event) {
+    this.locationListContents = [];
     document.getElementById("locationList").removeAttribute("hidden");
-
-    let locationListContents = document.getElementById(
-      "locationListParagraph"
-    ).innerHTML;
-
-    locationListContents += event.target.innerText + "<br/>";
-
-    document.getElementById("locationListParagraph").innerHTML =
-      locationListContents;
-
     document.getElementById("routeLocationInput").value = "";
-
     document
       .getElementById("locationSelectionDiv")
       .setAttribute("hidden", null);
@@ -128,12 +210,19 @@ class Routing {
         event.target.innerText ==
         this.singlesearchLocationList["Locations"][i]["ShortString"]
       ) {
-        this.routeLocations.push(
-          new TrimbleMaps.LngLat(
+        this.routeLocations.push({
+          coord: new TrimbleMaps.LngLat(
             this.singlesearchLocationList["Locations"][i]["Coords"]["Lon"],
             this.singlesearchLocationList["Locations"][i]["Coords"]["Lat"]
-          )
-        );
+          ),
+          address: this.singlesearchLocationList["Locations"][i]["ShortString"],
+        });
+        this.stopsList = this.routeLocations.map((s) => s.address);
+        this.mapService.centerOnMap([
+          this.singlesearchLocationList["Locations"][i]["Coords"]["Lon"],
+          this.singlesearchLocationList["Locations"][i]["Coords"]["Lat"],
+        ]);
+        this.mapService.addMarker(this.routeLocations);
       }
     }
 
@@ -141,7 +230,26 @@ class Routing {
       document
         .getElementById("routeLocationInput")
         .setAttribute("disabled", null);
+      document.getElementById("routeLocationInput").placeholder =
+        "This demo limited to a max of three stops";
     }
+    this.locationListContents = this.stopsList.map((s, index) =>
+      this.transformStops(s, index, this.stopsList)
+    );
+    this.addTableRow();
+  }
+
+  transformStops(shortAddress, index, stopState) {
+    let stopType = "S";
+    if (index === 0) {
+      stopType = "O";
+    } else if (index === stopState.length - 1) {
+      stopType = "D";
+    }
+    return {
+      stopType,
+      shortAddress,
+    };
   }
 
   addRouteLayer(enableReportBtn) {
@@ -201,10 +309,10 @@ class Routing {
     } else {
       tolls = TrimbleMaps.Common.TollRoadsType.USE;
     }
-
+    const stops = this.routeLocations.map((location) => location.coord);
     createRoute(
       this.mapService,
-      this.routeLocations,
+      stops,
       rtType,
       vehType,
       document.getElementById("routingHighwayOnly").checked,

@@ -4,26 +4,32 @@
   </div>
   <div class="panel-body flex-fill">
     <div
-      class="static-container d-flex align-items-center justify-content-start"
-    >
-      <div class="form-group">
+      class="static-container d-flex align-items-center justify-content-start">
+      <div class="mb-3">
         <ul>
           <li>
             Ability to change which region of the map is selected to display
             detailed location, highway and street information.
           </li>
         </ul>
-        <label for="mapRegionSelector">Region Selector</label>
+        <label class="col-form-label fw-normal" for="mapRegionSelector"
+          >Region Selector</label
+        >
         <select
           name="selectedRegion"
           id="mapRegionSelector"
           (change)="selectRegion()"
-          class="form-control"
-          [(ngModel)]="selectedRegion"
-
-        >
-          <option *ngFor="let region of regions" [ngValue]="region.value" [disabled] ="!euSupport && region.requiresLicense" >
-            {{ !euSupport && region.requiresLicense? region.displayName+" (Unlicensed Feature)": region.displayName}}
+          class="form-select"
+          [(ngModel)]="selectedRegion">
+          <option
+            *ngFor="let region of regions"
+            [ngValue]="region.value"
+            [disabled]="!euSupport && region.requiresLicense">
+            {{
+              !euSupport && region.requiresLicense
+                ? region.displayName + " (Unlicensed Feature)"
+                : region.displayName
+            }}
           </option>
         </select>
       </div>

@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMapContext } from "../../context/mapContext";
 import TrimbleMaps from "@trimblemaps/trimblemaps-js";
 import useRailRouting from "../../hooks/useRailRouting";
 import * as _ from "lodash";
+import LoadingModal from "../sharedComponents/LoadingModal";
 
 function RailRouting() {
   const { map, mapService } = useMapContext();
-  const railRouting = useRailRouting(TrimbleMaps.APIKey);
+  const [show, setShow] = useState(true);
+  const railRouting = useRailRouting(TrimbleMaps.getAPIKey());
 
   useEffect(() => {
     if (!_.isEmpty(railRouting)) {
@@ -21,7 +23,7 @@ function RailRouting() {
               properties: {
                 name: "origin",
                 icon: "poi_origin",
-                "icon-size": 4,
+                "icon-size": 0.5,
               },
               geometry: {
                 type: "Point",
@@ -33,7 +35,7 @@ function RailRouting() {
               properties: {
                 name: "destination",
                 icon: "poi_destination",
-                "icon-size": 4,
+                "icon-size": 0.5,
               },
               geometry: {
                 type: "Point",
@@ -44,6 +46,7 @@ function RailRouting() {
         },
       };
       mapService.addRailRouting(map, railGeojson, railGeojsonFeatures);
+      setShow(false);
     }
   }, [railRouting]);
 
@@ -55,15 +58,14 @@ function RailRouting() {
         </div>
         <div className="panel-body flex-fill">
           <div className="static-container d-flex align-items-center justify-content-start">
-            <div className="form-group">
+            <div className="mb-3">
               <ul>
                 <li>
                   Utilizes the rail routing APIs (
                   <a
                     href="https://developer.trimblemaps.com/restful-apis/freight-rail/overview/"
                     target="_blank"
-                    rel="noreferrer"
-                  >
+                    rel="noreferrer">
                     Documentation
                   </a>
                   ) to gather the route path between rail stations.
@@ -87,6 +89,10 @@ function RailRouting() {
           </div>
         </div>
       </div>
+      <LoadingModal
+        setShow={setShow}
+        show={show}
+        loadingText={"Loading..."}></LoadingModal>
     </>
   );
 }

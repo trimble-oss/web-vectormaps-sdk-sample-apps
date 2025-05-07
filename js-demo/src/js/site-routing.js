@@ -95,7 +95,7 @@ class SiteRouting {
           properties: {
             name: gateName + "_name",
             icon: gateName,
-            "icon-size": 1,
+            "icon-size": 0.5,
           },
           geometry: {
             type: "Point",
@@ -132,6 +132,9 @@ class SiteRouting {
           "icon-allow-overlap": true, //set to true to load all image locations, set to false to cluster images based on zoom level
         },
       });
+    }
+    if (document.activeElement) {
+      document.activeElement.blur();
     }
     $("#railRouteModal").modal("hide");
   }

@@ -47,7 +47,7 @@ function useSiteRouting(placeID, apiKey) {
                 properties: {
                   name: gateName + "_name",
                   icon: gateName,
-                  "icon-size": 1,
+                  "icon-size": 0.5,
                 },
                 geometry: {
                   type: "Point",

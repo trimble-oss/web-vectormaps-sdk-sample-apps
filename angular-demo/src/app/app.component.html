@@ -1,9 +1,9 @@
-<div class="modus-layout">
-  <nav class="navbar navbar-expand-sm modus-header pl-1" id="modus-header">
+<div class="modus-layout d-flex flex-column margin-0 h-100 overflow-hidden">
+  <nav class="navbar navbar-expand-sm modus-header ps-1" id="modus-header">
     <a
       id="menuButton"
       data-modus-item="menu-btn"
-      class="btn btn-lg btn-icon-only btn-text-dark shadow-none mr-2"
+      class="btn btn-lg btn-icon-only btn-text-dark shadow-none me-2"
       (click)="isSidebarOpen = !isSidebarOpen"
       (keypress)="isSidebarOpen = !isSidebarOpen"
       tabindex="0"
@@ -21,7 +21,7 @@
     id="modusBody"
     [ngClass]="{
       'sidebar-open': isSidebarOpen,
-      'sidebar-closed': !isSidebarOpen
+      'sidebar-closed': !isSidebarOpen,
     }">
     <nav id="mainSidebar" class="nav flex-column modus-sidebar">
       <ul>
@@ -29,10 +29,10 @@
           <a
             class="nav-link"
             routerLink="selectRegion"
-            routerLinkActive="active" title="Select Region">
-            <span
-              class="left-nav-icon"
-                ><i class="modus-icons notranslate" aria-hidden="true"
+            routerLinkActive="active"
+            title="Select Region">
+            <span class="left-nav-icon"
+              ><i class="modus-icons notranslate" aria-hidden="true"
                 >globe</i
               ></span
             >
@@ -44,10 +44,9 @@
             class="nav-link"
             routerLink="mapStyle"
             [routerLinkActiveOptions]="{ exact: true }"
-            routerLinkActive="active" title="Base Map and Styles">
-            <span
-              class="left-nav-icon"
-
+            routerLinkActive="active"
+            title="Base Map and Styles">
+            <span class="left-nav-icon"
               ><i class="modus-icons notranslate" aria-hidden="true"
                 >map</i
               ></span
@@ -60,9 +59,9 @@
             class="nav-link"
             routerLink="contentLayers"
             [routerLinkActiveOptions]="{ exact: true }"
-            routerLinkActive="active" title ="Content Layers">
-            <span
-              class="left-nav-icon"
+            routerLinkActive="active"
+            title="Content Layers">
+            <span class="left-nav-icon"
               ><i class="modus-icons notranslate" aria-hidden="true"
                 >map_layers</i
               ></span
@@ -75,9 +74,9 @@
             class="nav-link"
             routerLink="routing"
             [routerLinkActiveOptions]="{ exact: true }"
-            routerLinkActive="active"  title="Basic Routing">
-            <span
-              class="left-nav-icon"
+            routerLinkActive="active"
+            title="Basic Routing">
+            <span class="left-nav-icon"
               ><i class="modus-icons notranslate" aria-hidden="true"
                 >route</i
               ></span
@@ -88,33 +87,40 @@
         <li>
           <a
             class="nav-link"
-            [routerLink]="license && license.timeWindowOptimization?'timeWindowRouting':null"
+            [routerLink]="
+              license && license.timeWindowOptimization
+                ? 'timeWindowRouting'
+                : null
+            "
             [routerLinkActiveOptions]="{ exact: true }"
-            routerLinkActive="active" [title]="license.timeWindowOptimization ? 'Time Window Routing' : 'Time Window Routing (' + unlicensed_msg + ')'">
-            <span  class="d-flex" [class.disabled]="!license.timeWindowOptimization">
+            routerLinkActive="active"
+            [title]="
+              license.timeWindowOptimization
+                ? 'Time Window Routing'
+                : 'Time Window Routing (' + unlicensed_msg + ')'
+            ">
             <span
-              class="left-nav-icon"
-              ><i class="modus-icons notranslate"  aria-hidden="true"
-                >dispatch</i
-              ></span
-            >
-            Time Window Routing
+              class="d-flex"
+              [class.disabled]="!license.timeWindowOptimization">
+              <span class="left-nav-icon"
+                ><i class="modus-icons notranslate" aria-hidden="true"
+                  >dispatch</i
+                ></span
+              >
+              Time Window Routing
             </span>
-            <app-tooltip [showTooltip]
-            ="!license.timeWindowOptimization"
-           ></app-tooltip>
+            <app-tooltip
+              [showTooltip]="!license.timeWindowOptimization"></app-tooltip>
           </a>
-
         </li>
         <li *ngIf="isNA | async">
           <a
             class="nav-link"
             routerLink="siteLocationRouting"
             [routerLinkActiveOptions]="{ exact: true }"
-            routerLinkActive="active" title="Site Location and Routing">
-            <span
-              class="left-nav-icon"
-
+            routerLinkActive="active"
+            title="Site Location and Routing">
+            <span class="left-nav-icon"
               ><i class="modus-icons notranslate" aria-hidden="true"
                 >site_manager</i
               ></span
@@ -127,10 +133,10 @@
             class="nav-link"
             routerLink="railRouting"
             [routerLinkActiveOptions]="{ exact: true }"
-            routerLinkActive="active"  title="Rail Routing">
-            <span
-              class="left-nav-icon"
-               ><i class="modus-icons notranslate" aria-hidden="true"
+            routerLinkActive="active"
+            title="Rail Routing">
+            <span class="left-nav-icon"
+              ><i class="modus-icons notranslate" aria-hidden="true"
                 >train</i
               ></span
             >

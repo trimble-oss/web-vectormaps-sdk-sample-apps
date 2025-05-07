@@ -28,13 +28,15 @@ function GetAPIKeyModal(props) {
       keyboard={false}
       aria-labelledby="getAPIKey"
       animation={false}
-      centered
-    >
+      centered>
       <Modal.Header>
         <Modal.Title id="getAPIKey">Authentication</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <label htmlFor="keyInput">API Key:</label>
+        <label htmlFor="keyInput" className="col-form-label fw-normal">
+          <span>Trimble Maps SDK API Key</span>
+          <span className="required">*</span>
+        </label>
         <input
           ref={inputRef}
           defaultValue={apiKey}
@@ -44,6 +46,17 @@ function GetAPIKeyModal(props) {
           type="password"
           required
         />
+        <div className="fst-italic mt-1">
+          To gain access you must have an API key. Please contact your Trimble
+          Maps representative or our{" "}
+          <a
+            href="https://maps.trimble.com/contact/?__hstc=96702592.ae05bfc125d9b021a91edcf363c8d2af.1693469758784.1745487794236.1745493812976.1112&__hssc=96702592.14.1745493812976&__hsfp=907255077"
+            target="_blank"
+            rel="noopener noreferrer">
+            Sales team
+          </a>{" "}
+          for more information.
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button type="submit" className="btn btn-primary" onClick={submit}>

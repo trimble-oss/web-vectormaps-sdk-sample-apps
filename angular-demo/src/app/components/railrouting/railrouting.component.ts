@@ -48,7 +48,7 @@ export class RailroutingComponent implements OnInit, OnDestroy {
               properties: {
                 name: "origin",
                 icon: "poi_origin",
-                "icon-size": 4,
+                "icon-size": 0.5,
               },
               geometry: {
                 type: "Point",
@@ -60,7 +60,7 @@ export class RailroutingComponent implements OnInit, OnDestroy {
               properties: {
                 name: "destination",
                 icon: "poi_destination",
-                "icon-size": 4,
+                "icon-size": 0.5,
               },
               geometry: {
                 type: "Point",

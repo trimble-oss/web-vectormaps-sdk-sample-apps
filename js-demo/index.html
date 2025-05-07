@@ -1,75 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Trimble Maps SDK Demo</title>
-  <link rel="icon" type="image/x-icon" href="../favicon.ico">
-  <link rel="stylesheet" href="https://maps-sdk.trimblemaps.com/v3/trimblemaps-3.21.0.css" />
-  <link rel="stylesheet" href="https://maps-sdk.trimblemaps.com/addon/trimblemaps-customplaces-1.0.7.css" />
+  <link rel="stylesheet" href="https://maps-sdk.trimblemaps.com/v4/trimblemaps-4.2.2.css" />
+  <link rel="stylesheet" href="https://maps-sdk.trimblemaps.com/addon/trimblemaps-customplaces-1.0.8.css" />
   <!--MODUS-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trimbleinc/modus-bootstrap@1.6.4/dist/modus.min.css" />
-   <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@trimble-oss/modus-icons@1/dist/transportation/fonts/modus-icons.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@trimbleinc/modus-bootstrap@1.6.4/dist/modus-layout.min.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@trimble-oss/modus-icons@1.16.0/dist/transportation/fonts/modus-icons.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@trimble-oss/modus-bootstrap@2.0.10/dist/css/modus-bootstrap.min.css" />
   <link rel="stylesheet" href="src/style.css" />
-  <link
-    rel="icon"
+  <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🗺️</text></svg>" />
 </head>
 
-<body>
-  <div class="modus-layout">
-    <nav class="navbar navbar-expand-sm modus-header pl-1">
+<body class="h-100">
+  <div class="modus-layout d-flex flex-column margin-0 h-100 overflow-hidden">
+    <nav class="navbar navbar-expand-sm modus-header ps-1" aria-label="App">
       <a class="btn btn-lg btn-icon-only btn-text-dark shadow-none" data-modus-item="menu-btn" role="button">
-        <i class="modus-icons menu-btn notranslate">menu</i>
+        <i class="modus-icons menu-btn notranslate mt-3">menu</i>
       </a>
-      <img src="src/assets/img/trimble-logo.svg" height="28" width="124" class="app-logo d-block pl-2" alt="TrimbleLogo" />
-      <a class="text-decoration-none"><h1 class="app-name ml-2"> Vector Maps Demo </h1></a>
+      <img src="src/assets/img/trimble-logo.svg" height="28" width="124" class="app-logo d-block ps-1"
+        alt="TrimbleLogo" />
+      <a class="text-decoration-none">
+        <h1 class="app-name ms-2">Vector Maps Demo</h1>
+      </a>
     </nav>
-    <div class="modus-body bg-transparent sidebar-closed" data-modus-item="body">
-      <nav class="nav flex-column modus-sidebar">
+    <main class="modus-body bg-transparent sidebar-closed" data-modus-item="body">
+      <nav class="nav flex-column modus-sidebar" aria-label="Main">
         <ul>
           <li>
-            <a class="nav-link sidebar" id="mapRegion" title="Select Region">
+            <a class="nav-link sidebar fw-normal" role="button" id="mapRegion" title="Select Region">
               <span class="left-nav-icon"><i class="modus-icons notranslate" aria-hidden="true">globe</i></span>
               Select Region
             </a>
           </li>
           <li>
-            <a class="nav-link active sidebar" id="mapStyling" title="Base Map and Styles">
+            <a class="nav-link sidebar fw-normal active" role="button" id="mapStyling" title="Base Map and Styles">
               <span class="left-nav-icon"><i class="modus-icons notranslate" aria-hidden="true">map</i></span>
               Base Map and Styles
             </a>
           </li>
           <li>
-            <a class="nav-link sidebar" id="mapLayers" title="Content Layers">
+            <a class="nav-link sidebar fw-normal" role="button" id="mapLayers" title="Content Layers">
               <span class="left-nav-icon"><i class="modus-icons notranslate" aria-hidden="true">map_layers</i></span>
               Content Layers
             </a>
           </li>
           <li>
-            <a class="nav-link sidebar" id="mapRoute" title="Basic Routing">
+            <a class="nav-link sidebar fw-normal" role="button" id="mapRoute" title="Basic Routing">
               <span class="left-nav-icon"><i class="modus-icons notranslate" aria-hidden="true">route</i></span>
               Basic Routing
             </a>
           </li>
           <li>
-            <a class="nav-link sidebar" id="timeWindow" title="Time Window Routing" >
+            <a class="nav-link sidebar fw-normal" role="button" id="timeWindow" title="Time Window Routing">
               <span class="d-flex" id="timeWindowHeader">
-              <span class="left-nav-icon"><i class="modus-icons notranslate" aria-hidden="true">dispatch</i></span>
-              Time Window Routing
-            </span>
+                <span class="left-nav-icon"><i class="modus-icons notranslate" aria-hidden="true">dispatch</i></span>
+                Time Window Routing
+              </span>
             </a>
           </li>
           <li id="siteRoutingItem">
-            <a class="nav-link sidebar" id="siteRouting" title="Site Location and Routing">
+            <a class="nav-link sidebar fw-normal" role="button" id="siteRouting" title="Site Location and Routing">
               <span class="left-nav-icon"><i class="modus-icons notranslate" aria-hidden="true">site_manager</i></span>
               Site Location and Routing
             </a>
           </li>
           <li id="railRoutingItem">
-            <a class="nav-link sidebar" id="railRouting" title="Rail Routing Display">
+            <a class="nav-link sidebar fw-normal" role="button" id="railRouting" title="Rail Routing Display">
               <span class="left-nav-icon"><i class="modus-icons notranslate" aria-hidden="true">train</i></span>
               Rail Routing Display
             </a>
@@ -77,21 +79,20 @@
         </ul>
       </nav>
 
-      <div class="modus-panel panel-lg shadow-sm collapse"
-        id="mapRegionPanel">
+      <div class="modus-panel panel-lg shadow-sm collapse" id="mapRegionPanel">
         <div class="panel-header text-center">
           <h5>Region</h5>
         </div>
         <div class="panel-body p-2">
-          <div class="form-group">
+          <div class="mb-3">
             <ul>
               <li>
                 Ability to change which region of the map is selected to
                 display detailed location, highway and street information.
               </li>
             </ul>
-            <label for="mapRegionSelector">Region Selector</label>
-            <select class="custom-select form-control" id="mapRegionSelector">
+            <label class="col-form-label fw-normal" for="mapRegionSelector">Region Selector</label>
+            <select class="form-select" id="mapRegionSelector">
               <option>North America</option>
               <option id="euOption">Europe</option>
             </select>
@@ -104,37 +105,52 @@
           <h5>Styling</h5>
         </div>
         <div class="panel-body p-2">
-          <div class="form-group">
+          <div class="mb-3">
             <ul>
               <li>Ability to change the display style of the map.</li>
             </ul>
-            <label for="mapStyle">Map Style</label>
-            <select class="custom-select form-control" id="mapStyle">
-              <option>Transportation</option>
-              <option>Transportation Dark</option>
+            <label class="col-form-label fw-normal" for="mapStyle">Map Style</label>
+            <select class="form-select" id="mapStyle">
+              <option>Accessible</option>
+              <option>Accessible (Dark)</option>
+              <option>Basic</option>
+              <option>Basic (Dark)</option>
+              <option>Data</option>
+              <option>Data (Dark)</option>
+              <option>Mobile Day</option>
+              <option>Mobile Night</option>
               <option>Satellite</option>
               <option id="satellitePremiumOption">Satellite (Premium)</option>
+              <option>Simple</option>
+              <option>Simple (Dark)</option>
               <option>Terrain</option>
-              <option>Basic</option>
+              <option selected>Transportation</option>
+              <option>Transportation (Dark)</option>
             </select>
           </div>
         </div>
       </div>
 
-      <div class="modus-panel panel-lg shadow-sm collapse"
-        id="contentPanel">
+      <div class="modus-panel panel-lg shadow-sm collapse overflow-auto" id="contentPanel">
         <div class="panel-header text-center border-bottom">
           <h5>Content Layers</h5>
         </div>
 
         <div class="accordion" id="contentLayers">
-          <div class="card" id="trafficCard">
-            <div class="card-header layer-select" role="button" id="trafficLayerHeader" data-toggle="collapse"
-              data-target="#trafficLayer" aria-expanded="false" aria-controls="trafficLayer">
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-1 trafficLayerTitle">Traffic</h6>
+          <div class="accordion-item" id="trafficCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="trafficLayerHeader"
+                data-bs-toggle="collapse" data-bs-target="#trafficLayer" aria-expanded="true"
+                aria-controls="trafficLayer">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-1 trafficLayerTitle">
+                  Traffic
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="trafficLayer" class="collapse" aria-labelledby="trafficLayerHeader" data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="trafficLayer" class="accordion-collapse collapse bg-gray-light show"
+              aria-labelledby="trafficLayerHeader" data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>
                     Indicates the flow of traffic based on 4 congestion
@@ -142,7 +158,7 @@
                   </li>
                   <li>Visible at zoom level 9 and greater.</li>
                 </ul>
-                <div  class="panel-header bg-transparent mb-1 ">
+                <div class="panel-header bg-transparent mb-1">
                   <h5>Traffic Key</h5>
                 </div>
                 <svg class="bi pe-none me-2" width="18" height="18" style="background: green"></svg>
@@ -156,30 +172,40 @@
               </div>
             </div>
           </div>
-          <div class="card" id="weatherRadarCard">
-            <div class="card-header layer-select" role="button" id="weatherRadarHeader" data-toggle="collapse"
-              data-target="#weatherRadar" aria-expanded="false" aria-controls="weatherRadar">
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-2 weatherRadarTitle">
-                Weather Radar
-              </h6>
+          <div class="accordion-item" id="weatherRadarCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="weatherRadarHeader"
+                data-bs-toggle="collapse" data-bs-target="#weatherRadar" aria-expanded="false"
+                aria-controls="weatherRadar">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-2 weatherRadarTitle">
+                  Weather Radar
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="weatherRadar" class="collapse" aria-labelledby="weatherRadarHeader" data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="weatherRadar" class="accordion-collapse collapse bg-gray-light"
+              aria-labelledby="weatherRadarHeader" data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>Displays weather radar overlay on map.</li>
                 </ul>
               </div>
             </div>
           </div>
-          <div class="card" id="weatherAlertCard">
-            <div class="card-header layer-select" role="button" id="weatherAlertsHeader" data-toggle="collapse"
-              data-target="#weatherAlerts" aria-expanded="false" aria-controls="weatherAlerts" >
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-3 weatherAlertsTitle">
-                Weather Alerts
-              </h6>
+          <div class="accordion-item" id="weatherAlertCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="weatherAlertsHeader"
+                data-bs-toggle="collapse" data-bs-target="#weatherAlerts" aria-expanded="false"
+                aria-controls="weatherAlerts">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-3 weatherAlertsTitle">
+                  Weather Alerts
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="weatherAlerts" class="collapse" aria-labelledby="weatherAlertsHeader" data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="weatherAlerts" class="accordion-collapse collapse bg-gray-light"
+              aria-labelledby="weatherAlertsHeader" data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>
                     Displays weather alerts for various weather events only in
@@ -196,26 +222,39 @@
               </div>
             </div>
           </div>
-          <div class="card" id="roadSurfaceCard">
-            <div class="card-header layer-select" role="button" id="roadSurfaceHeader" data-toggle="collapse"
-              data-target="#roadSurface" aria-expanded="false" aria-controls="roadSurface" >
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-4 roadSurfaceTitle">Road Surface</h6>
+          <div class="accordion-item" id="roadSurfaceCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="roadSurfaceHeader"
+                data-bs-toggle="collapse" data-bs-target="#roadSurface" aria-expanded="false"
+                aria-controls="roadSurface">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-4 roadSurfaceTitle">
+                  Road Surface
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="roadSurface" class="collapse" aria-labelledby="roadSurfaceHeader" data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="roadSurface" class="accordion-collapse collapse bg-gray-light" aria-labelledby="roadSurfaceHeader"
+              data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>Displays road surface condition for North America.</li>
                 </ul>
               </div>
             </div>
           </div>
-          <div class="card" id="placesCard">
-            <div class="card-header layer-select" role="button" id="placesHeader" data-toggle="collapse" data-target="#places"
-              aria-expanded="false" aria-controls="places">
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-5 placesTitle">Places</h6>
+          <div class="accordion-item" id="placesCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="placesHeader"
+                data-bs-toggle="collapse" data-bs-target="#places" aria-expanded="false" aria-controls="places">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-5 placesTitle">
+                  Places
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="places" class="collapse" aria-labelledby="placesHeader" data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="places" class="accordion-collapse collapse bg-gray-light" aria-labelledby="placesHeader"
+              data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>
                     Displays place polygon on the map, such as distribution
@@ -227,46 +266,59 @@
                   </li>
                   <li>Includes points of interest icons.</li>
                 </ul>
-                <div class="panel-header bg-transparent mb-1" >
+                <div class="panel-header bg-transparent mb-1">
                   <h5>Gate Icons</h5>
                 </div>
-                <img src="src/assets/img/circle-outline-green.png" width="22" height="22" alt=""/>Entrance Gate<br />
-                <img src="src/assets/img/circle-outline-cyan.png" width="22" height="22" alt=""/>Two-Way Gate<br />
-                <img src="src/assets/img/circle-outline-red.png" width="22" height="22" alt=""/>Exit Gate<br />
+                <img src="src/assets/img/circle-outline-green.png" width="22" height="22" alt="" />Entrance Gate<br />
+                <img src="src/assets/img/circle-outline-cyan.png" width="22" height="22" alt="" />Two-Way Gate<br />
+                <img src="src/assets/img/circle-outline-red.png" width="22" height="22" alt="" />Exit Gate<br />
               </div>
             </div>
           </div>
 
-          <div class="card" id="poiCard">
-            <div class="card-header layer-select" role="button" id="poiHeader" data-toggle="collapse" data-target="#pointsOfInterest"
-              aria-expanded="false" aria-controls="pointsOfInterest" >
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-6 poiTitle">
-                Points of Interest
-              </h6>
+          <div class="accordion-item" id="poiCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="poiHeader"
+                data-bs-toggle="collapse" data-bs-target="#pointsOfInterest" aria-expanded="false"
+                aria-controls="pointsOfInterest">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-6 poiTitle">
+                  Points of Interest
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="pointsOfInterest" class="collapse" aria-labelledby="poiHeader" data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="pointsOfInterest" class="accordion-collapse collapse bg-gray-light" aria-labelledby="poiHeader"
+              data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>Display points of interest icons on the map.</li>
                 </ul>
                 <div class="panel-header bg-transparent mb-1">
                   <h5>Example Place Icons</h5>
                 </div>
-                <img src="src/assets/img/poi_distribution_center.png" width="22" height="22" alt=""/>Distribution Center<br />
-                <img src="src/assets/img/poi_fuel.png" width="22" height="22" alt=""/>Fuel<br />
-                <img src="src/assets/img/poi_manufacturing_plant.png" width="22" height="22" alt=""/>Manufacturing Plant<br />
-                <img src="src/assets/img/poi_rest_area.png" width="22" height="22" alt=""/>Rest Area<br />
+                <img src="src/assets/img/poi_distribution_center.png" width="22" height="22" alt="" />Distribution
+                Center<br />
+                <img src="src/assets/img/poi_fuel.png" width="22" height="22" alt="" />Fuel<br />
+                <img src="src/assets/img/poi_manufacturing_plant.png" width="22" height="22" alt="" />Manufacturing
+                Plant<br />
+                <img src="src/assets/img/poi_rest_area.png" width="22" height="22" alt="" />Rest Area<br />
               </div>
             </div>
           </div>
 
-          <div class="card" id="3dCard">
-            <div class="card-header layer-select" role="button" id="buildingsHeader" data-toggle="collapse" data-target="#buildings"
-              aria-expanded="false" aria-controls="buildings" >
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-7 buildingsTitle">3D Buildings</h6>
+          <div class="accordion-item" id="3dCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="buildingsHeader"
+                data-bs-toggle="collapse" data-bs-target="#buildings" aria-expanded="false" aria-controls="buildings">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-7 buildingsTitle">
+                  3D Buildings
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="buildings" class="collapse" aria-labelledby="buildingsHeader" data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="buildings" class="accordion-collapse collapse bg-gray-light" aria-labelledby="buildingsHeader"
+              data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>Displays 3D buildings.</li>
                 </ul>
@@ -274,17 +326,20 @@
             </div>
           </div>
 
-          <div class="card" id="trafficIncidentCard">
-            <div class="card-header layer-select" role="button" id="trafficIncidentHeader" data-toggle="collapse"
-              data-target="#trafficIncident" aria-expanded="false" aria-controls="trafficIncident"
-             >
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-8 trafficIncidentTitle">
-                Traffic Incidents
-              </h6>
+          <div class="accordion-item" id="trafficIncidentCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="trafficIncidentHeader"
+                data-bs-toggle="collapse" data-bs-target="#trafficIncident" aria-expanded="false"
+                aria-controls="trafficIncident">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-8 trafficIncidentTitle">
+                  Traffic Incidents
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="trafficIncident" class="collapse" aria-labelledby="trafficIncidentHeader"
-              data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="trafficIncident" class="accordion-collapse collapse bg-gray-light"
+              aria-labelledby="trafficIncidentHeader" data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>Displays current traffic incidents.</li>
                   <li>
@@ -298,59 +353,61 @@
               </div>
             </div>
           </div>
-          <div class="card" id="truckRestrictionCard">
-            <div class="card-header layer-select" role="button" id="truckRestrictionsHeader" data-toggle="collapse"
-              data-target="#truckRestrictions" aria-expanded="false" aria-controls="truckRestrictions"
-              >
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-9 truckRestrictionsTitle">
-                Truck Restrictions
-              </h6>
+          <div class="accordion-item" id="truckRestrictionCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="truckRestrictionsHeader"
+                data-bs-toggle="collapse" data-bs-target="#truckRestrictions" aria-expanded="false"
+                aria-controls="truckRestrictions">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-9 truckRestrictionsTitle">
+                  Truck Restrictions
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="truckRestrictions" class="collapse" aria-labelledby="truckRestrictionsHeader"
-              data-parent="#contentLayers">
-              <div class="card-body">
+            <div id="truckRestrictions" class="accordion-collapse collapse bg-gray-light"
+              aria-labelledby="truckRestrictionsHeader" data-bs-parent="#contentLayers">
+              <div class="accordion-body">
                 <ul>
                   <li>Displays truck restrictions on the map.</li>
                 </ul>
               </div>
             </div>
           </div>
-          <div class="card" id="customDataCard">
-            <div class="card-header layer-select" role="button" id="customContentHeader" data-toggle="collapse"
-              data-target="#customContent" aria-expanded="false" aria-controls="customContent" >
-              <h6 class="mb-0 d-inline" id="collapsible-group-item-10 customContentTitle">
-                Custom Content
-              </h6>
+          <div class="accordion-item" id="customDataCard">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed layer-select" type="button" id="customContentHeader"
+                data-bs-toggle="collapse" data-bs-target="#customContent" aria-expanded="false"
+                aria-controls="customContent">
+                <h4 class="mb-0 d-inline" id="collapsible-group-item-10 customContentTitle">
+                  Custom Content
+                </h4>
+                <div class="supporting-label"></div>
+              </button>
             </div>
-            <div id="customContent" class="collapse" aria-labelledby="customContentHeader" data-parent="#contentLayers">
-              <div class="card-body" id="customContentBody">
-
-              </div>
+            <div id="customContent" class="accordion-collapse collapse bg-gray-light" data-bs-parent="#contentLayers">
+              <div class="accordion-body" id="customContentBody"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="modus-panel panel-lg shadow-sm collapse"
-        style="max-height: 100%;" id="routingPanel">
+      <div class="modus-panel panel-lg shadow-sm collapse" style="max-height: 100%" id="routingPanel">
         <div class="panel-header text-center border-bottom">
           <h5>Locations</h5>
         </div>
 
         <div id="locationList" class="p-2">
-          <p id="locationListParagraph">
-          </p>
-            <button type="button" class="btn btn-primary" id="clearLocationsBtn" >
-              Clear
-            </button>
+          <div id="locationListTable"></div>
+          <button type="button" class="btn btn-primary" id="clearLocationsBtn">
+            Clear
+          </button>
         </div>
 
-        <div class="form-group p-2">
-          <label for="routeLocationInput">Location Selection</label>
-          <input class="form-control" type="search" autocomplete="off" id="routeLocationInput" placeholder="Enter Location..."
-          />
-          <div class="invalid-feedback" id="singleSearchErrorText">
-          </div>
+        <div class="mb-3 p-2">
+          <label class="col-form-label fw-normal" for="routeLocationInput">Location Selection</label>
+          <input class="form-control" type="search" autocomplete="off" id="routeLocationInput"
+            placeholder="Enter Location..." />
+          <div class="invalid-feedback" id="singleSearchErrorText"></div>
         </div>
 
         <div class="p-2">
@@ -358,13 +415,14 @@
             <div>
               <div class="text-center text-primary">
                 <div class="spinner-border"></div>
-                <div class="h3 text-primary mt-3" role="status">Loading...</div>
+                <div class="h3 text-primary mt-3" role="status">
+                  Loading...
+                </div>
               </div>
             </div>
           </div>
           <div id="locationSelectionDiv">
-            <ul class="list-group list-group-condensed" id="locationSelection" >
-            </ul>
+            <ul class="list-group list-group-condensed" id="locationSelection"></ul>
           </div>
         </div>
 
@@ -373,65 +431,71 @@
         </div>
 
         <div class="panel-body p-2 overflow-auto">
-          <div class="form-group">
-            <label for="vehicleType"><b>Vehicle Type</b></label>
+          <div class="mb-3">
+            <label class="col-form-label fw-normal" for="vehicleType"><b>Vehicle Type</b></label>
             <div id="vehicleDimension">
-            <p style="font-size:.9em">
-              Demo uses pre-defined vehicle profiles, but SDK does support full vehicle dimension
-              customization.<br /><br />
-              <b>Current vehicle dimensions:</b>
-            </p>
-            <p id="profileDimensions" style="font-size:.9em"></p>
-          </div>
-            <select class="custom-select form-control" id="vehicleType">
+              <p style="font-size: 0.9em">
+                Demo uses pre-defined vehicle profiles, but SDK does support
+                full vehicle dimension customization.<br /><br />
+                <b>Current vehicle dimensions:</b>
+              </p>
+              <p id="profileDimensions" style="font-size: 0.9em"></p>
+            </div>
+            <select class="form-select" id="vehicleType">
               <option id="truckOption">Truck</option>
               <option>Light Truck</option>
               <option>Auto</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="routeType"><b>Route Type</b></label>
-            <p style="font-size:.9em">
-              <b>Practical</b>: Most logical route we believe a driver would take. Balances distance, duration, number
-              of turns
-              and road classifications.<br />
+          <div class="mb-3">
+            <label class="col-form-label fw-normal" for="routeType"><b>Route Type</b></label>
+            <p class="small ms-1">
+              <b>Practical</b>: Most logical route we believe a driver would
+              take. Balances distance, duration, number of turns and road
+              classifications.<br />
               <b>Shortest</b>: Uses shortest distance from stop to stop.<br />
               <b>Fastest</b>: Uses the fastest duration from stop to stop.
             </p>
-            <select class="custom-select form-control" id="routeType">
-
-            </select>
+            <select class="form-select" id="routeType"></select>
           </div>
 
-          <div class="form-group" id="highwayOnlyForm">
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" role="switch" id="routingHighwayOnly" />
-              <label class="custom-control-label font-weight-bold" for="routingHighwayOnly">Highway Routing Only</label>
-              <p style="font-size:.9em">Use street data or only highways for routing.</p>
+          <div class="mb-2" id="highwayOnlyForm">
+            <div class="form-check form-switch">
+              <input type="checkbox" class="form-check-input" role="switch" switch id="routingHighwayOnly" />
+              <label class="form-check-label fw-bold" for="routingHighwayOnly">Highway Routing Only</label>
+              <p class="small ms-1">
+                Use street data or only highways for routing.
+              </p>
             </div>
           </div>
 
-          <div class="form-group" id="tolls">
-            <div class="custom-control custom-switch" id="avoidTollsForm">
-              <input type="checkbox" class="custom-control-input" role="switch" id="avoidTolls" />
-              <label class="custom-control-label font-weight-bold" for="avoidTolls">Avoid Tolls</label>
-              <p style="font-size:.9em">Allow use of tolls plazas or avoid if possible.</p>
+          <div class="mb-2" id="tolls">
+            <div class="form-check form-switch" id="avoidTollsForm">
+              <input type="checkbox" class="form-check-input" role="switch" switch id="avoidTolls" />
+              <label class="form-check-label fw-bold" for="avoidTolls">Avoid Tolls</label>
+              <p class="small ms-1">
+                Allow use of tolls plazas or avoid if possible.
+              </p>
             </div>
           </div>
 
-          <div class="form-group">
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" role="switch" id="bordersOpen" />
-              <label class="custom-control-label font-weight-bold" for="bordersOpen">Borders Open</label>
-              <p style="font-size:.9em">Open/close international borders if possible.</p>
+          <div class="mb-2">
+            <div class="form-check form-switch">
+              <input type="checkbox" class="form-check-input" role="switch" switch id="bordersOpen" />
+              <label class="form-check-label fw-bold" for="bordersOpen">Borders Open</label>
+              <p class="small ms-1">
+                Open/close international borders if possible.
+              </p>
             </div>
             <br />
           </div>
 
-          <div class="form-group" id="hazmat">
-            <label for="hazMat"><b>Hazardous Materials</b></label>
-            <p style="font-size:.9em">Include hazardous materials for transit.</p>
-            <select class="custom-select form-control" id="hazMat">
+          <div class="mb-3" id="hazmat">
+            <label class="col-form-label fw-normal" for="hazMat"><b>Hazardous Materials</b></label>
+            <p class="small ms-1">
+              Include hazardous materials for transit.
+            </p>
+            <select class="form-select" id="hazMat">
               <option>None</option>
               <option>General</option>
               <option>Caustic</option>
@@ -443,41 +507,34 @@
           </div>
 
           <div class="" id="routeBtns">
-
-    <button type="button" class="btn btn-primary float-right" id="reportsBtn" >
-      Show Reports
-    </button>
-    <button type="button" class="btn btn-primary float-right mr-2" id="routeBtn" >
-      Route
-    </button>
-
-      </div>
+            <button type="button" class="btn btn-primary float-end" id="reportsBtn">
+              Show Reports
+            </button>
+            <button type="button" class="btn btn-primary float-end me-2" id="routeBtn">
+              Route
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="modus-panel panel-lg shadow-sm collapse"
-        id="timeWindowPanel">
+      <div class="modus-panel panel-lg shadow-sm collapse" id="timeWindowPanel">
         <div class="panel-header text-center border-bottom">
           <h5 id="timeWindowRoutingTitle"></h5>
         </div>
-        <ul id="timeWindowRoutingText"></ul>
         <div class="panel-body p-2 overflow-auto">
-          <table class="table table-bordered table-sm" id="timeWindowTable"></table>
-
-          <button type="button" class="btn btn-primary" id="optimizeBtn">
+          <button type="button" class="btn btn-primary my-3" id="optimizeBtn">
             Optimize
           </button>
+          <table class="table table-bordered table-sm" id="timeWindowTable"></table>
+          <ul id="timeWindowRoutingText"></ul>
         </div>
       </div>
-
-      <div class="modus-panel panel-lg shadow-sm collapse"
-        id="siteRoutingPanel">
-        <div class="panel-header  text-center border-bottom">
+      <div class="modus-panel panel-lg shadow-sm collapse" id="siteRoutingPanel">
+        <div class="panel-header text-center border-bottom">
           <h5>Site Routing</h5>
         </div>
         <div class="panel-body p-2">
-          <ul id="siteRouteInfo">
-          </ul>
+          <ul id="siteRouteInfo"></ul>
 
           <button type="button" class="btn btn-primary" id="toggleSite">
             Enable Site Routing
@@ -485,8 +542,7 @@
         </div>
       </div>
 
-      <div class="modus-panel panel-lg shadow-sm collapse"
-        id="railRoutingDemo">
+      <div class="modus-panel panel-lg shadow-sm collapse" id="railRoutingDemo">
         <div class="panel-header text-center border-bottom">
           <h5>Rail Routing</h5>
         </div>
@@ -495,8 +551,7 @@
             <li>
               Utilizes the rail routing APIs (<a
                 href="https://developer.trimblemaps.com/restful-apis/freight-rail/overview/"
-                target="_blank">Documentation</a>) to
-              gather the route path between rail stations.
+                target="_blank">Documentation</a>) to gather the route path between rail stations.
             </li>
             <li>
               Rail route line applied a custom layer geojson that mimics the
@@ -508,26 +563,37 @@
               stations between them and all respective railroad providers for
               each location.
             </li>
-            <li>Example BNSF route from Denver, CO to Pueblo, CO, mimicking a scan point in Colorado Springs, CO.</li>
+            <li>
+              Example BNSF route from Denver, CO to Pueblo, CO, mimicking a
+              scan point in Colorado Springs, CO.
+            </li>
           </ul>
         </div>
       </div>
       <div id="map" style="width: 100%; height: 100%"></div>
-    </div>
+    </main>
   </div>
 
-  <div id="authModal" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+  <div id="authModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="authModaltitle">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="authModaltitle">Authentication</h5>
         </div>
         <div class="modal-body">
-          <label for="keyInput">API Key:</label>
+          <label for="keyInput" class="col-form-label fw-normal"><span>Trimble Maps SDK API Key</span><span
+              class="required">*</span></label>
           <input class="form-control" id="keyInput" placeholder="API Key" type="password" required />
+          <div class="fst-italic mt-1">To gain access you must have an API key. Please contact your Trimble Maps
+            representative
+            or
+            our <a
+              href="https://maps.trimble.com/contact/?__hstc=96702592.ae05bfc125d9b021a91edcf363c8d2af.1693469758784.1745487794236.1745493812976.1112&__hssc=96702592.14.1745493812976&__hsfp=907255077"
+              target="_blank">Sales team</a> for more information.</div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" id="getApikey">
+          <button type="submit" class="btn btn-primary" id="getApikey" data-bs-dismiss="modal">
             Submit
           </button>
         </div>
@@ -535,65 +601,61 @@
     </div>
   </div>
 
-  <div id="reportsModal" class="modal fade" tabindex="-1" data-backdrop="static">
-    <div class="modal-dialog  modal-xl modal-dialog-scrollable">
+  <div id="reportsModal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="reportsModaltitle">Reports</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">x</span>
-          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
           <ul class="nav nav-tabs" id="reportTabs" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="mileageTab" data-toggle="tab" href="#mileage" role="tab"
-                aria-controls="mileage" aria-selected="true">Mileage Report</a>
+              <button type="button" class="nav-link active" data-category="Reports" id="mileageRouteTab"
+                data-bs-toggle="tab" data-bs-target="#mileage" role="tab" aria-controls="mileage" aria-selected="true">
+                Mileage Report
+              </button>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" id="detailTab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail"
-                aria-selected="false">Detail Report</a>
+              <button type="button" class="nav-link" action="Detailed_Route" data-category="Reports"
+                id="detailedRouteTab" data-bs-toggle="tab" data-bs-target="#detail" role="tab" aria-controls="detail"
+                aria-selected="true">
+                Detailed Route
+              </button>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" id="directionsTab" data-toggle="tab" href="#directions" role="tab"
-                aria-controls="directions" aria-selected="false">Directions</a>
+              <button type="button" class="nav-link" data-category="Reports" id="drivingDirectionsTab"
+                data-bs-toggle="tab" data-bs-target="#directions" role="tab" aria-controls="directions"
+                aria-selected="false">
+                Directions
+              </button>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" id="stateTab" data-toggle="tab" href="#state" role="tab" aria-controls="state"
-                aria-selected="false">State</a>
+              <button type="button" class="nav-link" data-category="Reports" id="stateCountryDistancesTab"
+                data-bs-toggle="tab" data-bs-target="#state" role="tab" aria-controls="state" aria-selected="false">
+                State
+              </button>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" id="roadTab" data-toggle="tab" href="#road" role="tab" aria-controls="road"
-                aria-selected="false">Road</a>
+              <button type="button" class="nav-link" data-category="Reports" id="roadTypeDistancesTab"
+                data-bs-toggle="tab" data-bs-target="#road" role="tab" aria-controls="road" aria-selected="false">
+                Road
+              </button>
             </li>
-
-
           </ul>
           <div class="tab-content py-3" id="exampleTabContent">
             <div class="tab-pane fade show active" id="mileage" role="tabpanel" aria-labelledby="mileageTab">
               <table id="mileageTable" class="table table-hover">
-                <thead class="bg-gray-light" id="mileageTableHeader">
-
-                </thead>
-                <tbody id="mileageTableBody">
-
-                </tbody>
+                <thead class="bg-gray-light" id="mileageTableHeader"></thead>
+                <tbody id="mileageTableBody"></tbody>
               </table>
             </div>
 
             <div class="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detailTab">
               <table id="detailTable" class="table table-hover">
-                <thead class="bg-gray-light" id="detailTableHeader">
-
-                </thead>
-                <tbody id="detailTableBody">
-
-                </tbody>
+                <thead class="bg-gray-light" id="detailTableHeader"></thead>
+                <tbody id="detailTableBody"></tbody>
               </table>
             </div>
 
@@ -606,8 +668,7 @@
                     <th scope="col">Time</th>
                   </tr>
                 </thead>
-                <tbody id="directionsTableBody">
-                </tbody>
+                <tbody id="directionsTableBody"></tbody>
               </table>
             </div>
 
@@ -626,8 +687,7 @@
                     <th scope="col">Energy</th>
                   </tr>
                 </thead>
-                <tbody id="stateTableBody">
-                </tbody>
+                <tbody id="stateTableBody"></tbody>
               </table>
             </div>
 
@@ -649,15 +709,13 @@
                     <th scope="col">Energy</th>
                   </tr>
                 </thead>
-                <tbody id="roadTableBody">
-                </tbody>
+                <tbody id="roadTableBody"></tbody>
               </table>
             </div>
           </div>
-
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
             Close
           </button>
         </div>
@@ -665,8 +723,7 @@
     </div>
   </div>
 
-
-  <div id="timeWindowModal" class="modal" tabindex="-1" data-backdrop="static">
+  <div id="timeWindowModal" class="modal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">
         <div class="modal-body">
@@ -674,7 +731,9 @@
             <div class="px-3">
               <div class="text-center text-primary">
                 <div class="spinner-border"></div>
-                <div class="h3 text-primary mt-3" role="status">Optimizing route...</div>
+                <div class="h3 text-primary mt-3" role="status">
+                  Loading...
+                </div>
               </div>
             </div>
           </div>
@@ -683,7 +742,7 @@
     </div>
   </div>
 
-  <div id="railRouteModal" class="modal" tabindex="-1" data-backdrop="static">
+  <div id="railRouteModal" class="modal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">
         <div class="modal-body">
@@ -691,7 +750,9 @@
             <div class="px-3">
               <div class="text-center text-primary">
                 <div class="spinner-border"></div>
-                <div class="h3 text-primary mt-3" role="status">Loading route...</div>
+                <div class="h3 text-primary mt-3" role="status">
+                  Loading route...
+                </div>
               </div>
             </div>
           </div>
@@ -699,44 +760,67 @@
       </div>
     </div>
   </div>
-  <div class="toast toast-warning show" role="alert" aria-live="assertive" aria-atomic="true" id="building_3d_toast" style="display:none">
-         3D buildings are unavailable in Satellite view
-    <button type="button" class="close ml-3" data-dismiss="toast" aria-label="Close">
-      <i class="modus-icons" aria-hidden="true">close</i>
-    </button>
+  <div id="loadingModal" class="modal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="d-flex justify-content-start justify-content-center">
+            <div class="px-3">
+              <div class="text-center text-primary">
+                <div class="spinner-border"></div>
+                <div class="h3 text-primary mt-3" role="status">
+                  Loading...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <div role="alert" aria-live="assertive" aria-atomic="true" class="toast toast-warning me-2" id="building_3d_toast">
+    <div class="toast-header" data-bs-theme="dark">
+      <strong class="me-auto message mb-0"> </strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@trimble-oss/modus-bootstrap@2.0.10/dist/js/modus-layout.min.js"></script>
+
+  <script src="https://maps-sdk.trimblemaps.com/v4/trimblemaps-4.2.2.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
+  <script src="src/js/jwt-decode.min.js"></script>
+  <script src="src/js/util/debounce.js"></script>
+  <script src="src/js/util/layer-specific-location.js"></script>
+  <script src="src/js/util/loadJsons.js"></script>
+  <script src="src/js/util/remove-route.js"></script>
+
+  <script src="src/js/util/reset-user-option.js"></script>
+  <script src="src/js/select-region.js"></script>
+  <script src="src/js/map-style.js"></script>
+  <script src="src/js/map-layers.js"></script>
+  <script src="src/js/time-window.js"></script>
+  <script src="src/js/util/hide-panel.js"></script>
+
+  <script src="src/js/util/auto-description.js"></script>
+  <script src="src/js/util/modify-route-type.js"></script>
+  <script src="src/js/util/create-route.js"></script>
+
+  <script src="src/js/add-route.js"></script>
+  <script src="src/js/site-routing.js"></script>
+  <script src="src/js/rail-route.js"></script>
+
+  <script src="src/js/util/clear-locations.js"></script>
+
+  <script src="src/js/util/constants.js"></script>
+  <script src="src/js/services/map.service.js"></script>
+  <script src="src/js/services/token.service.js"></script>
+  <script src="src/js/util/processLicense.js"></script>
+  <script src="src/js/util/add-event-listeners.js"></script>
+  <script src="src/index.js"></script>
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@trimbleinc/modus-bootstrap@1.6.4/dist/modus-layout.min.js"></script>
-<script src="https://maps-sdk.trimblemaps.com/v3/trimblemaps-3.21.0.js"></script>
-<script src="src/js/jwt-decode.min.js"></script>
-<script src="src/js/util/layer-specific-location.js" ></script>
-<script src="src/js/util/loadJsons.js"></script>
-<script src="src/js/util/remove-route.js"></script>
-
-<script src="src/js/util/reset-user-option.js"></script>
-<script src="src/js/select-region.js"></script>
-<script src="src/js/map-style.js"></script>
-<script src="src/js/map-layers.js"></script>
-<script src="src/js/time-window.js"></script>
-<script src="src/js/util/hide-panel.js"></script>
-
-<script src="src/js/util/auto-description.js"></script>
-<script src="src/js/util/modify-route-type.js"></script>
-<script src="src/js/util/create-route.js"></script>
-
-<script src="src/js/add-route.js"></script>
-<script src="src/js/site-routing.js"></script>
-<script src="src/js/rail-route.js"></script>
-
-<script src="src/js/util/clear-locations.js"></script>
-<script src="src/js/util/constants.js"></script>
-<script src="src/js/services/map.service.js"></script>
-<script src="src/js/services/token.service.js"></script>
-<script src="src/js/util/processLicense.js"></script>
-<script src="src/js/util/add-event-listeners.js"></script>
-<script src="src/index.js"></script>
 </html>

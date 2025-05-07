@@ -36,10 +36,9 @@ function ShowReports(props) {
     <>
       <Button
         variant="primary"
-        className="ml-1"
+        className="ms-1"
         onClick={() => setShow(true)}
-        disabled={disableBtn}
-      >
+        disabled={disableBtn}>
         Show Reports
       </Button>
       <CustomTooltip showToolTip={disableBtn}></CustomTooltip>
@@ -51,8 +50,7 @@ function ShowReports(props) {
         keyboard={false}
         dialogClassName="modal-xl modal-dialog-scrollable"
         aria-labelledby="reports"
-        animation={false}
-      >
+        animation={false}>
         <Modal.Header closeButton>
           <Modal.Title id="reports">Reports</Modal.Title>
         </Modal.Header>
@@ -62,43 +60,39 @@ function ShowReports(props) {
               <Tabs
                 className="nav nav-tabs nav-tabs-sm mt-3 d-print-none"
                 defaultActiveKey="mileageReport"
-                id="reports"
-              >
+                id="reports">
                 <Tab
                   className="py-3"
                   eventKey="mileageReport"
-                  title="Mileage Report"
-                >
+                  title="Mileage Report">
                   <MileageReport
                     mileageReports={transformedReports.mileageReports}
-                    mileageType={mileageType}
-                  ></MileageReport>
+                    mileageType={mileageType}></MileageReport>
                 </Tab>
 
                 <Tab
                   className="py-3"
                   eventKey="detailedRoute"
-                  title="Detailed Route"
-                >
+                  title="Detailed Route">
                   <DetailedReport
                     detailedReports={transformedReports.detailedReports}
-                    mileageType={mileageType}
-                  ></DetailedReport>
+                    mileageType={mileageType}></DetailedReport>
                 </Tab>
                 <Tab className="py-3" eventKey="directions" title="Directions">
                   <DirectionReport
-                    directionReports={transformedReports.directionReports}
-                  ></DirectionReport>
+                    directionReports={
+                      transformedReports.directionReports
+                    }></DirectionReport>
                 </Tab>
                 <Tab className="py-3" eventKey="state" title="State">
                   <StateReport
-                    stateReports={transformedReports.stateReports}
-                  ></StateReport>
+                    stateReports={
+                      transformedReports.stateReports
+                    }></StateReport>
                 </Tab>
                 <Tab className="py-3" eventKey="road" title="Road">
                   <RoadReport
-                    roadReports={transformedReports?.roadReports}
-                  ></RoadReport>
+                    roadReports={transformedReports?.roadReports}></RoadReport>
                 </Tab>
               </Tabs>
             ) : null}

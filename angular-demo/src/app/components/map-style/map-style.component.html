@@ -1,33 +1,33 @@
 <div class="modus-panel panel-lg h-100 shadow">
-    <div class="panel-header">
-      <h4>Styling</h4>
-    </div>
-    <div class="panel-body flex-fill" >
-      <div class="static-container d-flex align-items-center justify-content-start">
-      <div class="form-group w-100">
-          <ul>
-            <li>
-                Ability to change the display style of the map.
-            </li>
-          </ul>
-          <label for="mapStyle">Map Style</label>
-          <select
+  <div class="panel-header">
+    <h4>Styling</h4>
+  </div>
+  <div class="panel-body flex-fill">
+    <div
+      class="static-container d-flex align-items-center justify-content-start">
+      <div class="mb-3 w-100">
+        <ul>
+          <li>Ability to change the display style of the map.</li>
+        </ul>
+        <label class="col-form-label fw-normal" for="mapStyle">Map Style</label>
+        <select
           name="selectedStyle"
-          id="mapRegionSelector"
+          id="mapStyle"
           (change)="selectStyle()"
-          class="form-control"
-          [(ngModel)]="selectedStyle"
-
-        >
+          class="form-select"
+          [(ngModel)]="selectedStyle">
           <option
             *ngFor="let mapstyle of mapstyles"
-            [ngValue]="mapstyle" [disabled] ="!license.premiumSatellite && mapstyle.requiresLicense"
-          >
-            {{ !license.premiumSatellite && mapstyle.requiresLicense? mapstyle.displayName +" (Unlicensed Feature)":mapstyle.displayName}}
+            [ngValue]="mapstyle"
+            [disabled]="!license.premiumSatellite && mapstyle.requiresLicense">
+            {{
+              !license.premiumSatellite && mapstyle.requiresLicense
+                ? mapstyle.displayName + " (Unlicensed Feature)"
+                : mapstyle.displayName
+            }}
           </option>
         </select>
-
-        </div>
       </div>
-      </div>
+    </div>
   </div>
+</div>

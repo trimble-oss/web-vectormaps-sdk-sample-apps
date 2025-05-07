@@ -1,14 +1,20 @@
 <div
-  class="d-flex align-items-center mr-auto"
+  class="d-flex align-items-center me-auto"
   [ngClass]="{ 'set-cursor': isClickable }">
-  <a *ngIf="logoPath" (click)="isClickable ? navigateToRoutePage() : false"
-  (keyup)="isClickable ? navigateToRoutePage() : false" tabindex="0">
-    <img [src]="logoPath" class="app-logo d-block" alt="{{ logoAlt || 'Logo' }}" />
+  <a
+    *ngIf="logoPath"
+    (click)="isClickable ? navigateToRoutePage() : false"
+    (keyup)="isClickable ? navigateToRoutePage() : false"
+    tabindex="0">
+    <img
+      [src]="logoPath"
+      class="app-logo d-block"
+      alt="{{ logoAlt || 'Logo' }}" />
   </a>
   <a class="text-decoration-none" routerLink="/selectRegion" *ngIf="appName">
-    <h1 class="app-name ml-2">
+    <h1 class="app-name ms-2">
       {{ appName }}
     </h1>
   </a>
-  <span *ngIf="beta" class="badge badge-warning ml-2">BETA</span>
+  <span *ngIf="beta" class="badge badge-warning ms-2">BETA</span>
 </div>

@@ -14,12 +14,12 @@ function TimeWindowRouting() {
   const [twBtnText, setTwBtnText] = useState("optimize");
   const [mapRoute, setMapRoute] = useState(undefined);
   const [show, setShow] = useState(true);
-  const [loadingText, setLoadingText] = useState("Optimizing Route...");
+  const [loadingText, setLoadingText] = useState("Loading...");
 
   const twRes = useTimeWindowService(
     routeOptimization,
     map.getRegion(),
-    TrimbleMaps.APIKey
+    TrimbleMaps.getAPIKey()
   );
 
   let routeStops;
@@ -72,13 +72,20 @@ function TimeWindowRouting() {
           <h4>{titleText}</h4>
         </div>
         <div className="panel-body flex-fill">
-          <div className="static-container d-flex align-items-center justify-content-start">
-            <div className="form-group">
-              <ul dangerouslySetInnerHTML={{ __html: displayText }}></ul>
+          <div className="static-container d-flex align-items-center justify-content-start overflow-auto">
+            <div className="mb-3">
+              <div className="mb-1">
+                <Button
+                  type="button"
+                  className="btn btn-primary col-md-12 text-capitalize"
+                  id="optimizeBtn"
+                  onClick={toggleTimeWindowRouting}>
+                  {twBtnText}
+                </Button>
+              </div>
               <table
                 className="table table-bordered table-sm"
-                id="timeWindowTable"
-              >
+                id="timeWindowTable">
                 <thead>
                   <tr>
                     <th>Stop #</th>
@@ -105,8 +112,7 @@ function TimeWindowRouting() {
                               <i
                                 className="modus-icons"
                                 aria-hidden="true"
-                                style={{ color: "green" }}
-                              >
+                                style={{ color: "green" }}>
                                 check_circle
                               </i>
                             </span>
@@ -115,8 +121,7 @@ function TimeWindowRouting() {
                               <i
                                 className="modus-icons"
                                 aria-hidden="true"
-                                style={{ color: "red" }}
-                              >
+                                style={{ color: "red" }}>
                                 warning
                               </i>
                             </span>
@@ -127,16 +132,8 @@ function TimeWindowRouting() {
                   </>
                 </tbody>
               </table>
-              <div className="">
-                <Button
-                  type="button"
-                  className="btn btn-primary col-md-12 text-capitalize"
-                  id="optimizeBtn"
-                  onClick={toggleTimeWindowRouting}
-                >
-                  {twBtnText}
-                </Button>
-              </div>
+              <ul dangerouslySetInnerHTML={{ __html: displayText }}></ul>
+
               <LoadingModal
                 setShow={setShow}
                 show={show}

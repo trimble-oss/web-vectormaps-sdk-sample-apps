@@ -42,6 +42,9 @@ class TimeWindowRouting {
     );
 
     document.getElementById("timeWindowTable").innerHTML = tableContents;
+    if (document.activeElement) {
+      document.activeElement.blur();
+    }
     $("#timeWindowModal").modal("hide");
   }
 
@@ -92,6 +95,9 @@ class TimeWindowRouting {
       this.getTimeWindowRequest(1, regionName, apiKey),
       this.getTimeWindowRequest(2, regionName, apiKey),
     ]).then((values) => {
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
       $("#timeWindowModal").modal("hide");
 
       for (let x = 0; x < values.length; x++) {
@@ -132,6 +138,9 @@ class TimeWindowRouting {
         this.routeOptimization = 2;
       }
       this.toggleTimeWindowRouting();
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
       $("#timeWindowModal").modal("hide");
     });
   }

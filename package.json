@@ -13,8 +13,6 @@
   },
   "author": "Trimble Maps",
   "scripts": {
-    "cspell": "npx cspell \"**/*.*\" --no-progress",
-    "htmlhint": "npx htmlhint \"**/*.html",
-    "prettier": "npx prettier --write \"**/*.{css,yml}\""
+    "prettier": "npx prettier --write \"**/*.{css,scss,yml}\""
   }
 }

@@ -18,7 +18,7 @@ import {
 import { SubscriptionManager } from "src/app/utils/subscription-manager";
 import { ModalService } from "../modal.service";
 import { autoDescription } from "src/app/utils/autoDescription";
-import { combineLatest } from "rxjs";
+import { combineLatest, debounceTime, distinctUntilChanged } from "rxjs";
 import { MileageReportResponse } from "src/app/models/mileageReport";
 import { DetailReportResponse } from "src/app/models/detailedReport";
 import { DirectionsReportResponse } from "src/app/models/directionReport";
@@ -26,7 +26,13 @@ import { StateReportResponse } from "src/app/models/stateReport";
 import { RoadTypeReport } from "src/app/models/roadTypeReport";
 import { LicenseFeature } from "src/app/models/license";
 import { constants } from "src/app/utils/constants";
+import { RouteLocation } from "src/app/models/routeLocation";
+import { layerSpecificLocation } from "src/app/utils/layerSpecificLocation";
 
+export interface StopIcon {
+  stopType: string;
+  shortAddress: string;
+}
 @Component({
   selector: "app-routing",
   templateUrl: "./routing.component.html",
@@ -57,6 +63,7 @@ export class RoutingComponent implements OnInit, OnDestroy {
   routeSettingForm!: FormGroup;
   license!: LicenseFeature;
   unlicensed_msg = constants.UNLICENSED_MSG;
+  stopsList: string[] = [];
 
   constructor(
     private searchService: SearchService,
@@ -134,6 +141,10 @@ export class RoutingComponent implements OnInit, OnDestroy {
           this.showLoading = true;
           this.searchService
             .search(this.routeLocationInput.value, this.region)
+            .pipe(
+              debounceTime(250), // wait 500ms after the last keystroke
+              distinctUntilChanged() // only emit if value actually changed
+            )
             .subscribe({
               next: (location) => {
                 this.locationList = location;
@@ -160,47 +171,74 @@ export class RoutingComponent implements OnInit, OnDestroy {
     this.sm.add(
       this.mapService.license$.subscribe((license) => {
         this.license = license;
-        console.log(this.license);
         this.vehicleTypes = vehicleType;
       })
     );
   }
   locationList: SingleSearchLocation[] | undefined = [];
   routeLocationInput!: FormControl;
-  routeLocations: TrimbleMaps.LngLat[] = [];
-  locationListContents: string[] = [];
+  routeLocations: RouteLocation[] = [];
+  locationListContents: StopIcon[] = [];
   lan!: TrimbleMaps.LngLat;
   disableInput = false;
+  placeholderText = "Enter Location...";
 
   clearLocations() {
     this.routeLocationInput.setValue("");
     this.locationListContents = [];
+    this.stopsList = [];
     this.disableInput = false;
+    this.placeholderText = "Enter Location...";
     this.routeLocations = [];
     this.showReportsBtn = false;
     this.showRouteBtn = false;
     this.mapService.removeRoutes();
+    this.mapService.removeStops();
+    const mapLocation = layerSpecificLocation(this.mapService.getRegion());
+    this.mapService.changeMapLocation(mapLocation);
   }
 
   locationSelect(location: SingleSearchLocation) {
     if (location.ShortString) {
-      this.locationListContents.push(location.ShortString);
+      this.stopsList.push(location.ShortString);
     }
     if (!_.isUndefined(location.Coords)) {
-      this.routeLocations.push(
-        new TrimbleMaps.LngLat(location.Coords.Lon, location.Coords.Lat)
-      );
+      this.routeLocations.push({
+        coord: new TrimbleMaps.LngLat(location.Coords.Lon, location.Coords.Lat),
+        address: location.ShortString,
+      });
+      this.locationListContents = [];
+      this.mapService.centerOnMap([location.Coords.Lon, location.Coords.Lat]);
+      this.mapService.addMarker(this.routeLocations);
     }
     if (this.routeLocations.length > 2) {
       this.disableInput = true;
+      this.placeholderText = "This demo limited to a max of three stops";
     }
-
     if (this.routeLocations.length > 1) {
       this.showRouteBtn = true;
     }
-
+    this.locationListContents = this.stopsList.map((s, index) =>
+      this.transformStops(s, index, this.stopsList)
+    );
     this.routeLocationInput.setValue("");
     this.locationList = [];
+  }
+  transformStops(
+    shortAddress: string,
+    index: number,
+    stopState: string[]
+  ): StopIcon {
+    let stopType = "S";
+    if (index === 0) {
+      stopType = "O";
+    } else if (index === stopState.length - 1) {
+      stopType = "D";
+    }
+    return {
+      stopType,
+      shortAddress,
+    };
   }
   get routeSettingFormControls(): { [key: string]: AbstractControl } {
     return this.routeSettingForm.controls;
@@ -214,8 +252,9 @@ export class RoutingComponent implements OnInit, OnDestroy {
     } else {
       tolls = TrimbleMaps.Common.TollRoadsType.USE;
     }
+    const stops = this.routeLocations.map((location) => location.coord);
     this.mapService.createRoute(
-      this.routeLocations,
+      stops,
       this.routeSettingFormControls["routeType"].value,
       this.routeSettingFormControls["vehicleType"].value,
       this.routeSettingFormControls["routingHighwayOnly"].value,

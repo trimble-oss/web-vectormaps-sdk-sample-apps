@@ -1,28 +1,3 @@
-@font-face {
-  font-family: modus-icons;
-  font-display: block;
-  src: url('https://modus.trimble.com/assets/0.5.1/fonts/modus-icons.woff2?50783e4f41ce4a8b1c9426e5c9375829') format('woff2'),
-    url("https://modus.trimble.com/assets/0.5.1/fonts/modus-icons.woff?50783e4f41ce4a8b1c9426e5c9375829") format("woff");
-}
-
-.modus-icons {
-  font-family: modus-icons;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizelegibility;
-  -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "liga";
-}
-
 .trimblemaps-ctrl-walist {
   padding-left: 10px;
 }
@@ -54,7 +29,7 @@ h1.app-name {
   opacity: 0.6;
 }
 
-.unlicensed h6 {
+.unlicensed h4 {
   color: gray;
   opacity: 0.6;
 }
@@ -69,7 +44,7 @@ option:disabled {
   font-size: 18px;
 }
 
-.accordion .card .card-header.unlicensed::after {
+.accordion .accordion-item .accordion-button.unlicensed::after {
   display: none;
 }
 
@@ -95,4 +70,102 @@ option:disabled {
   opacity: 0.5;
   pointer-events: none;
   filter: grayscale(1);
+}
+
+.required {
+  color: red;
+}
+
+.route-stop-circle {
+  position: relative;
+  display: block;
+  border: 6px solid;
+  border-radius: 50%;
+  height: 21px;
+  width: 21px;
+  line-height: 1.3;
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 100;
+  background-color: white;
+
+  &.origin {
+    border-color: #00a65a;
+  }
+
+  &.destination {
+    border-color: #dd4b39;
+  }
+
+  &.stopMarker {
+    border-color: #7bd0f7;
+  }
+}
+
+.route-stop-number {
+  position: relative;
+  display: block;
+  border: 3px solid;
+  border-radius: 50%;
+  height: 21px;
+  width: 21px;
+  line-height: 1.3;
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 100;
+  background-color: white;
+  text-align: center;
+}
+
+.route-stop-line {
+  position: absolute;
+  display: block;
+  left: 14px;
+  width: 8px;
+  margin: 0 auto;
+  background-color: #7bd0f7;
+  z-index: 99;
+
+  &.top {
+    top: 50%;
+    bottom: 0;
+  }
+
+  &.bottom {
+    top: 0;
+    bottom: 50%;
+  }
+
+  &.middle {
+    top: 0;
+    bottom: 0;
+  }
+}
+
+.route-stop-icon-cell {
+  text-align: center;
+  font-size: 14px;
+  position: relative;
+  padding-left: 8px;
+}
+
+.route-stop-detail-cell {
+  font-size: 0.75rem;
+  min-width: 40px;
+  max-width: 60px;
+  text-align: right;
+}
+
+.route-stop-address {
+  font-size: 0.75rem;
+  min-width: 100px;
+  max-width: 200px;
+  padding-top: 8px;
+  padding-right: 8px;
+  padding-bottom: 8px;
+  padding-left: 0px;
+}
+
+.routeColor {
+  border-color: rgb(72, 139, 224);
 }

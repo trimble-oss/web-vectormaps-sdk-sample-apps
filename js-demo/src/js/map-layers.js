@@ -6,15 +6,15 @@ function layerSelect(layerVar, mapService) {
     case 0:
       const trafficLocation = layerSpecificLocation(regionName, "traffic");
       changeMapLocation(trafficLocation, mapService);
-      mapService.map.toggleTrafficVisibility();
+      mapService.toggleTrafficVisibility();
       break;
 
     case 1:
-      mapService.map.toggleWeatherRadarVisibility();
+      mapService.toggleWeatherRadarVisibility();
       break;
 
     case 2:
-      mapService.map.toggleWeatherAlertVisibility();
+      mapService.toggleWeatherAlertVisibility();
 
       break;
 
@@ -32,7 +32,7 @@ function layerSelect(layerVar, mapService) {
     case 5:
       const poiLocation = layerSpecificLocation(regionName, "poi");
       changeMapLocation(poiLocation, mapService);
-      mapService.map.togglePOIVisibility();
+      mapService.togglePOIVisibility();
       break;
 
     case 6:
@@ -45,6 +45,9 @@ function layerSelect(layerVar, mapService) {
         mapService.map.getStyle().name.toLowerCase() ===
         TrimbleMaps.Common.Style.SATELLITE
       ) {
+        $("#building_3d_toast .message").text(
+          "3D buildings are unavailable in Satellite view"
+        );
         $("#building_3d_toast").show();
       } else {
         mapService.map.toggle3dBuildingVisibility();
@@ -70,8 +73,9 @@ function layerSelect(layerVar, mapService) {
         "truckRestriction"
       );
       changeMapLocation(truckRestrictionLocation, mapService);
-      mapService.truckRestrictionLayer.toggleVisibility();
+      mapService.truckRestrictionLayer.setVisibility(true);
       mapService.map.addControl(mapService.truckRestrictionClickCtrl);
+      mapService.map.addControl(mapService.truckRestrictionFilterCtrl);
       break;
     case 9:
       //Check if the NA/EU layers exist, and if not add them to the map.
@@ -112,7 +116,7 @@ function layerSelect(layerVar, mapService) {
       );
       mapService.map.flyTo({
         center: customPlacesLocation.center,
-        zoom: customPlacesLocation.zoom
+        zoom: customPlacesLocation.zoom,
       });
       break;
 

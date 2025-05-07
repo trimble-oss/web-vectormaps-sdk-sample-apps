@@ -38,7 +38,18 @@
             "allowedCommonJsDependencies": [
               "@trimblemaps/trimblemaps-mapmenus",
               "@trimblemaps/trimblemaps-js",
-              "lodash"
+              "lodash",
+              "geojson-rbush",
+              "geojson-equality",
+              "turf-jsts",
+              "density-clustering",
+              "skmeans",
+              "rbush",
+              "concaveman",
+              "object-assign",
+              "deep-equal",
+              "earcut",
+              "polygon-clipping"
             ]
           },
           "configurations": {

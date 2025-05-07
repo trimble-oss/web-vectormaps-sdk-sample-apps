@@ -1,14 +1,13 @@
-import { Layer } from "@trimblemaps/trimblemaps-js";
-
+import { LayerSpecification } from "@trimblemaps/trimblemaps-js";
 export interface CustomLayers {
   customFeaturesNA: any;
-  polygonLayerNA: Layer;
+  polygonLayerNA: LayerSpecification;
   pointLayerNA: any;
   lineLayerNA: any;
   customFeaturesEU: any;
   polygonLayerEU: any;
   pointLayerEU: any;
-  lineLayerEU: Layer;
+  lineLayerEU: LayerSpecification;
   siteEUPolygon: any;
-  siteEULayer: Layer;
+  siteEULayer: LayerSpecification;
 }
