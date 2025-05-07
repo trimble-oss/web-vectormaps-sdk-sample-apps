@@ -1,25 +1,28 @@
 <ng-container *ngIf="message$ | async as message">
-    <div
-      *ngIf="
-        message.type === 'warning' || message.type === 'error' || message.type === 'success';
-      "
-      class="toast"
-      [ngClass]="{
-        'show': message.text,
-        'toast-warning': message.type === 'warning',
-        'toast-danger': message.type === 'error',
-        'toast-success': message.type === 'success',
-      }"
-    >
-      {{ message?.text }}
+  <div
+    *ngIf="
+      message.type === 'warning' ||
+      message.type === 'error' ||
+      message.type === 'success'
+    "
+    class="toast"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    [ngClass]="{
+      show: message.text,
+      'toast-warning': message.type === 'warning',
+      'toast-danger': message.type === 'error',
+      'toast-success': message.type === 'success',
+    }">
+    <div class="toast-header">
+      <strong class="me-auto"> {{ message?.text }}</strong>
       <button
         type="button"
-        class="close ml-3"
-        data-dismiss="toast" aria-label="Close"
-        *ngIf="message.canDismiss"
-      >
-      <i class="modus-icon modus-icons" aria-hidden="true">close</i>
-      </button>
+        class="btn-close"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+        *ngIf="message.canDismiss"></button>
     </div>
+  </div>
 </ng-container>
-

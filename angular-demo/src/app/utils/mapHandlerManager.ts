@@ -1,6 +1,6 @@
-
 export interface MapHandler {
   eventName: string;
+  layerId?: string;
   listener: (ev: any) => void;
 }
 
@@ -15,24 +15,28 @@ export class MapHandlerManager {
   add(handler: MapHandler): string | undefined {
     if (!this.map) {
       console.warn(
-        'Handler cannot be added. The map has not been set for this manager.'
+        "Handler cannot be added. The map has not been set for this manager."
       );
       return;
     }
     this.map.on(handler.eventName, handler.listener);
 
-    const id = handler.eventName + Date.now();
+    const id = handler.eventName;
     this.mapHandlers.set(id, handler);
-
     return id;
   }
-
-  remove(id: string) {
-    const handler = this.mapHandlers.get(id);
-    if (handler) {
-      this.map.off(handler.eventName, handler.listener);
+  remove(handler: MapHandler): string | undefined {
+    if (!this.map) {
+      console.warn(
+        "Handler cannot be added. The map has not been set for this manager."
+      );
+      return;
     }
-    this.mapHandlers.delete(id);
+    this.map.off(handler.eventName, handler.listener);
+
+    const id = handler.eventName;
+    this.mapHandlers.set(id, handler);
+    return id;
   }
 
   removeAll() {

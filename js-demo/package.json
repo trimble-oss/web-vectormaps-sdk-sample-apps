@@ -6,7 +6,7 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "start": "lite-server",
+    "start": "lite-server -c bs-config.json",
     "lint": "npx eslint@8 \"src/**/*.js\""
   },
   "dependencies": {

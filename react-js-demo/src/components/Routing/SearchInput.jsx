@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import * as _ from "lodash";
 import { useOutletContext } from "react-router-dom";
+import { layerSpecificLocation } from "../../Utils/layerSpecificlocation";
 
 function SearchInput(props) {
   const [locationListContents, setLocationListContents] = useState([]);
@@ -16,6 +17,7 @@ function SearchInput(props) {
   const [noData, setNoData] = useState(false);
   const [locationList, setLocationList] = useState([]);
   const { routeLocations, setRouteLocation } = props;
+  const [placeholderText, setPlaceholderText] = useState("Enter Location...");
 
   const { map, mapService } = useMapContext();
   const { apiKey } = useOutletContext();
@@ -41,9 +43,13 @@ function SearchInput(props) {
   }, [list]);
 
   const valueChangeInput = (event) => {
-    setRouteLocationInput(event.target.value);
-    setShowLoading(true);
-    trigger("routeLocationInput");
+    if (event.target.value.length !== 0) {
+      setRouteLocationInput(event.target.value);
+      setShowLoading(true);
+      trigger("routeLocationInput");
+    } else {
+      setLocationList([]);
+    }
   };
 
   const clearSearchInput = () => {
@@ -51,49 +57,118 @@ function SearchInput(props) {
   };
   const clearLocations = () => {
     clearSearchInput();
+    routeLocations.length = 0;
     setRouteLocation([]);
     setLocationListContents([]);
     setDisableInput(false);
+    setPlaceholderText("Enter Location...");
     mapService.removeRoutes();
+    mapService.removeStops();
+    const mapLocation = layerSpecificLocation(mapService.getRegion());
+    mapService.changeMapLocation(mapLocation);
   };
 
   const locationSelect = (location) => {
-    setLocationListContents([...locationListContents, location.ShortString]);
     if (!_.isUndefined(location.Coords)) {
-      routeLocations.push(
-        new TrimbleMaps.LngLat(location.Coords.Lon, location.Coords.Lat)
-      );
+      routeLocations.push({
+        coord: new TrimbleMaps.LngLat(location.Coords.Lon, location.Coords.Lat),
+        address: location.ShortString,
+      });
       setRouteLocation(routeLocations);
+      setLocationListContents([]);
+      mapService.centerOnMap([location.Coords.Lon, location.Coords.Lat]);
+      mapService.addMarker(routeLocations);
     }
     if (routeLocations.length > 2) {
       setDisableInput((prev) => !prev);
+      setPlaceholderText("This demo limited to a max of three stops");
     }
     clearSearchInput();
+    let stopsList = [];
+    stopsList = routeLocations.map((s) => s.address);
+    const locationListContents = stopsList.map((s, index) =>
+      transformStops(s, index, stopsList)
+    );
+    setLocationListContents(locationListContents);
     setLocationList([]);
   };
 
+  const transformStops = (shortAddress, index, stopState) => {
+    let stopType = "S";
+    if (index === 0) {
+      stopType = "O";
+    } else if (index === stopState.length - 1) {
+      stopType = "D";
+    }
+    return {
+      stopType,
+      shortAddress,
+    };
+  };
   return (
     <>
-      <div className="form-group p-2">
+      <div className="mb-3 p-2">
         <div id="locationList" className="p-2">
-          {locationListContents.map((list, index) => (
-            <p id="locationListParagraph" key={index}>
-              {list}
-            </p>
-          ))}
+          <table className="w-100">
+            <tbody>
+              <tr className="route-stop-row">
+                <th colSpan="2"></th>
+                <th className="route-stop-detail-cell"></th>
+              </tr>
+              {locationListContents.map((stop, stopIndex) => (
+                <tr className="route-stop-row" key={stopIndex}>
+                  <td className="route-stop-icon-cell">
+                    {locationListContents.length > 0 ? (
+                      <span
+                        className={`route-stop-line ${
+                          locationListContents.length > 1 && stopIndex === 0
+                            ? "top"
+                            : stopIndex === locationListContents.length - 1 &&
+                              stopIndex !== 0
+                            ? "bottom"
+                            : stopIndex !== 0 &&
+                              stopIndex !== locationListContents.length - 1
+                            ? "middle"
+                            : ""
+                        }`}></span>
+                    ) : null}
+                    {stop.stopType === "O" || stop.stopType === "D" ? (
+                      <span
+                        className={`route-stop-circle ${
+                          stop.stopType === "O"
+                            ? "origin"
+                            : stop.stopType === "D"
+                            ? "destination"
+                            : ""
+                        }`}></span>
+                    ) : null}
+                    {stop.stopType === "S" ? (
+                      <span className="route-stop-number routeColor">
+                        {stopIndex}
+                      </span>
+                    ) : null}
+                  </td>
+                  <td className="route-stop-address">
+                    <div className="font-weight-bolder">
+                      {stop.shortAddress}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           {locationListContents.length > 0 ? (
             <Button
               type="button"
               className="btn btn-primary"
               id="clearLocationsBtn"
-              onClick={clearLocations}
-            >
+              onClick={clearLocations}>
               Clear
             </Button>
           ) : null}
         </div>
 
-        <div className="form-group p-2">
+        <div className="mb-3 p-2">
           <Form.Group className="mb-3" controlId="routeLocationInput">
             <Form.Label>Location Selection</Form.Label>
             <Form.Control
@@ -113,6 +188,7 @@ function SearchInput(props) {
                   message: " Single search error invalid input",
                 },
               })}
+              placeholder={placeholderText}
               onChange={valueChangeInput}
               disabled={disableInput}
             />
@@ -146,14 +222,12 @@ function SearchInput(props) {
           <div id="locationSelectionDiv">
             <ul
               className="list-group list-group-condensed"
-              id="locationSelection"
-            >
+              id="locationSelection">
               {locationList.map((location, index) => (
                 <li
                   className="list-group-item"
                   key={index}
-                  onClick={() => locationSelect(location)}
-                >
+                  onClick={() => locationSelect(location)}>
                   {location?.ShortString}
                 </li>
               ))}

@@ -2,43 +2,65 @@
   <div class="panel-header">
     <h4>Locations</h4>
   </div>
-  <div class="form-group p-2">
+  <div class="mb-2 p-2">
     <div id="locationList" class="p-2">
-      <p id="locationListParagraph" *ngFor="let list of locationListContents">
-        {{ list }}
-      </p>
+      <table class="w-100">
+        <!-- Route Stops -->
+        <tr class="route-stop-row">
+          <th colspan="2"></th>
+          <th class="route-stop-detail-cell">
+          </th>
+        </tr>
+        <!-- Route Stops -->
+        <tr class="route-stop-row" *ngFor="let stop of locationListContents; let stopIndex = index">
+          <td class="route-stop-icon-cell">
+            <span class="route-stop-line" *ngIf="locationListContents.length > 0" [ngClass]="{
+              top: locationListContents.length > 1 && stopIndex === 0,
+              bottom: stopIndex === locationListContents.length - 1 && stopIndex !== 0,
+              middle: stopIndex !== 0 && stopIndex !== locationListContents.length - 1
+            }"></span>
+            <span class="route-stop-circle " *ngIf="stop.stopType === 'O' || stop.stopType === 'D'" [ngClass]="{
+            origin: stop.stopType === 'O',
+            destination: stop.stopType === 'D'
+          }"></span>
+            <span class="route-stop-number routeColor" *ngIf="stop.stopType === 'S'">{{ stopIndex }}</span>
+          </td>
+          <td class="route-stop-address">
+            <div class="font-weight-bolder">
+              {{ stop.shortAddress}}
+            </div>
 
-      <button
-        type="button"
-        class="btn btn-primary"
-        id="clearLocationsBtn"
-        (click)="clearLocations()"
+          </td>
+
+
+
+        </tr>
+
+
+      </table>
+
+      <button type="button" class="btn btn-primary" id="clearLocationsBtn" (click)="clearLocations()"
         *ngIf="locationListContents?.length !== 0">
         Clear
       </button>
     </div>
 
-    <div class="form-group p-2">
-      <label for="routeLocationInput">Location Selection</label>
-      <input
-        class="form-control"
-        id="routeLocationInput"
-        placeholder="Enter Location..."
-        [readonly]="disableInput"
-        [formControl]="routeLocationInput"
-        [ngClass]="{ 'is-invalid': hasError }" />
-      <div
-        class="invalid-feedback"
-        *ngIf="routeLocationInput.touched && routeLocationInput.errors">
-        <p *ngIf="routeLocationInput.errors['required']">Please enter location</p>
+    <div class="mb-2 p-2">
+      <label class="col-form-label fw-normal" for="routeLocationInput">Location Selection</label>
+      <input class="form-control" id="routeLocationInput" [placeholder]="placeholderText" [readonly]="disableInput"
+        [formControl]="routeLocationInput" [ngClass]="{ 'is-invalid': hasError }" />
+      <div class="invalid-feedback" *ngIf="routeLocationInput.touched && routeLocationInput.errors">
+        <p *ngIf="routeLocationInput.errors['required']">
+          Please enter location
+        </p>
         <p *ngIf="routeLocationInput.errors['minlength']">
           Name should be more than 3 characters.
         </p>
       </div>
       <div class="invalid-feedback" id="singleSearchErrorText">
-        <p
-          *ngIf="
-            (routeLocationInput.errors && routeLocationInput.errors['pattern']) ||
+        <p *ngIf="
+            (routeLocationInput.errors &&
+              routeLocationInput.errors['pattern']) ||
             hasError
           ">
           Single search error invalid input
@@ -58,52 +80,43 @@
       </div>
       <div id="locationSelectionDiv">
         <ul class="list-group list-group-condensed" id="locationSelection">
-          <li
-            class="list-group-item"
-            *ngFor="let location of locationList; let i = index"
-            (click)="locationSelect(location)"
-            (keyup)="locationSelect(location)" tabindex="0">
+          <li class="list-group-item" *ngFor="let location of locationList; let i = index"
+            (click)="locationSelect(location)" (keyup)="locationSelect(location)" tabindex="0">
             {{ location?.ShortString }}
           </li>
         </ul>
       </div>
     </div>
   </div>
-  <div
-    panel-header
-    class="border-bottom align-items-center"
-    bg-transparent
-    style="margin-top: 10px">
+  <div panel-header class="border-bottom align-items-center" bg-transparent style="margin-top: 10px">
     <h5 class="px-2 text-center">Route Settings</h5>
   </div>
 
   <div class="panel-body flex-fill p-2 overflow-auto">
-    <form
-    [formGroup]="routeSettingForm"
-  >
-      <div class="form-group">
-        <label for="vehicleType"><b>Vehicle Type</b></label>
+    <form [formGroup]="routeSettingForm">
+      <div class="mb-2">
+        <label class="col-form-label fw-normal" for="vehicleType"><b>Vehicle Type</b></label>
         <ng-container *ngIf="license.vehicleDimension">
-        <p style="font-size: 0.9em">
-          Demo uses pre-defined vehicle profiles, but SDK does support full
-          vehicle dimension customization.<br /><br />
-          <b>Current vehicle dimensions:</b>
-        </p>
-        <p id="profileDimensions"  [innerHTML]="vehicleDescription" style="font-size: 0.9em"></p></ng-container>
-        <select
-          class="custom-select form-control"
-          id="vehicleType"
-          formControlName="vehicleType"
-        >
-          <option
-            *ngFor="let vehicle of vehicleTypes"
-            [ngValue]="vehicle.value" [disabled] ="!license.truckRouting && vehicle.requiresLicense">
-            {{!license.truckRouting && vehicle.requiresLicense? vehicle.displayName +" (Unlicensed Feature)":vehicle.displayName }}
+          <p style="font-size: 0.9em">
+            Demo uses pre-defined vehicle profiles, but SDK does support full
+            vehicle dimension customization.<br /><br />
+            <b>Current vehicle dimensions:</b>
+          </p>
+          <p id="profileDimensions" [innerHTML]="vehicleDescription" style="font-size: 0.9em"></p>
+        </ng-container>
+        <select class="form-select" id="vehicleType" formControlName="vehicleType">
+          <option *ngFor="let vehicle of vehicleTypes" [ngValue]="vehicle.value"
+            [disabled]="!license.truckRouting && vehicle.requiresLicense">
+            {{
+            !license.truckRouting && vehicle.requiresLicense
+            ? vehicle.displayName + " (Unlicensed Feature)"
+            : vehicle.displayName
+            }}
           </option>
         </select>
       </div>
-      <div class="form-group">
-        <label for="routeType"><b>Route Type</b></label>
+      <div class="mb-2">
+        <label class="col-form-label fw-normal" for="routeType"><b>Route Type</b></label>
         <p style="font-size: 0.9em">
           <b>Practical</b>: Most logical route we believe a driver would take.
           Balances distance, duration, number of turns and road
@@ -111,114 +124,74 @@
           <b>Shortest</b>: Uses shortest distance from stop to stop.<br />
           <b>Fastest</b>: Uses the fastest duration from stop to stop.
         </p>
-        <select
-          class="custom-select form-control"
-          id="routeType"
-          formControlName="routeType"
-          >
+        <select class="form-select" id="routeType" formControlName="routeType">
           <option *ngFor="let route of routeTypes" [ngValue]="route.value">
             {{ route.displayName }}
           </option>
         </select>
       </div>
-      <div class="form-group">
-        <div class="form-group" id="highwayOnlyForm" *ngIf="isNA">
-          <div class="custom-control custom-switch">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              role="switch"
-              id="routingHighwayOnly"
-              formControlName="routingHighwayOnly"
-               />
-            <label class="custom-control-label" for="routingHighwayOnly"
-              >Highway Routing Only</label
-            >
-            <p style="font-size: 0.9em">
+      <div class="mb-2">
+        <div class="mb-2" id="highwayOnlyForm" *ngIf="isNA">
+          <div class="form-check form-switch">
+            <input type="checkbox" class="form-check-input" role="switch" id="routingHighwayOnly"
+              formControlName="routingHighwayOnly" />
+            <label class="form-check-label" for="routingHighwayOnly">Highway Routing Only</label>
+            <p class="small ms-1">
               Use street data or only highways for routing.
             </p>
           </div>
         </div>
 
-        <div class="form-group">
-          <div class="custom-control custom-switch" [ngClass]="{'disabled': !license.tolls}">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              role="switch"
-              id="avoidTolls"
-              formControlName="avoidTolls"
-               />
-            <label class="custom-control-label" for="avoidTolls"
-              >Avoid Tolls</label
-            >
-            <p style="font-size: 0.9em">
+        <div class="mb-2">
+          <div class="form-check form-switch" [ngClass]="{ disabled: !license.tolls }">
+            <input type="checkbox" class="form-check-input" role="switch" id="avoidTolls"
+              formControlName="avoidTolls" />
+            <label class="form-check-label" for="avoidTolls">Avoid Tolls</label>
+            <p class="small ms-1">
               Allow use of tolls plazas or avoid if possible.
             </p>
           </div>
-          <app-tooltip [showTooltip]="!license.tolls" ></app-tooltip>
+          <app-tooltip [showTooltip]="!license.tolls"></app-tooltip>
         </div>
 
-        <div class="form-group">
-          <div class="custom-control custom-switch">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              role="switch"
-              id="bordersOpen"
-              formControlName="bordersOpen"
-              />
-            <label class="custom-control-label" for="bordersOpen"
-              >Borders Open</label
-            >
-            <p style="font-size: 0.9em">
+        <div class="mb-2">
+          <div class="form-check form-switch">
+            <input type="checkbox" class="form-check-input" role="switch" id="bordersOpen"
+              formControlName="bordersOpen" />
+            <label class="form-check-label" for="bordersOpen">Borders Open</label>
+            <p class="small ms-1">
               Open/close international borders if possible.
             </p>
           </div>
           <br />
         </div>
       </div>
-      <div class="form-group" >
-        <label class="d-inline" for="hazMat"><b>Hazardous Materials</b></label>
-        <app-tooltip [showTooltip] ="!license.hazmat" ></app-tooltip>
+      <div class="mb-2">
+        <label class="d-inline col-form-label fw-normal" for="hazMat"><b>Hazardous Materials</b></label>
+        <app-tooltip [showTooltip]="!license.hazmat"></app-tooltip>
 
-        <p style="font-size: 0.9em">Include hazardous materials for transit.</p>
-        <select
-          class="custom-select form-control"
-          id="hazMat"
-          formControlName="hazMat" [ngClass]="{'disabled': !license.hazmat}"
-          >
-          <option
-            *ngFor="let hazardous of hazardousTypes"
-            [ngValue]="hazardous.value">
+        <p class="small">Include hazardous materials for transit.</p>
+        <select class="form-select" id="hazMat" formControlName="hazMat"
+          [ngClass]="{ disabled: !license.hazmat }">
+          <option *ngFor="let hazardous of hazardousTypes" [ngValue]="hazardous.value">
             {{ hazardous.displayName }}
           </option>
         </select>
       </div>
 
-      <div class="float-right">
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="routeBtn"
-          [ngClass]="{ 'disabled': !showRouteBtn }"
+      <div class="float-end mt-2">
+        <button type="button" class="btn btn-primary" id="routeBtn" [ngClass]="{ disabled: !showRouteBtn }"
           (click)="addRouteLayer()">
           Route
         </button>
-        <button
-          type="button"
-          *ngIf="showReportsBtn"
-          class="btn btn-primary ml-2"
-          id="reportsBtn"
-          [disabled]="!license.premiumReports"
-          (click)="showReports()">
+        <button type="button" *ngIf="showReportsBtn" class="btn btn-primary ms-2" id="reportsBtn"
+          [disabled]="!license.premiumReports" (click)="showReports()">
           Show Reports
         </button>
-        <app-tooltip [showTooltip] ="!license.premiumReports && showReportsBtn" ></app-tooltip>
-
+        <app-tooltip [showTooltip]="
+            !license.premiumReports && showReportsBtn
+          "></app-tooltip>
       </div>
     </form>
   </div>
-
 </div>
-

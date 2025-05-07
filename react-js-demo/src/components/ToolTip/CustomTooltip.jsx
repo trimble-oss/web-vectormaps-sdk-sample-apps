@@ -8,9 +8,8 @@ const CustomTooltip = ({ showToolTip }) => {
       {showToolTip ? (
         <OverlayTrigger
           placement="top"
-          overlay={<Tooltip>{constants.UNLICENSED_MSG}</Tooltip>}
-        >
-          <span className="ml-3">
+          overlay={<Tooltip>{constants.UNLICENSED_MSG}</Tooltip>}>
+          <span className="ms-3">
             <i className="modus-icons notranslate help-icon" aria-hidden="true">
               help
             </i>

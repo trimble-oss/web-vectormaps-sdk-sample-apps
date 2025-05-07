@@ -10,16 +10,14 @@ function Header(props) {
   return (
     <>
       <nav
-        className="navbar navbar-expand-sm modus-header pl-1"
-        id="modus-header"
-      >
+        className="navbar navbar-expand-sm modus-header ps-1"
+        id="modus-header">
         <a
           id="menuButton"
           data-modus-item="menu-btn"
           role="button"
-          className="btn btn-lg btn-icon-only btn-text-dark mr-2"
-          onClick={toggleHidden}
-        >
+          className="btn btn-lg btn-icon-only btn-text-dark me-2"
+          onClick={toggleHidden}>
           <i className="modus-icons menu-btn">menu</i>
         </a>
         <Brandingname></Brandingname>

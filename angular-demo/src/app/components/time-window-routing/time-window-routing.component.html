@@ -3,11 +3,13 @@
     <h4>{{ titleText }}</h4>
   </div>
   <div class="panel-body flex-fill">
-    <div
-      class="static-container d-flex align-items-center justify-content-start">
-      <div class="form-group">
-        <ul [innerHtml]="displayText"></ul>
-        <table class="table table-bordered table-sm" id="timeWindowTable">
+    <div class="static-container d-flex align-items-center justify-content-start overflow-auto">
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary col-md-12" id="optimizeBtn" (click)="toggleTimeWindowRouting()">
+          {{ twBtnText }}
+        </button>
+
+        <table class="table table-bordered table-sm mt-2" id="timeWindowTable">
           <thead>
             <tr>
               <th>Stop #</th>
@@ -28,22 +30,10 @@
                 <td>{{ routeDetail.timeWindow }}</td>
 
                 <td>
-                  <span *ngIf="routeDetail.windowMet"
-                    ><i
-                      class="modus-icons"
-                      aria-hidden="true"
-                      style="color: green"
-                      >check_circle</i
-                    ></span
-                  >
-                  <span *ngIf="!routeDetail.windowMet"
-                    ><i
-                      class="modus-icons"
-                      aria-hidden="true"
-                      style="color: red"
-                      >warning</i
-                    ></span
-                  >
+                  <span *ngIf="routeDetail.windowMet"><i class="modus-icons" aria-hidden="true"
+                      style="color: green">check_circle</i></span>
+                  <span *ngIf="!routeDetail.windowMet"><i class="modus-icons" aria-hidden="true"
+                      style="color: red">warning</i></span>
                 </td>
               </tr>
             </ng-container>
@@ -56,35 +46,18 @@
                 <td>{{ routeDetail.timeWindow }}</td>
 
                 <td>
-                  <span *ngIf="routeDetail.windowMet"
-                    ><i
-                      class="modus-icons"
-                      aria-hidden="true"
-                      style="color: green"
-                      >check_circle</i
-                    ></span
-                  >
-                  <span *ngIf="!routeDetail.windowMet"
-                    ><i
-                      class="modus-icons"
-                      aria-hidden="true"
-                      style="color: red"
-                      >warning</i
-                    ></span
-                  >
+                  <span *ngIf="routeDetail.windowMet"><i class="modus-icons" aria-hidden="true"
+                      style="color: green">check_circle</i></span>
+                  <span *ngIf="!routeDetail.windowMet"><i class="modus-icons" aria-hidden="true"
+                      style="color: red">warning</i></span>
                 </td>
               </tr>
             </ng-container>
           </tbody>
         </table>
+        <ul [innerHtml]="displayText"></ul>
         <div>
-          <button
-            type="button"
-            class="btn btn-primary col-md-12"
-            id="optimizeBtn"
-            (click)="toggleTimeWindowRouting()">
-            {{ twBtnText }}
-          </button>
+
         </div>
       </div>
     </div>

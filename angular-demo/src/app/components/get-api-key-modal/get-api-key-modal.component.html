@@ -3,15 +3,16 @@
     <h5 class="modal-title" id="modal-title">Authentication</h5>
   </div>
   <div class="modal-body">
-    <label for="keyInput">API Key:</label>
-    <input
-      class="form-control"
-      id="keyInput"
-      placeholder="API Key"
-      type="password"
-      required
-      [(ngModel)]="apiKey"
-    />
+    <label for="keyInput" class="form-label"><span>Trimble Maps SDK API Key</span><span
+        class="required">*</span></label>
+    <input class="form-control" id="keyInput" placeholder="API Key" type="password" required [(ngModel)]="apiKey" />
+    <!-- eslint-disable-next-line @angular-eslint/template/elements-content -->
+    <div class="fst-italic mt-1">To gain access you must have an API key. Please contact your Trimble Maps
+      representative
+      or
+      our <a
+        href="https://maps.trimble.com/contact/?__hstc=96702592.ae05bfc125d9b021a91edcf363c8d2af.1693469758784.1745487794236.1745493812976.1112&__hssc=96702592.14.1745493812976&__hsfp=907255077"
+        target="_blank">Sales team</a> for more information.</div>
   </div>
   <div class="modal-footer">
     <button type="submit" class="btn btn-primary" (click)="submit()">

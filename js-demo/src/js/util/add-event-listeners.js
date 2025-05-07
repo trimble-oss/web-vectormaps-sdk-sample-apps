@@ -4,12 +4,12 @@ function addEventListenerToDiv(mapService, tokenService) {
   $("#authModal").on("click", "#getApikey", function () {
     tokenService.getToken().then((res) => {
       license = res;
-      mapService.init();
+      mapService.init(license);
       $(".tooltip-unlicensed").attr("title", constants.UNLICENSED_MSG);
       $(".tooltip-unlicensed").tooltip({
         placement: "top",
         trigger: "hover",
-        delay: { show: 500, hide: 100 } // Delay in ms
+        delay: { show: 500, hide: 100 }, // Delay in ms
       });
     });
   });
@@ -26,6 +26,9 @@ function addEventListenerToDiv(mapService, tokenService) {
     const index = $(".sidebar").index(this);
     //hide time window optimization if not licensed
     if (index === 4 && !license.includes("time window optimization")) return;
+    document.querySelectorAll(".accordion-collapse.show").forEach((item) => {
+      new bootstrap.Collapse(item, { toggle: true });
+    });
     hidePanels(index, mapService, license);
   });
 
@@ -35,11 +38,25 @@ function addEventListenerToDiv(mapService, tokenService) {
     layerSelect(index, mapService);
   });
 
-  $("#routeLocationInput").on("input", function () {
-    const text = $("routeLocationInput").val();
-    routing.singlesearchLookup(mapService.apiKey, mapService.regionName);
-  });
-
+  const debouncedInputHandler = debounce(function () {
+    const text = $("#routeLocationInput").val()?.trim();
+    if (text !== "") {
+      routing.singlesearchLookup(
+        mapService.apiKey,
+        mapService.regionName,
+        text
+      );
+    } else {
+      document
+        .getElementById("routeLocationInput")
+        .classList.remove("is-invalid");
+      document.getElementById("singleSearchErrorText").innerHTML = "";
+      document
+        .getElementById("locationSelectionDiv")
+        .setAttribute("hidden", null);
+    }
+  }, 200);
+  $("#routeLocationInput").on("input", debouncedInputHandler);
   $("#locationSelection").on("click", function (e) {
     routing.locationSelect(e);
   });
@@ -58,5 +75,9 @@ function addEventListenerToDiv(mapService, tokenService) {
 
   $("#clearLocationsBtn").on("click", function (e) {
     clearLocations(mapService);
+  });
+
+  document.addEventListener("hidden.bs.modal", function (event) {
+    document.body.focus(); // Moves focus to a safe element
   });
 }

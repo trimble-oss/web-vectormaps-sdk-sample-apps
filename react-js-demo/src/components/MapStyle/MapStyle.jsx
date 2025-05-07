@@ -33,25 +33,27 @@ function MapStyle() {
       </div>
       <div className="panel-body flex-fill">
         <div className="static-container d-flex align-items-center justify-content-start">
-          <div className="form-group w-100">
+          <div className="mb-3 w-100">
             <ul>
               <li>Ability to change the display style of the map.</li>
             </ul>
-            <label htmlFor="mapStyle">Map Style</label>
+            <label htmlFor="mapStyle" className="col-form-label fw-normal">
+              Map Style
+            </label>
             <select
               name="selectedStyle"
               id="mapStyle"
               onChange={selectStyle}
-              className="form-control"
-              value={selectedStyle}
-            >
+              className="form-select"
+              value={selectedStyle}>
               {mapStyles.map((item, index) => (
                 <option
                   key={item.value + index}
                   value={index}
-                  disabled={item.requireLicense}
-                >
-                  {item.requireLicense
+                  disabled={
+                    !licensedFeature.premiumSatellite && item.requiresLicense
+                  }>
+                  {!licensedFeature.premiumSatellite && item.requiresLicense
                     ? item.displayName + " (Unlicensed Feature)"
                     : item.displayName}
                 </option>

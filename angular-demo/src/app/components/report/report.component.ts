@@ -5,29 +5,29 @@ import { MapRegion } from "src/app/models/trimbleMaps";
 import { MapService } from "src/app/services/map.service";
 import {
   DetailReportReportLineView,
-  DetailReportResponse,
+  DetailReportResponse
 } from "../../models/detailedReport";
 import {
   DirectionsReportReportLineView,
-  DirectionsReportResponse,
+  DirectionsReportResponse
 } from "src/app/models/directionReport";
 import {
   StateReportReportLineView,
-  StateReportResponse,
+  StateReportResponse
 } from "src/app/models/stateReport";
 import {
   RoadTypeReport,
-  RoadTypeReportReportLineView,
+  RoadTypeReportReportLineView
 } from "src/app/models/roadTypeReport";
 import {
   MileageReportReportLineView,
-  MileageReportResponse,
+  MileageReportResponse
 } from "src/app/models/mileageReport";
 
 @Component({
   selector: "app-report",
   templateUrl: "./report.component.html",
-  styleUrls: ["./report.component.scss"],
+  styleUrls: ["./report.component.scss"]
 })
 export class ReportComponent implements OnInit {
   routeReports!: [
@@ -51,11 +51,13 @@ export class ReportComponent implements OnInit {
   roadTypeRawReport!: RoadTypeReport;
   constructor(private mapService: MapService, private bsModalRef: BsModalRef) {}
   ngOnInit() {
-    this.mileageRawReport = this.mapService.routeReports[0];
-    this.detailRawReport = this.mapService.routeReports[1];
-    this.drivingDirectionsRawReport = this.mapService.routeReports[2];
-    this.roadTypeRawReport = this.mapService.routeReports[3];
-    this.stateCountryRawReport = this.mapService.routeReports[4];
+    if (this.mapService.routeReports.length != 0) {
+      this.mileageRawReport = this.mapService.routeReports[0];
+      this.detailRawReport = this.mapService.routeReports[1];
+      this.drivingDirectionsRawReport = this.mapService.routeReports[2];
+      this.roadTypeRawReport = this.mapService.routeReports[3];
+      this.stateCountryRawReport = this.mapService.routeReports[4];
+    }
 
     this.createReports();
   }
@@ -119,7 +121,7 @@ export class ReportComponent implements OnInit {
         legMiles: this.mileageRawReport["ReportLines"][i]["LMiles"],
         cumulativeMiles: this.mileageRawReport["ReportLines"][i]["TMiles"],
         driveTime: this.mileageRawReport["ReportLines"][i]["LHours"],
-        cumulativeDriveTime: this.mileageRawReport["ReportLines"][i]["THours"],
+        cumulativeDriveTime: this.mileageRawReport["ReportLines"][i]["THours"]
       };
       this.mileageReports.push(mileageReport);
     }
@@ -174,7 +176,7 @@ export class ReportComponent implements OnInit {
             cumulativeDriveTime:
               this.detailRawReport["ReportLegs"][y]["ReportLines"][i]["TTime"],
             tollPlaza: tollPlaza,
-            tollAmount: tollAmount,
+            tollAmount: tollAmount
           };
           this.detailedReports.push(detailedReport);
         }
@@ -197,7 +199,7 @@ export class ReportComponent implements OnInit {
         loaded: this.stateCountryRawReport["StateReportLines"][i]["Loaded"],
         empty: this.stateCountryRawReport["StateReportLines"][i]["Empty"],
         tolls: this.stateCountryRawReport["StateReportLines"][i]["Tolls"],
-        energy: this.stateCountryRawReport["StateReportLines"][i]["Energy"],
+        energy: this.stateCountryRawReport["StateReportLines"][i]["Energy"]
       };
 
       this.stateReports.push(stateReport);
@@ -241,7 +243,7 @@ export class ReportComponent implements OnInit {
                 ? ""
                 : this.drivingDirectionsRawReport["ReportLegs"][y][
                     "ReportLines"
-                  ][i]["Time"],
+                  ][i]["Time"]
           };
           this.directionReports.push(directionReport);
         }
@@ -302,7 +304,7 @@ export class ReportComponent implements OnInit {
         local: this.roadTypeRawReport["ReportLines"][i]["Local"],
         pathway: this.roadTypeRawReport["ReportLines"][i]["Pathway"],
         toll: this.roadTypeRawReport["ReportLines"][i]["Toll"],
-        energy: this.roadTypeRawReport["ReportLines"][i]["Energy"],
+        energy: this.roadTypeRawReport["ReportLines"][i]["Energy"]
       };
       this.roadReports.push(roadReport);
     }

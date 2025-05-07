@@ -110,7 +110,7 @@ export class TimeWindowRoutingComponent implements OnInit {
     }
   }
   addLoading() {
-    this.modalService.addLoading("Optimizing Route...");
+    this.modalService.addLoading("Loading...");
   }
   hideLoading() {
     this.modalService.hideLoading();

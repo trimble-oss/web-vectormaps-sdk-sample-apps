@@ -13,14 +13,14 @@ function ToastMessage(props) {
           id="toastMsg"
           className={
             message.type === "error"
-              ? "toast-danger"
+              ? "d-inline-block m-1 toast-danger"
               : message.type === "warning"
-              ? "toast-warning"
-              : "toast-success"
-          }
-        >
-          <Toast.Header closeButton="true"></Toast.Header>
-          <Toast.Body>{message.text}</Toast.Body>
+              ? "d-inline-block m-1 toast-warning"
+              : "d-inline-block m-1 toast-success"
+          }>
+          <Toast.Header>
+            <strong className="me-auto">{message.text}</strong>
+          </Toast.Header>
         </Toast>
       ) : null}
     </>

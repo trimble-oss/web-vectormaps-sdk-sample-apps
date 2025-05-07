@@ -107,7 +107,7 @@ function processLicense(licensedFeatures) {
 
 function disableFeature(feature) {
   const toolTipContent = `
-    <span class="ml-3 tooltip-unlicensed" title="unlicensed_msg">
+    <span class="ms-3 tooltip-unlicensed" title="unlicensed_msg">
       <i class="modus-icons notranslate help-icon" aria-hidden="true">
         help
       </i>
@@ -118,5 +118,6 @@ function disableFeature(feature) {
   });
 
   $("#" + feature).addClass("unlicensed");
-  $("#" + feature).append(toolTipContent);
+  $("#" + feature).removeAttr("data-bs-toggle");
+  $("#" + feature + ">.supporting-label").append(toolTipContent);
 }

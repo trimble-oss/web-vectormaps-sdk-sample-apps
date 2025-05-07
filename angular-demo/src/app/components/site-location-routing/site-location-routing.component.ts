@@ -7,6 +7,7 @@ import { MapService } from "src/app/services/map.service";
 import { SiteRoutingPlacesService } from "src/app/services/site-routing-places.service";
 import { siteLocation } from "src/app/utils/site-location";
 import { SubscriptionManager } from "src/app/utils/subscription-manager";
+import { GeoJSONSourceSpecification } from "@trimblemaps/trimblemaps-js";
 
 @Component({
   selector: "app-site-location-routing",
@@ -69,7 +70,7 @@ export class SiteLocationRoutingComponent implements OnInit {
     this.siteRoutingPlacesService
       .createSiteRoutingPlaces(placeID)
       .subscribe((siteGateFeatures: any) => {
-        const siteGateGeojson = {
+        const siteGateGeojson: GeoJSONSourceSpecification = {
           type: "geojson",
           data: {
             type: "FeatureCollection",

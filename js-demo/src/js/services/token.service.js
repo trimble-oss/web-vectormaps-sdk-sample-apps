@@ -14,9 +14,9 @@ class TokenService {
 
       if (tokenHttp.status == 200) {
         const token = JSON.parse(tokenHttp.responseText);
-        console.log(token);
         const decoded = jwtDecode(token.token);
         processLicense(decoded.features);
+        localStorage.setItem("licensedFeatures", decoded.features);
         resolve(decoded.features);
       } else {
         reject("There is an Error!");

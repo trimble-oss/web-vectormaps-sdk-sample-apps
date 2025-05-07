@@ -12,7 +12,7 @@ function SiteLocationRouting() {
   const [show, setShow] = useState(true);
   const PLACE_ID = "0xZqVCm3sA0k--1OtaidIcpQ";
 
-  const siteGateFeatures = useSiteRouting(PLACE_ID, TrimbleMaps.APIKey);
+  const siteGateFeatures = useSiteRouting(PLACE_ID, TrimbleMaps.getAPIKey());
 
   useEffect(() => {}, []);
 
@@ -61,7 +61,7 @@ function SiteLocationRouting() {
         </div>
         <div className="panel-body flex-fill">
           <div className="static-container d-flex align-items-center justify-content-start">
-            <div className="form-group">
+            <div className="mb-3">
               <ul>
                 <li>
                   Verified Trimble MAPS Places are publicly available locations
@@ -88,8 +88,7 @@ function SiteLocationRouting() {
                   type="button"
                   className="btn btn-primary col-md-12"
                   id="optimizeBtn"
-                  onClick={toggleSiteLocationRouting}
-                >
+                  onClick={toggleSiteLocationRouting}>
                   <span>
                     {siteEnabled
                       ? "Disable Site Routing"
@@ -104,8 +103,7 @@ function SiteLocationRouting() {
       <LoadingModal
         setShow={setShow}
         show={show}
-        loadingText={"Loading..."}
-      ></LoadingModal>
+        loadingText={"Loading..."}></LoadingModal>
     </>
   );
 }

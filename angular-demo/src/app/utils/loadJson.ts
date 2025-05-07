@@ -2,13 +2,16 @@ import * as jsonCustomFeaturesNA from "../json/jsonCustomFeaturesNA.json";
 import * as jsonCustomFeaturesEU from "../json/jsonCustomFeaturesEU.json";
 import * as jsonCustomSiteEU from "../json/jsonCustomSiteEU.json";
 import { CustomLayers } from "../models/customLayers";
-
+import {
+  FillLayerSpecification,
+  LineLayerSpecification,
+} from "@trimblemaps/trimblemaps-js";
 export function loadJsons() {
   // North America
 
   const customFeaturesNA = jsonCustomFeaturesNA;
 
-  const polygonLayerNA = {
+  const polygonLayerNA: FillLayerSpecification = {
     id: "customPolygonLayer",
     source: "customFeaturesSource",
     type: "fill",
@@ -30,7 +33,7 @@ export function loadJsons() {
     filter: ["==", "$type", "Point"],
   };
 
-  const lineLayerNA = {
+  const lineLayerNA: LineLayerSpecification = {
     id: "customLineLayer",
     source: "customFeaturesSource",
     type: "line",
@@ -56,7 +59,7 @@ export function loadJsons() {
     filter: ["==", "$type", "Point"],
   };
 
-  const polygonLayerEU = {
+  const polygonLayerEU: FillLayerSpecification = {
     id: "customPolygonLayerEU",
     source: "customFeaturesSourceEU",
     type: "fill",
@@ -67,7 +70,7 @@ export function loadJsons() {
     filter: ["==", "$type", "Polygon"],
   };
 
-  const lineLayerEU = {
+  const lineLayerEU: LineLayerSpecification = {
     id: "customLineLayerEU",
     source: "customFeaturesSourceEU",
     type: "line",
@@ -82,7 +85,7 @@ export function loadJsons() {
 
   const siteEUPolygon = jsonCustomSiteEU;
 
-  const siteEULayer = {
+  const siteEULayer: FillLayerSpecification = {
     id: "siteEULayer",
     source: "siteEUPolygon",
     type: "fill",

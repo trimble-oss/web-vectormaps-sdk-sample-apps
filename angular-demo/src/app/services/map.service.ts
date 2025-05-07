@@ -6,7 +6,7 @@ import {
   Observable,
   Subject,
   distinctUntilChanged,
-  map
+  map,
 } from "rxjs";
 import * as TrimbleMaps from "@trimblemaps/trimblemaps-js";
 import { Locate, mapInfoSelectedRegion } from "../models/region";
@@ -17,9 +17,13 @@ import { layerSpecificLocation } from "../utils/layerSpecificLocation";
 import { LicenseFeature } from "../models/license";
 import { ToastService } from "./toast.service";
 import { constants } from "../utils/constants";
+import { RouteLocation } from "../models/routeLocation";
+import { Feature } from "@trimblemaps/trimblemaps-js/geojson";
+import * as turf from "@turf/turf";
+import { GJFeatureCollection } from "../utils/geoJsonFeature";
 
 interface MapStore {
-  currentStyle: MapStyle;
+  currentStyle: string | TrimbleMaps.StyleSpecification;
   mapLocation: mapLocationOption;
   region: MapRegion;
 }
@@ -27,23 +31,28 @@ interface MapStore {
 const INITIAL_STATE: MapStore = {
   currentStyle: TrimbleMaps.Common.Style.TRANSPORTATION,
   mapLocation: { zoom: 0, center: [0, 0] },
-  region: TrimbleMaps.Common.Region.NA
+  region: TrimbleMaps.Common.Region.NA,
 };
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class MapService {
   constructor(private toastService: ToastService) {}
   map!: TrimbleMaps.Map;
   private store: BehaviorSubject<MapStore> = new BehaviorSubject<MapStore>({
-    ...INITIAL_STATE
+    ...INITIAL_STATE,
   });
 
   readonly store$: Observable<MapStore> = this.store.asObservable();
+  stopMarkers: TrimbleMaps.Marker[] = [];
   mapHandlerManager = new MapHandlerManager();
   popup = new TrimbleMaps.Popup();
   railPopup = new TrimbleMaps.Popup();
+  trafficLayer!: TrimbleMaps.Traffic;
+  weatherAlertLayer!: TrimbleMaps.WeatherAlert;
+  weatherRadarLayer!: TrimbleMaps.WeatherRadar;
+  pointsOfInterest!: TrimbleMaps.PointsOfInterest;
   trafficIncidentLayer!: TrimbleMaps.TrafficIncident;
   truckRestrictionLayer!: TrimbleMaps.TruckRestriction;
   roadSurfaceLayer!: TrimbleMaps.RoadSurface;
@@ -54,9 +63,18 @@ export class MapService {
   roadSurfaceLegendControl = new TrimbleMaps.RoadSurfaceLegendControl();
   trafficIncidentClickCtrl = new TrimbleMaps.TrafficIncidentClickControl();
   trafficIncidentFilterCtrl = new TrimbleMaps.TrafficIncidentFilterControl();
+  truckRestrictionClickCtrl = new TrimbleMaps.TruckRestrictionClickControl();
+  truckRestrictionFilterCtrl = new TrimbleMaps.TruckRestrictionFilterControl();
+  clickEvent!: TrimbleMaps.MapMouseEvent;
 
   license = new BehaviorSubject<LicenseFeature>({} as LicenseFeature);
   readonly license$ = this.license.asObservable();
+
+  private mapClick = new Subject<TrimbleMaps.MapMouseEvent>();
+  readonly mapClick$ = this.mapClick.asObservable();
+
+  private clickControl = new BehaviorSubject<string>("");
+  readonly clickControl$ = this.clickControl.asObservable();
 
   // shortcut to value
   private get storeValue(): MapStore {
@@ -68,7 +86,7 @@ export class MapService {
 
   // Observables for managed state
   readonly currentStyle$: Observable<MapStyle> = this.store$.pipe(
-    map((s) => s.currentStyle),
+    map((s) => s.currentStyle as string),
     distinctUntilChanged()
   );
 
@@ -92,7 +110,7 @@ export class MapService {
   private updateStore(newStore: Partial<MapStore>) {
     this.store.next({
       ...this.storeValue,
-      ...newStore
+      ...newStore,
     });
   }
 
@@ -105,8 +123,8 @@ export class MapService {
         currentStyle: options.style,
         mapLocation: {
           zoom: options.zoom as number,
-          center: options.center as TrimbleMaps.LngLatLike
-        }
+          center: options.center as TrimbleMaps.LngLatLike,
+        },
       });
     }
 
@@ -115,76 +133,126 @@ export class MapService {
 
     this.mapHandlerManager.add({
       eventName: "load",
-      listener: (evt: TrimbleMaps.MapEvent) => {
-        this.trafficIncidentLayer = new TrimbleMaps.TrafficIncident();
-        this.trafficIncidentLayer.addTo(this.map);
-        this.trafficIncidentLayer.setVisibility(false);
+      listener: (evt: TrimbleMaps.TrimbleMapsEvent) => {
+        const license = this.license.getValue();
+        if (license.traffic) {
+          this.trafficLayer = new TrimbleMaps.Traffic();
+          this.trafficLayer.addTo(this.map);
+          this.trafficLayer.setVisibility(false);
 
-        this.roadSurfaceLayer = new TrimbleMaps.RoadSurface();
-        this.roadSurfaceLayer.addTo(this.map);
-        this.roadSurfaceLayer.setVisibility(false);
-
-        //Set truck restriction layer controls.
-        this.truckRestrictionLayer = new TrimbleMaps.TruckRestriction();
-        this.truckRestrictionLayer.addTo(this.map);
-        this.truckRestrictionLayer.setVisibility(false);
-        const ctrlClick = new TrimbleMaps.WeatherAlertClickControl();
-        this.map.addControl(ctrlClick);
-
-        const ctrlFilter = new TrimbleMaps.WeatherAlertFilterControl();
-        this.map.addControl(ctrlFilter, "top-right");
-        this.map.setWeatherAlertVisibility(false);
-
+          this.trafficIncidentLayer = new TrimbleMaps.TrafficIncident({
+            layerId: "trafficincidents",
+            isVisible: true,
+          });
+          this.trafficIncidentLayer.addTo(this.map);
+          this.trafficIncidentLayer.setVisibility(false);
+        }
+        if (license.roadSurface) {
+          this.roadSurfaceLayer = new TrimbleMaps.RoadSurface();
+          this.roadSurfaceLayer.addTo(this.map);
+          this.roadSurfaceLayer.setVisibility(false);
+        }
+        if (license.truckRestriction) {
+          //Set truck restriction layer controls.
+          this.truckRestrictionLayer = new TrimbleMaps.TruckRestriction({
+            layerId: "truckrestrictions",
+            isVisible: false,
+          });
+          this.truckRestrictionLayer.addTo(this.map);
+          this.truckRestrictionLayer.setVisibility(false);
+        }
+        if (license.weatherAlerts) {
+          this.weatherAlertLayer = new TrimbleMaps.WeatherAlert();
+          this.weatherAlertLayer.setVisibility(false);
+          this.weatherAlertLayer.addTo(this.map);
+        }
+        this.weatherRadarLayer = new TrimbleMaps.WeatherRadar();
+        this.weatherRadarLayer.addTo(this.map);
+        this.weatherRadarLayer.setVisibility(false);
+        this.pointsOfInterest = new TrimbleMaps.PointsOfInterest();
+        this.pointsOfInterest.addTo(this.map);
+        this.map.addControl(new TrimbleMaps.PlaceClickControl());
+        this.map.addControl(new TrimbleMaps.WeatherAlertClickControl());
+        this.map.addControl(
+          new TrimbleMaps.WeatherAlertFilterControl(),
+          "top-right"
+        );
         if (typeof this.map.getSource("customFeaturesSource") === "undefined") {
           //Add custom layer sources.
           this.map.addSource("customFeaturesSource", {
             type: "geojson",
-            data: this.customLayers.customFeaturesNA
+            data: this.customLayers.customFeaturesNA,
           });
         }
         this.mapLoad.next(evt.target);
         this.showLoading.next(false);
-      }
+        this.isMapStyleLoaded.next(true);
+      },
     });
 
     this.mapHandlerManager.add({
       eventName: "style.load",
-      listener: (evt: TrimbleMaps.MapEvent) => {
-        this.isMapStyleLoaded.next(true);
-      }
-    });
-
-    this.mapHandlerManager.add({
-      eventName: "truckrestriction",
-      listener: (evt: TrimbleMaps.MapEvent) => {
-        this.map.addControl(new TrimbleMaps.TruckRestrictionClickControl());
-        this.showLoading.next(false);
-      }
+      listener: (evt: TrimbleMaps.TrimbleMapsEvent) => {},
     });
 
     this.mapHandlerManager.add({
       eventName: "trafficincident",
-      listener: (evt: TrimbleMaps.MapEvent) => {
+      listener: (evt: TrimbleMaps.TrimbleMapsEvent) => {
         this.map.addControl(this.trafficIncidentClickCtrl);
         this.map.addControl(this.trafficIncidentFilterCtrl);
-      }
+      },
     });
 
+    this.mapHandlerManager.add({
+      eventName: "weatheralert",
+      listener: () => {
+        this.showLoading.next(false);
+      },
+    });
     this.mapHandlerManager.add({
       eventName: "weatherradar",
       listener: () => {
         this.showLoading.next(false);
-      }
+      },
     });
 
     this.mapHandlerManager.add({
       eventName: "roadsurface",
-      listener: (evt: TrimbleMaps.MapEvent) => {
+      listener: (evt: TrimbleMaps.TrimbleMapsEvent) => {
         this.map.addControl(this.roadSurfaceLegendControl);
-      }
+      },
+    });
+    this.mapHandlerManager.add({
+      eventName: "click",
+      layerId: "pointofinterest",
+      listener: (evt: TrimbleMaps.MapMouseEvent) => {
+        this.clickEvent = evt;
+        const features = this.map.queryRenderedFeatures(evt.point);
+
+        const map_features = features.find(
+          (data): data is TrimbleMaps.MapGeoJSONFeature =>
+            data.sourceLayer === "poi"
+        );
+        if (map_features) {
+          const popupContent = `Name: ${map_features.properties["name"]}<br />
+                  ID: ${map_features.properties["poi"]}<br />
+                    Set: ${map_features.properties["set"]}`;
+          this.setMapLayerPopupContent(popupContent);
+        }
+      },
     });
 
     return this.map;
+  }
+  setMapLayerPopupContent(value: string) {
+    this.clickControl.next(value);
+    const popup = new TrimbleMaps.Popup()
+      .setLngLat(this.clickEvent.lngLat)
+      .setHTML(value)
+      .addTo(this.map);
+  }
+  getMapLayerPopupContent(): string {
+    return this.clickControl.value;
   }
 
   changeRegion(region: MapRegion) {
@@ -206,21 +274,22 @@ export class MapService {
     } else {
       this.map.setStyle(mapStyle);
     }
+
     this.updateStore({ currentStyle: mapStyle });
   }
 
   toggleTrafficVisibility() {
-    this.map.toggleTrafficVisibility();
+    this.trafficLayer?.setVisibility(true);
     this.showLoading.next(false);
   }
   toggleWeatherRadarVisibility() {
-    this.map.toggleWeatherRadarVisibility();
+    this.weatherRadarLayer?.toggleVisibility();
   }
   toggleWeatherAlertVisibility() {
-    this.map.toggleWeatherAlertVisibility();
+    this.weatherAlertLayer?.toggleVisibility();
   }
   toggleRoadSurfaceVisibility() {
-    this.roadSurfaceLayer?.setVisibility(true);
+    this.roadSurfaceLayer?.toggleVisibility();
   }
   togglePlacesVisibility() {
     this.map.togglePlacesVisibility();
@@ -228,7 +297,7 @@ export class MapService {
     this.showLoading.next(false);
   }
   togglePOIVisibility() {
-    this.map.togglePOIVisibility();
+    this.pointsOfInterest.toggleVisibility();
   }
   toggle3dBuildingVisibility(is3dBuildingVisible: boolean) {
     if (
@@ -254,24 +323,26 @@ export class MapService {
     this.updateStore({ mapLocation: mapLocation });
   }
   resetMapLayers() {
+    const license = this.license.getValue();
     this.toastService.clear();
     this.removeRoutes();
     this.popup.remove();
     this.railPopup.remove();
+    this.removeStops();
     this.setPitch(0);
     const mapInfo = mapInfoSelectedRegion(this.storeValue?.region);
-    if (this.map.isTrafficVisible()) {
-      this.toggleTrafficVisibility();
+    if (license.traffic && this.trafficLayer?.isVisible()) {
+      this.trafficLayer?.setVisibility(false);
     }
 
-    if (this.map.isWeatherRadarVisible()) {
+    if (license.weatherRadar && this.weatherRadarLayer?.isVisible()) {
       this.toggleWeatherRadarVisibility();
     }
 
-    if (this.map.isWeatherAlertVisible()) {
+    if (license.weatherAlerts && this.weatherAlertLayer?.isVisible()) {
       this.toggleWeatherAlertVisibility();
     }
-    if (this.roadSurfaceLayer?.isVisible()) {
+    if (license.roadSurface && this.roadSurfaceLayer?.isVisible()) {
       this.roadSurfaceLayer.setVisibility(false);
     }
 
@@ -282,7 +353,7 @@ export class MapService {
       this.togglePlacesVisibility();
     }
 
-    if (this.map.isPOIVisible()) {
+    if (this.pointsOfInterest?.isVisible()) {
       this.togglePOIVisibility();
     }
 
@@ -337,15 +408,18 @@ export class MapService {
       this.map.removeSource("gateSource");
     }
     try {
-      this.trafficIncidentLayer?.setVisibility(false);
-      this.map.removeControl(this.trafficIncidentClickCtrl);
-      this.map.removeControl(this.trafficIncidentFilterCtrl);
+      if (license.traffic) {
+        this.trafficIncidentLayer?.setVisibility(false);
+        this.map.removeControl(this.trafficIncidentClickCtrl);
+        this.map.removeControl(this.trafficIncidentFilterCtrl);
+      }
     } catch {
       /* empty */
     }
-    if (this.truckRestrictionLayer?.isVisible()) {
-      this.map.addControl(new TrimbleMaps.TruckRestrictionClickControl());
-      this.truckRestrictionLayer.toggleVisibility();
+    if (license.truckRestriction && this.truckRestrictionLayer?.isVisible()) {
+      this.map.removeControl(this.truckRestrictionClickCtrl);
+      this.map.removeControl(this.truckRestrictionFilterCtrl);
+      this.truckRestrictionLayer.setVisibility(false);
     }
     try {
       if (this.map.getLayer("railRouteOriginDestination")) {
@@ -375,7 +449,9 @@ export class MapService {
   }
 
   addTruckRestrictionLayer() {
-    this.truckRestrictionLayer.toggleVisibility();
+    this.truckRestrictionLayer.setVisibility(true);
+    this.map.addControl(this.truckRestrictionClickCtrl);
+    this.map.addControl(this.truckRestrictionFilterCtrl);
     this.showLoading.next(false);
   }
 
@@ -401,11 +477,16 @@ export class MapService {
 
   addMapRoute(routeOptions: TrimbleMaps.RouteOptions) {
     this.removeRoutes();
-    this.mapRoute = new TrimbleMaps.Route(routeOptions);
-    this.mapRoute.on("report", (reports: any) => {
-      this.routeReports = reports;
-    });
-    this.mapRoute.addTo(this.map);
+    try {
+      this.mapRoute = new TrimbleMaps.Route(routeOptions);
+      this.mapRoute.on("report", (reports: any) => {
+        this.routeReports = reports;
+      });
+      this.mapRoute.addTo(this.map);
+    } catch (e) {
+      console.log("Error in creating route", e);
+      this.toastService.error("Error in creating route", true);
+    }
   }
 
   removeRoutes() {
@@ -457,8 +538,8 @@ export class MapService {
           TrimbleMaps.Common.ReportType.DIRECTIONS,
           TrimbleMaps.Common.ReportType.DETAIL,
           TrimbleMaps.Common.ReportType.STATE,
-          TrimbleMaps.Common.ReportType.ROAD
-        ]
+          TrimbleMaps.Common.ReportType.ROAD,
+        ],
       };
     } else {
       routeOptions = {
@@ -472,7 +553,7 @@ export class MapService {
         hazMatType: hazmat,
         useSites: sites,
         region: routeRegion,
-        distanceUnits: distanceUnits
+        distanceUnits: distanceUnits,
       };
     }
     this.addMapRoute(routeOptions);
@@ -482,14 +563,14 @@ export class MapService {
     if (typeof this.map.getSource("siteEUPolygon") == "undefined") {
       this.map.addSource("siteEUPolygon", {
         type: "geojson",
-        data: this.customLayers.siteEUPolygon
+        data: this.customLayers.siteEUPolygon,
       });
     }
 
     this.map.addLayer(this.customLayers.siteEULayer);
   }
 
-  addSiteLocation(siteGateGeojson: any) {
+  addSiteLocation(siteGateGeojson: TrimbleMaps.SourceSpecification) {
     if (typeof this.map.getSource("gateSource") == "undefined") {
       this.map.addSource("gateSource", siteGateGeojson);
     }
@@ -503,8 +584,8 @@ export class MapService {
       layout: {
         "icon-image": ["get", "icon"],
         "icon-size": ["get", "icon-size"], //control the icon size
-        "icon-allow-overlap": true //set to true to load all image locations, set to false to cluster images based on zoom level
-      }
+        "icon-allow-overlap": true, //set to true to load all image locations, set to false to cluster images based on zoom level
+      },
     });
   }
 
@@ -527,8 +608,8 @@ export class MapService {
       paint: {
         "line-color": "blue",
         "line-width": 8,
-        "line-opacity": 0.5
-      }
+        "line-opacity": 0.5,
+      },
     });
 
     this.map.addLayer({
@@ -537,8 +618,9 @@ export class MapService {
       source: "railPair",
       layout: {
         "icon-image": ["get", "icon"],
-        "icon-allow-overlap": true //set to true to load all image locations, set to false to cluster images based on zoom level
-      }
+        "icon-size": ["get", "icon-size"],
+        "icon-allow-overlap": true, //set to true to load all image locations, set to false to cluster images based on zoom level
+      },
     });
 
     this.map.flyTo({ center: [-104.892532, 39.111309], zoom: 8 });
@@ -549,6 +631,108 @@ export class MapService {
         '<p style="font-size:.9em"><b>Location</b>: Colorado Springs, CO<br/><b>SPLC</b>: 746670000</p>'
       )
       .addTo(this.map);
+  }
+
+  centerOnMap(coords: TrimbleMaps.LngLatLike) {
+    this.map.setCenter(coords);
+    this.map.setZoom(15);
+  }
+
+  getRegion(): string {
+    return this.storeValue.region;
+  }
+
+  removeMarker() {
+    this.stopMarkers.forEach((stopMarker: TrimbleMaps.Marker) => {
+      stopMarker.remove();
+    });
+  }
+
+  removeStops() {
+    if (this.map.getLayer("stopMarker")) {
+      this.map.removeLayer("stopMarker");
+      this.map.removeLayer("stopMarkerLabel");
+      this.map.removeSource("stopMarker");
+    }
+  }
+
+  addMarker(locations: RouteLocation[]) {
+    this.removeMarker();
+    const marker: Feature[] = [];
+    locations.forEach((location: any, index: number) => {
+      let stopType = "route-stop-number";
+      let name = index.toString();
+      if (index === 0) {
+        stopType = "origin";
+        name = "";
+      } else if (index === locations.length - 1) {
+        stopType = "destination";
+        name = "";
+      }
+
+      marker.push(
+        turf.feature(
+          {
+            type: "Point",
+            coordinates: [location.coord.lng, location.coord.lat],
+          },
+          { stopType: stopType, name: name }
+        )
+      );
+    });
+    const geojson: turf.helpers.FeatureCollection<any, turf.Properties> =
+      turf.featureCollection(marker);
+
+    if (typeof this.map.getSource("stopMarker") === "undefined") {
+      this.addStopMarkerSource(GJFeatureCollection(geojson));
+    } else {
+      (this.map.getSource("stopMarker") as TrimbleMaps.GeoJSONSource).setData(
+        geojson
+      );
+    }
+  }
+
+  addSource(id: string, data: any) {
+    this.map.addSource(id, data);
+  }
+
+  addLayer(data: any, beforeId?: string) {
+    this.map.addLayer(data, beforeId);
+  }
+
+  addStopMarkerSource(data: any) {
+    this.addSource("stopMarker", data);
+
+    // Use filter to show clustered points
+    this.addLayer({
+      id: "stopMarker",
+      type: "circle",
+      source: "stopMarker",
+      paint: {
+        "circle-radius": 8,
+        "circle-color": "#FFF",
+        "circle-stroke-color": [
+          "match",
+          ["get", "stopType"],
+          "origin",
+          "#00a65a",
+          "destination",
+          "#dd4b39",
+          "#7bd0f7",
+        ],
+        "circle-stroke-width": 5,
+      },
+    });
+    this.addLayer({
+      id: "stopMarkerLabel",
+      type: "symbol",
+      source: "stopMarker",
+      layout: {
+        "text-field": ["get", "name"],
+        "text-anchor": "center",
+        "text-size": 12,
+      },
+    });
   }
 
   removeAllEvent() {

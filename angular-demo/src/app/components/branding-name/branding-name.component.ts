@@ -24,11 +24,11 @@ import { Router } from "@angular/router";
       .set-cursor {
         cursor: pointer;
       }
-    `,
-  ],
+    `
+  ]
 })
 export class BrandingNameComponent implements OnInit {
-  @HostBinding("class") class = "mr-auto";
+  @HostBinding("class") class = "me-auto";
   @Input() appName?: string;
   @Input() logoPath?: string;
   @Input() logoAlt?: string;

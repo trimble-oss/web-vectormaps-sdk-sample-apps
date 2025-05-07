@@ -5,7 +5,7 @@ import Map from "./components/Map/Map.jsx";
 import React, { useState, useEffect } from "react";
 import { MapContext } from "./context/mapContext.js";
 import TrimbleMaps from "@trimblemaps/trimblemaps-js";
-import MapService from "./services/mapService.js";
+import MapService from "./services/MapService.js";
 import GetAPIKeyModal from "./components/sharedComponents/GetAPIKeyModal.jsx";
 import LoadingModal from "./components/sharedComponents/LoadingModal.jsx";
 import ToastMessage from "./components/sharedComponents/toastMessage.jsx";
@@ -28,7 +28,9 @@ function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const mapService = new MapService();
+  // Persisting mapService across renders
+  const [mapService] = useState(() => new MapService());
+
   if (map) {
     map.on("style.load", () => {
       setMapStyleLoaded(true);
@@ -46,7 +48,7 @@ function Layout() {
 
   return (
     <>
-      <div className="modus-layout">
+      <div className="modus-layout d-flex flex-column margin-0 h-100 overflow-hidden">
         <Header setSidebarOpen={setSidebarOpen}></Header>
         <div
           className={
@@ -54,15 +56,13 @@ function Layout() {
             (isSidebaropen ? "sidebar-open" : "sidebar-closed")
           }
           data-modus-item="body"
-          id="modusBody"
-        >
+          id="modusBody">
           <SideBar
             mapService={mapService}
             region={region}
             map={map}
             licensedFeature={licensedFeature}
-            setShowToast={setShowToast}
-          ></SideBar>
+            setShowToast={setShowToast}></SideBar>
 
           <div className="modus-content-rows overflow-hidden">
             <div className="modus-content-columns container-body">
@@ -88,6 +88,7 @@ function Layout() {
                     map={map}
                     mapService={mapService}
                     apiKey={apiKey}
+                    licensedFeature={licensedFeature}
                   />
                 </div>
               </div>
@@ -100,19 +101,16 @@ function Layout() {
         showModal={showModal}
         apiKey={apiKey}
         setApiKey={setApiKey}
-        setLicensedFeature={setLicensedFeature}
-      ></GetAPIKeyModal>
+        setLicensedFeature={setLicensedFeature}></GetAPIKeyModal>
       <LoadingModal
         show={show}
         setShow={setShow}
-        loadingText={"Loading..."}
-      ></LoadingModal>
+        loadingText={"Loading..."}></LoadingModal>
 
       <ToastMessage
         showToast={showToast}
         setShowToast={setShowToast}
-        message={message}
-      ></ToastMessage>
+        message={message}></ToastMessage>
     </>
   );
 }

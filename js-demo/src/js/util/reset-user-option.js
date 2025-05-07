@@ -25,7 +25,7 @@ function resetUserOptions(mapService, license) {
   document.getElementById("locationList").setAttribute("hidden", null);
   document.getElementById("locationSelectionDiv").setAttribute("hidden", null);
   document.getElementById("routeLocationInput").value = "";
-  document.getElementById("locationListParagraph").innerHTML = null;
+  document.getElementById("locationListTable").innerHTML = null;
 
   modifyRouteType(mapService.regionName, license); //Needed because if you navigate away with auto selected, it'll remove the options forever.
 

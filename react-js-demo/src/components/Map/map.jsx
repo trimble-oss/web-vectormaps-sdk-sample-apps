@@ -6,9 +6,9 @@ import TrimbleMaps from "@trimblemaps/trimblemaps-js";
 function Map(props) {
   const mapInfo = mapInfoSelectedRegion(TrimbleMaps.Common.Region.NA);
   const mapContainer = useRef(null);
-  const { setMap, mapService, apiKey } = props;
+  const { setMap, mapService, apiKey, licensedFeature } = props;
   useEffect(() => {
-    if (apiKey) {
+    if (apiKey && licensedFeature) {
       const mapInstance = mapService.initMap(
         {
           container: mapContainer.current,
@@ -18,11 +18,12 @@ function Map(props) {
           hash: false,
           region: mapInfo.region,
         },
-        apiKey
+        apiKey,
+        licensedFeature
       );
       setMap(mapInstance);
     }
-  }, [apiKey]);
+  }, [apiKey, licensedFeature]);
 
   return <div className="map h-100" id="map" ref={mapContainer}></div>;
 }

@@ -71,9 +71,10 @@ function Routing() {
     } else {
       tolls = TrimbleMaps.Common.TollRoadsType.USE;
     }
+    const stops = routeLocations.map((location) => location.coord);
     mapService.createRoute(
       map,
-      routeLocations,
+      stops,
       routeFormData.routeType,
       routeFormData.vehicleType,
       routeFormData.routingHighwayOnly,
@@ -97,6 +98,7 @@ function Routing() {
       setDisabledRouteBtn(false);
     } else {
       setDisabledRouteBtn(true);
+      setShowReportsBtn(false);
     }
   };
   const onChangeEvent = (input, e) => {
@@ -133,14 +135,16 @@ function Routing() {
           routeLocations={routeLocations}
           setRouteLocation={setRouteLocationValue}
         />
-        <div className="panel-header bg-transparent border-bottom align-items-center mt-5">
+        <div className="panel-header bg-transparent border-bottom align-items-center">
           <h5 className="px-2 text-center">Route Settings</h5>
         </div>
         <div className="panel-body flex-fill p-2 overflow-auto">
           <form>
             <div className=" ">
-              <div className="form-group">
-                <label htmlFor="vehicleType">
+              <div className="mb-3">
+                <label
+                  htmlFor="vehicleType"
+                  className="col-form-label fw-normal">
                   <b>Vehicle Type</b>
                 </label>
                 {licensedFeature.vehicleDimension ? (
@@ -154,27 +158,24 @@ function Routing() {
                     </p>
                     <AutoDescription
                       region={region}
-                      vehicleType={routeFormData.vehicleType}
-                    ></AutoDescription>
+                      vehicleType={routeFormData.vehicleType}></AutoDescription>
                   </div>
                 ) : null}
                 <Form.Group controlId="vehicleType">
                   <Form.Control
                     as="select"
-                    className="custom-select form-control"
+                    className="form-select"
                     value={routeFormData.vehicleType}
                     {...register("vehicleType")}
                     // eslint-disable-next-line no-unused-vars
                     onChange={(e, _input, callback) =>
                       onVehicleTypeChange(e, "select", onChangeEvent)
-                    }
-                  >
+                    }>
                     {vehicleTypes.map((vehicle) => (
                       <option
                         key={vehicle.value}
                         value={vehicle.value}
-                        disabled={vehicle.requireLicense}
-                      >
+                        disabled={vehicle.requireLicense}>
                         {vehicle.requireLicense
                           ? vehicle.displayName + " (Unlicensed Feature)"
                           : vehicle.displayName}
@@ -196,11 +197,10 @@ function Routing() {
                 </p>
                 <Form.Control
                   as="select"
-                  className="custom-select form-control"
+                  className="form-select"
                   value={routeFormData.routeType}
                   {...register("routeType")}
-                  onChange={(e) => onChangeEvent("select", e)}
-                >
+                  onChange={(e) => onChangeEvent("select", e)}>
                   {routeTypeOptions.map((route) => (
                     <option key={route.value} value={route.value}>
                       {route.displayName}
@@ -239,13 +239,11 @@ function Routing() {
                       ? "p-font-size d-inline disabled"
                       : "p-font-size d-inline"
                   }
-                  disabled={!licensedFeature.tolls}
-                >
+                  disabled={!licensedFeature.tolls}>
                   Allow use of tolls plazas or avoid if possible.
                 </p>
                 <CustomTooltip
-                  showToolTip={!licensedFeature.tolls}
-                ></CustomTooltip>
+                  showToolTip={!licensedFeature.tolls}></CustomTooltip>
               </Form.Group>
 
               <Form.Group controlId="bordersOpen">
@@ -264,21 +262,18 @@ function Routing() {
               <Form.Group controlId="hazMat">
                 <Form.Label>Hazardous Materials</Form.Label>
                 <CustomTooltip
-                  showToolTip={!licensedFeature.hazmat}
-                ></CustomTooltip>
+                  showToolTip={!licensedFeature.hazmat}></CustomTooltip>
                 <Form.Control
                   as="select"
-                  className="custom-select form-control"
+                  className="form-select"
                   value={routeFormData.hazMat}
                   {...register("hazMat")}
                   onChange={(e) => onChangeEvent("select", e)}
-                  disabled={!licensedFeature.hazmat}
-                >
+                  disabled={!licensedFeature.hazmat}>
                   {hazardousTypes.map((hazardousType) => (
                     <option
                       key={hazardousType.value}
-                      value={hazardousType.value}
-                    >
+                      value={hazardousType.value}>
                       {hazardousType.displayName}
                     </option>
                   ))}
@@ -289,14 +284,13 @@ function Routing() {
               </Form.Group>
             </div>
 
-            <div className="float-right">
+            <div className="float-end">
               <Button
                 type="button"
                 className="btn btn-primary"
                 id="routeBtn"
                 onClick={addRouteLayer}
-                disabled={disabledRouteBtn}
-              >
+                disabled={disabledRouteBtn}>
                 Route
               </Button>
               {showReportsBtn ? (

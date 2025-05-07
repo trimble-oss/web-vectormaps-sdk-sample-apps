@@ -19,13 +19,13 @@ function SelectRegion() {
         {
           displayName: "North America",
           value: TrimbleMaps.Common.Region.NA,
-          requireLicense: false,
+          requireLicense: false
         },
         {
           displayName: "Europe",
           value: TrimbleMaps.Common.Region.EU,
-          requireLicense: true,
-        },
+          requireLicense: true
+        }
       ]);
     }
   }, [licensedFeature]);
@@ -46,25 +46,25 @@ function SelectRegion() {
         </div>
         <div className="panel-body flex-fill">
           <div className="static-container d-flex align-items-center justify-content-start">
-            <div className="form-group">
+            <div className="mb-3">
               <ul>
                 <li>
                   Ability to change which region of the map is selected to
                   display detailed location, highway and street information.
                 </li>
               </ul>
-              <label htmlFor="mapStyle">Region Selector</label>
+              <label htmlFor="mapStyle" className="col-form-label fw-normal">
+                Region Selector
+              </label>
               <select
                 onChange={selectRegion}
                 value={selectedRegion}
-                className="form-control"
-              >
+                className="form-select">
                 {regionOptions.map((item) => (
                   <option
                     key={item.value}
                     value={item.value}
-                    disabled={item.requireLicense}
-                  >
+                    disabled={item.requireLicense}>
                     {item.requireLicense
                       ? item.displayName + " (Unlicensed Feature)"
                       : item.displayName}
