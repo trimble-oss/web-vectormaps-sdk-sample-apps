@@ -65,7 +65,7 @@ function RailRouting() {
                   <a
                     href="https://developer.trimblemaps.com/restful-apis/freight-rail/overview/"
                     target="_blank"
-                    rel="noreferrer">
+                    rel="noopener">
                     Documentation
                   </a>
                   ) to gather the route path between rail stations.

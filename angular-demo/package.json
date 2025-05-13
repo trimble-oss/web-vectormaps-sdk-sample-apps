@@ -21,10 +21,10 @@
     "@angular/platform-browser-dynamic": "^17.3.12",
     "@angular/router": "^17.3.12",
     "@mapbox/polyline": "^1.1.1",
-    "@trimble-oss/modus-bootstrap": "^2.0.8",
+    "@trimble-oss/modus-bootstrap": "^2.0.10",
     "@trimblemaps/trimblemaps-js": "4.2.2",
-    "@trimblemaps/trimblemaps-mapmenus": "^1.1.0",
-    "@trimblemaps/trimblemaps-singlesearch": "^1.1.6",
+    "@trimblemaps/trimblemaps-mapmenus": "^2.2.0",
+    "@trimblemaps/trimblemaps-singlesearch": "^2.1.0",
     "@turf/turf": "^6.5.0",
     "esbuild": "0.25.x",
     "gulp": "^5.0.0",
@@ -64,7 +64,7 @@
     "node": ">=18"
   },
   "volta": {
-    "node": "18.20.6"
+    "node": "18.20.8"
   },
   "overrides": {
     "esbuild": "0.25.x",

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Trimble Maps SDK Demo</title>
   <link rel="stylesheet" href="https://maps-sdk.trimblemaps.com/v4/trimblemaps-4.2.2.css" />
-  <link rel="stylesheet" href="https://maps-sdk.trimblemaps.com/addon/trimblemaps-customplaces-1.0.8.css" />
+  <link rel="stylesheet" href="https://maps-sdk.trimblemaps.com/addon/trimblemaps-customplaces-2.1.0.css" />
   <!--MODUS-->
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@trimble-oss/modus-icons@1.16.0/dist/transportation/fonts/modus-icons.css" />
@@ -551,7 +551,7 @@
             <li>
               Utilizes the rail routing APIs (<a
                 href="https://developer.trimblemaps.com/restful-apis/freight-rail/overview/"
-                target="_blank">Documentation</a>) to gather the route path between rail stations.
+                target="_blank" rel="noopener">Documentation</a>) to gather the route path between rail stations.
             </li>
             <li>
               Rail route line applied a custom layer geojson that mimics the
@@ -584,13 +584,13 @@
         <div class="modal-body">
           <label for="keyInput" class="col-form-label fw-normal"><span>Trimble Maps SDK API Key</span><span
               class="required">*</span></label>
-          <input class="form-control" id="keyInput" placeholder="API Key" type="password" required />
+          <input class="form-control" id="keyInput" placeholder="API Key" maxlength="32" minlength="32" type="password" required />
           <div class="fst-italic mt-1">To gain access you must have an API key. Please contact your Trimble Maps
             representative
             or
             our <a
-              href="https://maps.trimble.com/contact/?__hstc=96702592.ae05bfc125d9b021a91edcf363c8d2af.1693469758784.1745487794236.1745493812976.1112&__hssc=96702592.14.1745493812976&__hsfp=907255077"
-              target="_blank">Sales team</a> for more information.</div>
+              href="https://maps.trimble.com/contact/"
+              target="_blank" rel="noopener">Sales team</a> for more information.</div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary" id="getApikey" data-bs-dismiss="modal">

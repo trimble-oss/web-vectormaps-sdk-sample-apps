@@ -13,8 +13,8 @@
     "@trimble-oss/modus-icons": "1.16.0",
     "@trimble-oss/modus-react-components": "^0.31.1-react18",
     "@trimblemaps/trimblemaps-js": "4.2.2",
-    "@trimblemaps/trimblemaps-mapmenus": "^1.1.0",
-    "bootstrap": "~5.3.3",
+    "@trimblemaps/trimblemaps-mapmenus": "^2.2.0",
+    "bootstrap": "^5.3.6",
     "jquery": "~3.7.1",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
@@ -44,7 +44,7 @@
     "node": ">=16"
   },
   "volta": {
-    "node": "18.20.6"
+    "node": "18.20.8"
   },
   "overrides": {
     "esbuild": "0.25.x"
