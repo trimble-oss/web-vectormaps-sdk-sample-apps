@@ -42,6 +42,8 @@ function GetAPIKeyModal(props) {
           defaultValue={apiKey}
           className="form-control"
           id="keyInput"
+          maxlength="32"
+          minlength="32"
           placeholder="API Key"
           type="password"
           required
@@ -50,9 +52,9 @@ function GetAPIKeyModal(props) {
           To gain access you must have an API key. Please contact your Trimble
           Maps representative or our{" "}
           <a
-            href="https://maps.trimble.com/contact/?__hstc=96702592.ae05bfc125d9b021a91edcf363c8d2af.1693469758784.1745487794236.1745493812976.1112&__hssc=96702592.14.1745493812976&__hsfp=907255077"
+            href="https://maps.trimble.com/contact/"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener">
             Sales team
           </a>{" "}
           for more information.

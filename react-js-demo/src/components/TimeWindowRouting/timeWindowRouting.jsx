@@ -29,7 +29,7 @@ function TimeWindowRouting() {
   titleText = "Route Optimization";
   optimize_btn_txt = "Optimize";
   displayText =
-    '<li> Ability to feed in locations with time windows for optimization, will provide the best route path that accomidates as many time windows as possible, while returning locations that do not fit based on their time window information.</li><li>Utilizes the Time Window Routing API (<a href="https://developer.trimblemaps.com/restful-apis/routing/time-window-routing/" target="_blank">Documentation</a>).</li><li>Sample locations optimized assuming 40 minute dwell times at each location.</li>';
+    '<li> Ability to feed in locations with time windows for optimization, will provide the best route path that accommodates as many time windows as possible, while returning locations that do not fit based on their time window information.</li><li>Utilizes the Time Window Routing API (<a href="https://developer.trimblemaps.com/restful-apis/routing/time-window-routing/" target="_blank" rel="noopener">Documentation</a>).</li><li>Sample locations optimized assuming 40 minute dwell times at each location.</li>';
 
   useEffect(() => {
     if (twRes) {
