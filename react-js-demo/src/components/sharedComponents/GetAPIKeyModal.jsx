@@ -1,23 +1,25 @@
 import React, { useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import useToken from "../../hooks/useToken";
 import * as _ from "lodash";
+import { constants } from "../../Utils/constants";
 
 function GetAPIKeyModal(props) {
   const { showModal, setShowModal, apiKey, setApiKey, setLicensedFeature } =
     props;
-  let jwtToken;
-  jwtToken = useToken(apiKey);
+
+  let { jwtToken, error } = useToken(apiKey);
   useEffect(() => {
     if (!_.isEmpty(jwtToken)) {
       setLicensedFeature(jwtToken);
+      setShowModal(false);
     }
-  }, [jwtToken]);
+  }, [jwtToken, error]);
 
   const submit = () => {
     setApiKey(inputRef.current.value);
-    setShowModal(false);
   };
   const inputRef = useRef();
   return (
@@ -33,6 +35,11 @@ function GetAPIKeyModal(props) {
         <Modal.Title id="getAPIKey">Authentication</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {error ? (
+          <Alert key="danger" variant="danger">
+            {constants.API_ERROR_MSG}
+          </Alert>
+        ) : null}
         <label htmlFor="keyInput" className="col-form-label fw-normal">
           <span>Trimble Maps SDK API Key</span>
           <span className="required">*</span>
@@ -42,8 +49,8 @@ function GetAPIKeyModal(props) {
           defaultValue={apiKey}
           className="form-control"
           id="keyInput"
-          maxlength="32"
-          minlength="32"
+          maxLength="32"
+          minLength="32"
           placeholder="API Key"
           type="password"
           required
@@ -54,7 +61,7 @@ function GetAPIKeyModal(props) {
           <a
             href="https://maps.trimble.com/contact/"
             target="_blank"
-            rel="noopener">
+            rel="noopener noreferrer">
             Sales team
           </a>{" "}
           for more information.

@@ -69,6 +69,7 @@
   "overrides": {
     "esbuild": "0.25.x",
     "undici": "6.21.1",
-    "vite": "5.4.15"
+    "http-proxy-middleware": "^2.0.9",
+    "vite": "^5.4.19"
   }
 }

@@ -43,6 +43,7 @@ class MapService extends PureComponent {
   initMap(options, apiKey, licensedFeatures) {
     this.license = licensedFeatures;
     TrimbleMaps.setAPIKey(apiKey);
+    TrimbleMaps.setUnit(TrimbleMaps.Common.Unit.ENGLISH);
     this.map = new TrimbleMaps.Map(options);
     this.map.on("load", () => {
       if (this.license.traffic) {
@@ -131,6 +132,7 @@ class MapService extends PureComponent {
     map.setRegion(region);
     map.setZoom(mapInfo.zoom);
     map.setCenter(mapInfo.center);
+    TrimbleMaps.setUnit(mapInfo.unit);
   }
 
   changeStyle(map, mapStyle, satelliteProvider) {

@@ -9,4 +9,6 @@ export const constants = {
   SATELLITE_VIEW_WARNING: "3D buildings are unavailable in Satellite view ",
   UNLICENSED_MSG:
     "Unlicensed feature, Please contact your Account Manager or Support",
+  API_ERROR_MSG:
+    "Invalid API Key, Please contact your Account Manager or Support",
 };

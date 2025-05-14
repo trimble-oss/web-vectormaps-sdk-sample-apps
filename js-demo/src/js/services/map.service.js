@@ -32,6 +32,7 @@ class MapService {
   myRoute;
   routeReports;
   minzoom = 9;
+  scale;
   init(licensedFeatures) {
     //Load the JSONs for custom content and the EU site perimeter
     loadJsons().then((sample) => {
@@ -54,7 +55,7 @@ class MapService {
       center: [-97, 38],
       zoom: 4,
     });
-
+    TrimbleMaps.setUnit(TrimbleMaps.Common.Unit.ENGLISH); // Set the default unit to imperial
     //Set due to page refreshing not defaulting the value back to North America, might be a bandaid for now.
     document.getElementById("mapRegionSelector").value = "North America";
     document.getElementById("mapStyle").value = "Transportation";

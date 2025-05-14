@@ -550,8 +550,8 @@
           <ul>
             <li>
               Utilizes the rail routing APIs (<a
-                href="https://developer.trimblemaps.com/restful-apis/freight-rail/overview/"
-                target="_blank" rel="noopener">Documentation</a>) to gather the route path between rail stations.
+                href="https://developer.trimblemaps.com/restful-apis/freight-rail/overview/" target="_blank"
+                rel="noopener">Documentation</a>) to gather the route path between rail stations.
             </li>
             <li>
               Rail route line applied a custom layer geojson that mimics the
@@ -582,18 +582,23 @@
           <h5 class="modal-title" id="authModaltitle">Authentication</h5>
         </div>
         <div class="modal-body">
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" id="apiKeyError"
+            style="display: none">
+
+
+          </div>
           <label for="keyInput" class="col-form-label fw-normal"><span>Trimble Maps SDK API Key</span><span
               class="required">*</span></label>
-          <input class="form-control" id="keyInput" placeholder="API Key" maxlength="32" minlength="32" type="password" required />
+          <input class="form-control" id="keyInput" placeholder="API Key" maxlength="32" minlength="32" type="password"
+            required />
           <div class="fst-italic mt-1">To gain access you must have an API key. Please contact your Trimble Maps
             representative
             or
-            our <a
-              href="https://maps.trimble.com/contact/"
-              target="_blank" rel="noopener">Sales team</a> for more information.</div>
+            our <a href="https://maps.trimble.com/contact/" target="_blank" rel="noopener">Sales team</a> for more
+            information.</div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" id="getApikey" data-bs-dismiss="modal">
+          <button type="submit" class="btn btn-primary" id="getApikey">
             Submit
           </button>
         </div>
@@ -780,6 +785,13 @@
   </div>
 
   <div role="alert" aria-live="assertive" aria-atomic="true" class="toast toast-warning me-2" id="building_3d_toast">
+    <div class="toast-header" data-bs-theme="dark">
+      <strong class="me-auto message mb-0"> </strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+  <div role="alert" aria-live="assertive" aria-atomic="true" class="toast toast-danger me-2" id="error_toast"
+    data-bs-delay="3000">
     <div class="toast-header" data-bs-theme="dark">
       <strong class="me-auto message mb-0"> </strong>
       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>

@@ -11,6 +11,7 @@ import SearchInput from "./SearchInput";
 import ShowReports from "./Reports";
 import AutoDescription from "./autoDescription";
 import CustomTooltip from "../ToolTip/CustomToolTip";
+import LoadingModal from "../sharedComponents/LoadingModal";
 
 function Routing() {
   const { register } = useForm({
@@ -18,7 +19,7 @@ function Routing() {
   });
   // eslint-disable-next-line no-unused-vars
   const [routeLocations, setRouteLocation] = useState([]);
-  const { licensedFeature } = useOutletContext();
+  const { licensedFeature, setShowToast, setMessage } = useOutletContext();
   const { map, mapService } = useMapContext();
   const [showReportsBtn, setShowReportsBtn] = useState(false);
   const [disabledRouteBtn, setDisabledRouteBtn] = useState(true);
@@ -36,6 +37,7 @@ function Routing() {
     hazMat: TrimbleMaps.Common.HazMatType.NONE,
   });
   const [routeTypeOptions, setRouteTypeOptions] = useState(routeTypes);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (!licensedFeature.truckRouting) {
@@ -64,6 +66,7 @@ function Routing() {
   }, [licensedFeature]);
 
   const addRouteLayer = () => {
+    setShow(true);
     mapService.removeRoutes();
     let tolls;
     if (routeFormData.avoidTolls) {
@@ -90,6 +93,17 @@ function Routing() {
       setReports(reports);
       setMapRoute(mapService.mapRoute);
       setShowReportsBtn(true);
+    });
+    mapService.mapRoute.on("route", () => {
+      setShow(false);
+    });
+    mapService.mapRoute.on("error", () => {
+      setShow(false);
+      setShowToast(true);
+      setMessage({
+        type: "error",
+        text: "Error in creating route",
+      });
     });
   };
 
@@ -134,6 +148,7 @@ function Routing() {
         <SearchInput
           routeLocations={routeLocations}
           setRouteLocation={setRouteLocationValue}
+          setShowToast={setShowToast}
         />
         <div className="panel-header bg-transparent border-bottom align-items-center">
           <h5 className="px-2 text-center">Route Settings</h5>
@@ -303,6 +318,10 @@ function Routing() {
           </form>
         </div>
       </div>
+      <LoadingModal
+        setShow={setShow}
+        show={show}
+        loadingText={"Loading..."}></LoadingModal>
     </div>
   );
 }

@@ -37,8 +37,8 @@ export class ModalService {
 
     modal.content?.apiKey$.subscribe((key) => {
       this.mapService.apiKey.next(key);
-      this.modalService.hide(modal.id);
     });
+    return modal;
   }
 
   showReports(routeReports: any, dataVersion: MapRegion) {
@@ -50,5 +50,8 @@ export class ModalService {
         region: dataVersion,
       },
     });
+  }
+  hideAPIKeyModal(id: number) {
+    this.modalService.hide(id);
   }
 }

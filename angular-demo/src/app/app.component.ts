@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   timeWindowOptimizationLicense = false;
   license!: LicenseFeature;
   unlicensed_msg = constants.UNLICENSED_MSG;
+  apiModal: any;
   constructor(
     private mapService: MapService,
     private modalService: ModalService,
@@ -34,12 +35,19 @@ export class AppComponent implements OnInit {
     this.isNA = this.mapService.currentRegion$.pipe(
       map((region) => region === TrimbleMaps.Common.Region.NA)
     );
-    this.modalService.openAPIKeyModal();
+    this.apiModal = this.modalService.openAPIKeyModal();
     this.sm.add(
       this.mapService.apiKey$.subscribe((key) => {
         if (key) {
-          this.tokenService.getJwtToken(key).subscribe((token: any) => {
-            this.checkLicense(token);
+          this.tokenService.getJwtToken(key).subscribe({
+            next: (token: any) => {
+              this.checkLicense(token);
+              this.modalService.hideAPIKeyModal(this.apiModal.id);
+            },
+            error: (err) => {
+              console.error("Error fetching token:", err);
+              this.mapService.apiKeyError.next(true);
+            },
           });
         }
       })
