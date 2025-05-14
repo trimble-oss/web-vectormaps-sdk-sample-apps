@@ -2,16 +2,25 @@ function addEventListenerToDiv(mapService, tokenService) {
   var routing = new Routing(mapService);
   var license;
   $("#authModal").on("click", "#getApikey", function () {
-    tokenService.getToken().then((res) => {
-      license = res;
-      mapService.init(license);
-      $(".tooltip-unlicensed").attr("title", constants.UNLICENSED_MSG);
-      $(".tooltip-unlicensed").tooltip({
-        placement: "top",
-        trigger: "hover",
-        delay: { show: 500, hide: 100 }, // Delay in ms
-      });
-    });
+    tokenService.getToken().then(
+      (res) => {
+        $("#authModal").modal("hide");
+        license = res;
+        mapService.init(license);
+        $(".tooltip-unlicensed").attr("title", constants.UNLICENSED_MSG);
+        $(".tooltip-unlicensed").tooltip({
+          placement: "top",
+          trigger: "hover",
+          delay: { show: 500, hide: 100 }, // Delay in ms
+        });
+      },
+      (err) => {
+        console.log("Error getting token:", err);
+        document.getElementById("apiKeyError").innerHTML =
+          constants.API_ERROR_MSG;
+        document.getElementById("apiKeyError").style.display = "block";
+      }
+    );
   });
 
   $("#mapStyle").on("change", function () {

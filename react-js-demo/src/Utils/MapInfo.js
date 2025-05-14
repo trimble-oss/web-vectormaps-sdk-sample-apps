@@ -23,6 +23,7 @@ export function mapInfoSelectedRegion(region) {
         center: [-97, 38],
         zoom: 4,
         region: TrimbleMaps.Common.Region.NA,
+        unit: TrimbleMaps.Common.Unit.ENGLISH,
         customDataSource: {
           sourceName: "customFeaturesSource",
           geoJson: {
@@ -36,6 +37,7 @@ export function mapInfoSelectedRegion(region) {
         center: [15, 50],
         zoom: 4,
         region: TrimbleMaps.Common.Region.EU,
+        unit: TrimbleMaps.Common.Unit.METRIC,
         customDataSource: {
           sourceName: "customFeaturesSourceEU",
           geoJson: {
@@ -49,6 +51,7 @@ export function mapInfoSelectedRegion(region) {
         center: [-97, 38],
         zoom: 4,
         region: TrimbleMaps.Common.Region.NA,
+        unit: TrimbleMaps.Common.Unit.ENGLISH,
         customDataSource: {
           sourceName: "customFeaturesSource",
           geoJson: {

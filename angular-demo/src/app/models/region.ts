@@ -23,6 +23,7 @@ export interface Locate {
   pitch?: number;
   region?: MapRegion;
   customDataSource?: any;
+  scaleControl?: number;
 }
 
 export function mapInfoSelectedRegion(region: string): Locate {
@@ -33,6 +34,7 @@ export function mapInfoSelectedRegion(region: string): Locate {
         center: [-97, 38],
         zoom: 4,
         region: TrimbleMaps.Common.Region.NA,
+        scaleControl: TrimbleMaps.Common.Unit.ENGLISH,
         customDataSource: {
           sourceName: "customFeaturesSource",
           geoJson: {
@@ -46,6 +48,7 @@ export function mapInfoSelectedRegion(region: string): Locate {
         center: [15, 50],
         zoom: 4,
         region: TrimbleMaps.Common.Region.EU,
+        scaleControl: TrimbleMaps.Common.Unit.METRIC,
         customDataSource: {
           sourceName: "customFeaturesSourceEU",
           geoJson: {
@@ -59,6 +62,7 @@ export function mapInfoSelectedRegion(region: string): Locate {
         center: [-97, 38],
         zoom: 4,
         region: TrimbleMaps.Common.Region.NA,
+        scaleControl: TrimbleMaps.Common.Unit.ENGLISH,
         customDataSource: {
           sourceName: "customFeaturesSource",
           geoJson: {

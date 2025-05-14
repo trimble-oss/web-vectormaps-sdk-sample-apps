@@ -38,6 +38,7 @@ const INITIAL_STATE: MapStore = {
   providedIn: "root",
 })
 export class MapService {
+  scale!: TrimbleMaps.ScaleControl;
   constructor(private toastService: ToastService) {}
   map!: TrimbleMaps.Map;
   private store: BehaviorSubject<MapStore> = new BehaviorSubject<MapStore>({
@@ -84,6 +85,15 @@ export class MapService {
   apiKey = new BehaviorSubject<string>("");
   readonly apiKey$ = this.apiKey.asObservable();
 
+  apiKeyError = new BehaviorSubject<boolean>(false);
+  readonly apiKeyError$ = this.apiKeyError.asObservable();
+
+  mapRouteComplete = new BehaviorSubject<boolean>(false);
+  readonly mapRouteComplete$ = this.mapRouteComplete.asObservable();
+
+  mapRouteError = new BehaviorSubject<boolean>(false);
+  readonly mapRouteError$ = this.mapRouteError.asObservable();
+
   // Observables for managed state
   readonly currentStyle$: Observable<MapStyle> = this.store$.pipe(
     map((s) => s.currentStyle as string),
@@ -117,6 +127,7 @@ export class MapService {
   initMap(options: TrimbleMaps.MapOptions, apiKey: string): TrimbleMaps.Map {
     // this.isLoading.next(true);
     TrimbleMaps.setAPIKey(apiKey);
+    TrimbleMaps.setUnit(TrimbleMaps.Common.Unit.ENGLISH);
     this.customLayers = loadJsons();
     if (options.style) {
       this.updateStore({
@@ -260,6 +271,7 @@ export class MapService {
     this.map.setRegion(region);
     this.map.setZoom(mapInfo.zoom);
     this.map.setCenter(mapInfo.center);
+    TrimbleMaps.setUnit(mapInfo.scaleControl ?? 1);
     this.updateStore({ region: region });
     this.mapHandlerManager.removeAll();
   }
@@ -482,6 +494,16 @@ export class MapService {
       this.mapRoute.on("report", (reports: any) => {
         this.routeReports = reports;
       });
+      this.mapRoute.on("error", (error: any) => {
+        this.mapRouteError.next(true);
+        this.toastService.error("Error in creating route", true);
+      });
+      this.mapRoute.on("routeloading", () => {
+        this.mapRouteComplete.next(false);
+      });
+      this.mapRoute.on("route", () => {
+        this.mapRouteComplete.next(true);
+      });
       this.mapRoute.addTo(this.map);
     } catch (e) {
       console.log("Error in creating route", e);
@@ -654,6 +676,7 @@ export class MapService {
       this.map.removeLayer("stopMarkerLabel");
       this.map.removeSource("stopMarker");
     }
+    this.toastService.clear();
   }
 
   addMarker(locations: RouteLocation[]) {

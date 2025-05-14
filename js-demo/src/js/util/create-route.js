@@ -20,6 +20,7 @@ function createRoute(
     hwyOnly = false;
   }
   try {
+    $("#loadingModal").modal("show");
     mapService.myRoute = new TrimbleMaps.Route({
       stops: routeStops,
       routeColor: "blue",
@@ -68,6 +69,19 @@ function createRoute(
       $("#reportsBtn").prop("disabled", true);
     }
   });
-
+  mapService.myRoute.on("error", function (error) {
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(error_toast);
+    $("#error_toast .message").text("Error in creating route");
+    toastBootstrap.show();
+    $("#loadingModal").modal("hide");
+  });
+  mapService.myRoute.on("routeloading", () => {
+    console.log("Route loading");
+    $("#loadingModal").modal("show");
+  });
+  mapService.myRoute.on("route", () => {
+    console.log("Route loading complete");
+    $("#loadingModal").modal("hide");
+  });
   mapService.myRoute.addTo(mapService.map);
 }

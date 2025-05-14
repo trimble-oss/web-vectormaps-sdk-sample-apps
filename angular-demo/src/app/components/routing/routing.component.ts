@@ -174,6 +174,20 @@ export class RoutingComponent implements OnInit, OnDestroy {
         this.vehicleTypes = vehicleType;
       })
     );
+    this.sm.add(
+      this.mapService.mapRouteComplete$.subscribe((complete) => {
+        if (complete) {
+          this.modalService.hideLoading();
+          this.showReportsBtn = true;
+        }
+      }),
+      this.mapService.mapRouteError$.subscribe((error) => {
+        if (error) {
+          this.showReportsBtn = false;
+          this.modalService.hideLoading();
+        }
+      })
+    );
   }
   locationList: SingleSearchLocation[] | undefined = [];
   routeLocationInput!: FormControl;
@@ -246,6 +260,7 @@ export class RoutingComponent implements OnInit, OnDestroy {
   addRouteLayer() {
     //Geocodes the origin and destination, and if they are valid will add the route to the map.
     this.mapService.removeRoutes();
+    this.modalService.addLoading("Loading Route");
     let tolls;
     if (this.routeSettingFormControls["avoidTolls"].value) {
       tolls = TrimbleMaps.Common.TollRoadsType.AVOID_IF_POSSIBLE;
@@ -265,7 +280,6 @@ export class RoutingComponent implements OnInit, OnDestroy {
       this.dataVersion,
       1
     );
-    this.showReportsBtn = true;
   }
 
   onChangeEvent() {

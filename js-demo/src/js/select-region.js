@@ -9,7 +9,7 @@ function selectRegion(mapService) {
     map.setRegion(TrimbleMaps.Common.Region.NA);
     map.setCenter([-97, 38]);
     map.setZoom(4);
-
+    TrimbleMaps.setUnit(TrimbleMaps.Common.Unit.IMPERIAL);
     document.getElementById("railRoutingItem").removeAttribute("hidden");
     document.getElementById("highwayOnlyForm").removeAttribute("hidden");
     document.getElementById("siteRoutingItem").removeAttribute("hidden");
@@ -18,7 +18,7 @@ function selectRegion(mapService) {
     map.setRegion(TrimbleMaps.Common.Region.EU);
     map.setCenter([15, 50]);
     map.setZoom(4);
-
+    TrimbleMaps.setUnit(TrimbleMaps.Common.Unit.METRIC);
     document.getElementById("railRoutingItem").setAttribute("hidden", null);
     document.getElementById("siteRoutingItem").setAttribute("hidden", null);
     document.getElementById("highwayOnlyForm").setAttribute("hidden", null);

@@ -3,6 +3,10 @@
     <h5 class="modal-title" id="modal-title">Authentication</h5>
   </div>
   <div class="modal-body">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="apiError">
+      {{apiError_msg}}
+
+    </div>
     <label for="keyInput" class="form-label"><span>Trimble Maps SDK API Key</span><span
         class="required">*</span></label>
     <input class="form-control" id="keyInput" placeholder="API Key" maxlength="32" minlength="32" type="password" required [(ngModel)]="apiKey" />

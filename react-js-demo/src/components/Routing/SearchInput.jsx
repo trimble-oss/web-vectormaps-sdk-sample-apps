@@ -16,7 +16,7 @@ function SearchInput(props) {
   const [disableInput, setDisableInput] = useState(false);
   const [noData, setNoData] = useState(false);
   const [locationList, setLocationList] = useState([]);
-  const { routeLocations, setRouteLocation } = props;
+  const { routeLocations, setRouteLocation, setShowToast } = props;
   const [placeholderText, setPlaceholderText] = useState("Enter Location...");
 
   const { map, mapService } = useMapContext();
@@ -64,8 +64,9 @@ function SearchInput(props) {
     setPlaceholderText("Enter Location...");
     mapService.removeRoutes();
     mapService.removeStops();
-    const mapLocation = layerSpecificLocation(mapService.getRegion());
+    const mapLocation = layerSpecificLocation(map.getRegion());
     mapService.changeMapLocation(mapLocation);
+    setShowToast(false);
   };
 
   const locationSelect = (location) => {
