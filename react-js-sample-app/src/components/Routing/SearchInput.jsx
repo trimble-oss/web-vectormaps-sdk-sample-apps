@@ -82,7 +82,7 @@ function SearchInput(props) {
     }
     if (routeLocations.length > 2) {
       setDisableInput((prev) => !prev);
-      setPlaceholderText("This demo limited to a max of three stops");
+      setPlaceholderText("This sample app is limited to a max of three stops");
     }
     clearSearchInput();
     let stopsList = [];

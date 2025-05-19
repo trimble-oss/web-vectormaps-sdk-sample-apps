@@ -227,7 +227,8 @@ export class RoutingComponent implements OnInit, OnDestroy {
     }
     if (this.routeLocations.length > 2) {
       this.disableInput = true;
-      this.placeholderText = "This demo limited to a max of three stops";
+      this.placeholderText =
+        "This sample app is limited to a max of three stops";
     }
     if (this.routeLocations.length > 1) {
       this.showRouteBtn = true;

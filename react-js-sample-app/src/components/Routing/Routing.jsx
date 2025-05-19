@@ -165,7 +165,7 @@ function Routing() {
                 {licensedFeature.vehicleDimension ? (
                   <div>
                     <p className="p-font-size">
-                      Demo uses pre-defined vehicle profiles, but SDK does
+                      Sample app uses pre-defined vehicle profiles, but SDK does
                       support full vehicle dimension customization.
                       <br />
                       <br />
