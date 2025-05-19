@@ -231,7 +231,7 @@ class Routing {
         .getElementById("routeLocationInput")
         .setAttribute("disabled", null);
       document.getElementById("routeLocationInput").placeholder =
-        "This demo limited to a max of three stops";
+        "This sample app is limited to a max of three stops";
     }
     if (this.routeLocations.length > 1) {
       document.getElementById("routeBtn").disabled = false;

@@ -1,6 +1,6 @@
 function selectRegion(mapService) {
   const map = mapService.map;
-  //Change the region that will be used for the demo and resets the content layers.
+  // Change the region that will be used for the sample app and resets the content layers.
   mapService.resetMap();
   const region = document.getElementById("mapRegionSelector").value;
 

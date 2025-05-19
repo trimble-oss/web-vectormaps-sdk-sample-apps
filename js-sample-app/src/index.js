@@ -1,5 +1,5 @@
 //On document ready, fire off the auth modal for accepting the API key.
-$(document).ready(function () {
+$(function () {
   $("#authModal").modal("show");
   const mapService = new MapService();
   const tokenService = new TokenService();
