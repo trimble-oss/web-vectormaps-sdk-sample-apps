@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Outlet, useNavigate } from "react-router-dom";
 
 import Map from "./components/Map/Map.jsx";
