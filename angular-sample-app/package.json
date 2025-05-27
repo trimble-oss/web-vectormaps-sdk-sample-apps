@@ -64,9 +64,9 @@
     "node": "18.20.8"
   },
   "overrides": {
-    "esbuild": "0.25.x",
-    "undici": "6.21.1",
+    "esbuild": "0.25.4",
     "http-proxy-middleware": "^2.0.9",
+    "undici": "6.21.1",
     "vite": "^5.4.19"
   }
 }
