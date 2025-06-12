@@ -9,7 +9,7 @@
     "start": "lite-server -c bs-config.json",
     "lint": "npx eslint@8 \"src/**/*.js\""
   },
-  "dependencies": {
+  "devDependencies": {
     "lite-server": "^2.6.1"
   },
   "engines": {
