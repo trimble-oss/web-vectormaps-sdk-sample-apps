@@ -12,7 +12,7 @@ import { MapStyleComponent } from "./components/map-style/map-style.component";
 import { ContentLayersComponent } from "./components/content-layers/content-layers.component";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { RoutingComponent } from "./components/routing/routing.component";
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { ReportComponent } from "./components/report/report.component";
 import { TimeWindowRoutingComponent } from "./components/time-window-routing/time-window-routing.component";
 import { SiteLocationRoutingComponent } from "./components/site-location-routing/site-location-routing.component";
@@ -22,35 +22,28 @@ import { ToastMsgComponent } from "./components/toast-msg/toast-msg.component";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { TooltipComponent } from "./components/tooltip/tooltip.component";
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    BrandingNameComponent,
-    MapComponent,
-    ContentPageComponent,
-    RegionComponent,
-    GetApiKeyModalComponent,
-    MapStyleComponent,
-    ContentLayersComponent,
-    RoutingComponent,
-    ReportComponent,
-    TimeWindowRoutingComponent,
-    SiteLocationRoutingComponent,
-    RailroutingComponent,
-    LoadingModalComponent,
-    ToastMsgComponent,
-    TooltipComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ModalModule.forRoot(),
-    TooltipModule.forRoot(),
-    HttpClientModule,
-    ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        BrandingNameComponent,
+        MapComponent,
+        ContentPageComponent,
+        RegionComponent,
+        GetApiKeyModalComponent,
+        MapStyleComponent,
+        ContentLayersComponent,
+        RoutingComponent,
+        ReportComponent,
+        TimeWindowRoutingComponent,
+        SiteLocationRoutingComponent,
+        RailroutingComponent,
+        LoadingModalComponent,
+        ToastMsgComponent,
+        TooltipComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ModalModule.forRoot(),
+        TooltipModule.forRoot(),
+        ReactiveFormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
