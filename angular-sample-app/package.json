@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "^18.2.13",
     "@angular/router": "^18.2.13",
     "@mapbox/polyline": "^1.1.1",
-    "@trimble-oss/modus-bootstrap": "^2.0.11",
+    "@trimble-oss/modus-bootstrap": "^2.0.13",
     "@trimblemaps/trimblemaps-js": "4.2.3",
     "@trimblemaps/trimblemaps-mapmenus": "^2.2.0",
     "@trimblemaps/trimblemaps-singlesearch": "^2.1.0",
