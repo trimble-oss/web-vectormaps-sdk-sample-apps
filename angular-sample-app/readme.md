@@ -28,7 +28,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Documentation Available here
 
-https://developer.trimblemaps.com/maps-sdk/guide/overview/
+<https://developer.trimblemaps.com/maps-sdk/guide/overview/>
 
 ## If encounter any issue in updating npm install or npm update
 
