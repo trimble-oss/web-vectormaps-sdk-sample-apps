@@ -2,8 +2,6 @@
   "name": "js-sample-app",
   "version": "1.0.0",
   "private": true,
-  "description": "",
-  "author": "",
   "main": "index.js",
   "scripts": {
     "start": "lite-server -c bs-config.json",
@@ -13,6 +11,6 @@
     "lite-server": "^2.6.1"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   }
 }
