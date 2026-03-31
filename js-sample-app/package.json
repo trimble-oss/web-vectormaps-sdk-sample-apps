@@ -4,11 +4,11 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "lite-server -c bs-config.json",
+    "start": "serve -l 4200",
     "lint": "npx eslint@8 \"src/**/*.js\""
   },
   "devDependencies": {
-    "lite-server": "^2.6.1"
+    "serve": "^14.2.6"
   },
   "engines": {
     "node": ">=18"
