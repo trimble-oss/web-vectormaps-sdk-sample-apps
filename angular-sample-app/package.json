@@ -64,9 +64,16 @@
     "node": "18.20.8"
   },
   "overrides": {
+    "ajv": "8.18.0",
     "esbuild": "0.25.4",
     "http-proxy-middleware": "^2.0.9",
+    "picomatch": "4.0.4",
+    "rollup": "4.59.0",
+    "serialize-javascript": "7.0.5",
+    "tar": "7.5.13",
+    "tmp": "0.2.5",
     "undici": "6.21.1",
-    "vite": "^5.4.19"
+    "vite": "^5.4.19",
+    "webpack": "5.105.4"
   }
 }
