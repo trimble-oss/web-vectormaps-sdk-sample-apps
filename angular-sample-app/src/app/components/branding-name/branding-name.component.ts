@@ -2,6 +2,7 @@ import { Component, Input, HostBinding, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Component({
+  standalone: false,
   selector: "app-branding-name",
   templateUrl: "./branding-name.component.html",
   styles: [

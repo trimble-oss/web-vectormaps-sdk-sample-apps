@@ -5,6 +5,7 @@ import { ToastService } from "src/app/services/toast.service";
 import { ToastMsg } from "src/app/models/toastMsg";
 
 @Component({
+  standalone: false,
   selector: "app-toast-msg",
   templateUrl: "./toast-msg.component.html",
   styleUrls: ["./toast-msg.component.scss"],

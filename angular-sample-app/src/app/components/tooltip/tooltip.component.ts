@@ -5,6 +5,7 @@ import { constants } from "src/app/utils/constants";
 import { SubscriptionManager } from "src/app/utils/subscription-manager";
 
 @Component({
+  standalone: false,
   selector: "app-tooltip",
   templateUrl: "./tooltip.component.html",
   styleUrls: ["./tooltip.component.scss"],

@@ -8,6 +8,7 @@ import { ModalService } from "../modal.service";
 import { LicenseFeature } from "src/app/models/license";
 
 @Component({
+  standalone: false,
   selector: "app-content-layers",
   templateUrl: "./content-layers.component.html",
   styleUrls: ["./content-layers.component.scss"],

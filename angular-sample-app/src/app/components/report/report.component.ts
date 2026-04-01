@@ -25,6 +25,7 @@ import {
 } from "src/app/models/mileageReport";
 
 @Component({
+  standalone: false,
   selector: "app-report",
   templateUrl: "./report.component.html",
   styleUrls: ["./report.component.scss"]

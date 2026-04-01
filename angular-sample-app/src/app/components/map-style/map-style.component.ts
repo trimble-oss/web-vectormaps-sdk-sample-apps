@@ -5,6 +5,7 @@ import { MapService } from "src/app/services/map.service";
 import { SubscriptionManager } from "src/app/utils/subscription-manager";
 
 @Component({
+  standalone: false,
   selector: "app-map-style",
   templateUrl: "./map-style.component.html",
   styleUrls: ["./map-style.component.scss"],

@@ -3,6 +3,7 @@ import { MapService } from "src/app/services/map.service";
 import { constants } from "src/app/utils/constants";
 
 @Component({
+  standalone: false,
   selector: "app-get-api-key-modal",
   templateUrl: "./get-api-key-modal.component.html",
   styleUrls: ["./get-api-key-modal.component.scss"],

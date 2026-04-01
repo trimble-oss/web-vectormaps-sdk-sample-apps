@@ -11,6 +11,7 @@ import { mapInfoSelectedRegion } from "src/app/models/region";
 import { MapService } from "src/app/services/map.service";
 
 @Component({
+  standalone: false,
   selector: "app-map",
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"],

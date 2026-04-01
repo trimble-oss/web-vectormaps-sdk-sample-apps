@@ -11,6 +11,7 @@ import { processLicense } from "./utils/processLicense";
 import { LicenseFeature } from "./models/license";
 import { constants } from "./utils/constants";
 @Component({
+  standalone: false,
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],

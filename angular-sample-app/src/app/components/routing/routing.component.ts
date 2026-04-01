@@ -34,6 +34,7 @@ export interface StopIcon {
   shortAddress: string;
 }
 @Component({
+  standalone: false,
   selector: "app-routing",
   templateUrl: "./routing.component.html",
   styleUrls: ["./routing.component.scss"],

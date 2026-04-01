@@ -7,6 +7,7 @@ import { combineLatest } from "rxjs";
 import { SubscriptionManager } from "src/app/utils/subscription-manager";
 
 @Component({
+  standalone: false,
   selector: "app-railrouting",
   templateUrl: "./railrouting.component.html",
   styleUrls: ["./railrouting.component.scss"],

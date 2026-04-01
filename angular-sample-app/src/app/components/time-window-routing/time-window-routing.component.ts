@@ -9,6 +9,7 @@ import { ModalService } from "../modal.service";
 import { Router } from "@angular/router";
 
 @Component({
+  standalone: false,
   selector: "app-time-window-routing",
   templateUrl: "./time-window-routing.component.html",
   styleUrls: ["./time-window-routing.component.scss"],
