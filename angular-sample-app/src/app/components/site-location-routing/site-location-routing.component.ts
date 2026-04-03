@@ -10,6 +10,7 @@ import { SubscriptionManager } from "src/app/utils/subscription-manager";
 import { GeoJSONSourceSpecification } from "@trimblemaps/trimblemaps-js";
 
 @Component({
+  standalone: false,
   selector: "app-site-location-routing",
   templateUrl: "./site-location-routing.component.html",
 })
