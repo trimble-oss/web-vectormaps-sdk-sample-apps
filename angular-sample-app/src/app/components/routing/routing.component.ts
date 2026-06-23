@@ -143,7 +143,7 @@ export class RoutingComponent implements OnInit, OnDestroy {
           this.searchService
             .search(this.routeLocationInput.value, this.region)
             .pipe(
-              debounceTime(250), // wait 500ms after the last keystroke
+              debounceTime(250), // wait 250ms after the last keystroke
               distinctUntilChanged() // only emit if value actually changed
             )
             .subscribe({
