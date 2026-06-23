@@ -113,10 +113,14 @@ class RailRouting {
         if (document.activeElement) {
           document.activeElement.blur();
         }
-        $("#railRouteModal").modal("hide");
+        bootstrap.Modal.getOrCreateInstance(
+          document.getElementById("railRouteModal")
+        ).hide();
       })
       .catch((error) => {
-        $("#railRouteModal").modal("hide");
+        bootstrap.Modal.getOrCreateInstance(
+          document.getElementById("railRouteModal")
+        ).hide();
       });
   }
 }

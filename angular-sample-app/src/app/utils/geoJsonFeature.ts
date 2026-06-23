@@ -1,4 +1,4 @@
-import { FeatureCollection } from "@turf/turf";
+import { FeatureCollection } from "geojson";
 
 export interface GeoJSONFeatureCollections {
   type: "geojson";

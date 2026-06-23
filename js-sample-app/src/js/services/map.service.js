@@ -46,9 +46,13 @@ class MapService {
     if (document.activeElement) {
       document.activeElement.blur();
     }
-    $("#authModal").modal("hide");
-    $("#loadingModal").modal("show");
-    //Initialize thethis.map.
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("authModal")
+    ).hide();
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("loadingModal")
+    ).show();
+    //Initialize this.map.
     this.map = new TrimbleMaps.Map({
       container: "map",
       style: TrimbleMaps.Common.Style.TRANSPORTATION,
@@ -72,7 +76,9 @@ class MapService {
       if (document.activeElement) {
         document.activeElement.blur();
       }
-      $("#loadingModal").modal("hide");
+      bootstrap.Modal.getOrCreateInstance(
+        document.getElementById("loadingModal")
+      ).hide();
       if (licensedFeatures.includes("weather alerts")) {
         this.weatherAlertLayer.addTo(this.map);
         this.weatherAlertLayer.setVisibility(false);
@@ -153,7 +159,7 @@ class MapService {
     this.siteEnabled = false;
     this.railPopup.remove();
     removeRoutes(this.myRoute);
-    $("#building_3d_toast").hide();
+    document.getElementById("building_3d_toast").style.display = "none";
     this.map.setPitch(0);
     this.popup.remove();
     this.removeStops();
