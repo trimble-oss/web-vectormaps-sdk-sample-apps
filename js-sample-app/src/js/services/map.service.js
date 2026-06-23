@@ -52,7 +52,7 @@ class MapService {
     bootstrap.Modal.getOrCreateInstance(
       document.getElementById("loadingModal")
     ).show();
-    //Initialize thethis.map.
+    //Initialize this.map.
     this.map = new TrimbleMaps.Map({
       container: "map",
       style: TrimbleMaps.Common.Style.TRANSPORTATION,
