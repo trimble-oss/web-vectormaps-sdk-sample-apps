@@ -3,7 +3,7 @@ import { Observable, map, switchMap } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { MapService } from "./map.service";
 import { constants } from "../utils/constants";
-import { Feature } from "@turf/turf";
+import { Feature } from "geojson";
 
 @Injectable({
   providedIn: "root",

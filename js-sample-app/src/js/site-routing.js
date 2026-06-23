@@ -136,7 +136,9 @@ class SiteRouting {
     if (document.activeElement) {
       document.activeElement.blur();
     }
-    $("#railRouteModal").modal("hide");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("railRouteModal")
+    ).hide();
   }
 
   toggleSiteRoute() {

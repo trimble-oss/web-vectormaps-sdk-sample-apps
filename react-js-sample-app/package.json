@@ -12,11 +12,10 @@
   "dependencies": {
     "@trimble-oss/modus-icons": "1.21.0",
     "@trimble-oss/modus-react-components": "^0.39.0-react18",
-    "@trimblemaps/trimblemaps-js": "^4.2.7",
+    "@trimblemaps/trimblemaps-js": "^4.2.8",
     "@trimblemaps/trimblemaps-mapmenus": "^2.2.2",
     "@turf/turf": "^6.5.0",
     "bootstrap": "^5.3.8",
-    "jquery": "~4.0.0",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.23",
     "prop-types": "^15.8.1",
@@ -41,10 +40,10 @@
     "vite": "^5.4.19"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=22"
   },
   "volta": {
-    "node": "18.20.8"
+    "node": "22.23.0"
   },
   "overrides": {
     "esbuild": "0.25.x"

@@ -692,6 +692,8 @@ class Routing {
       }
     }
 
-    $("#reportsModal").modal("show");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("reportsModal")
+    ).show();
   }
 }

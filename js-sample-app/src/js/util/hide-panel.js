@@ -60,12 +60,16 @@ function hidePanels(panel, mapService, license) {
     document.getElementById("mapRegionPanel").classList.add("collapse");
     document.getElementById("contentPanel").classList.add("collapse");
     document.getElementById("railRoutingDemo").classList.add("collapse");
-    $("#timeWindowModal").modal("show");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("timeWindowModal")
+    ).show();
     setTimeout(() => {
       twr = new TimeWindowRouting(mapService);
       twr.calculateTimeWindows(mapService.regionName, mapService.apiKey);
-      $("#optimizeBtn").on("click", function (e) {
-        $("#timeWindowModal").modal("show");
+      document.getElementById("optimizeBtn").addEventListener("click", () => {
+        bootstrap.Modal.getOrCreateInstance(
+          document.getElementById("timeWindowModal")
+        ).show();
         twr.toggleTimeWindowRouting();
       });
     }, 100);
@@ -87,11 +91,13 @@ function hidePanels(panel, mapService, license) {
     document.getElementById("mapRegionPanel").classList.add("collapse");
     document.getElementById("contentPanel").classList.add("collapse");
     document.getElementById("railRoutingDemo").classList.add("collapse");
-    $("#railRouteModal").modal("show");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("railRouteModal")
+    ).show();
     setTimeout(() => {
       sr = new SiteRouting(mapService);
       sr.createSiteRoute(mapService.apiKey);
-      $("#toggleSite").on("click", function (e) {
+      document.getElementById("toggleSite").addEventListener("click", (e) => {
         e.stopPropagation();
         sr.toggleSiteRoute();
       });
@@ -161,7 +167,9 @@ function hidePanels(panel, mapService, license) {
     document.getElementById("mapRegionPanel").classList.add("collapse");
     document.getElementById("contentPanel").classList.add("collapse");
     document.getElementById("railRoutingDemo").classList.remove("collapse");
-    $("#railRouteModal").modal("show");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("railRouteModal")
+    ).show();
     setTimeout(() => {
       rr = new RailRouting(mapService);
       rr.enableRailRoute(mapService.apiKey);

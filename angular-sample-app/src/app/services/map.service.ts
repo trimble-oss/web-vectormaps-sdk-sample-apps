@@ -20,6 +20,7 @@ import { constants } from "../utils/constants";
 import { RouteLocation } from "../models/routeLocation";
 import { Feature } from "@trimblemaps/trimblemaps-js/geojson";
 import * as turf from "@turf/turf";
+import { FeatureCollection } from "geojson";
 import { GJFeatureCollection } from "../utils/geoJsonFeature";
 
 interface MapStore {
@@ -703,8 +704,7 @@ export class MapService {
         )
       );
     });
-    const geojson: turf.helpers.FeatureCollection<any, turf.Properties> =
-      turf.featureCollection(marker);
+    const geojson: FeatureCollection = turf.featureCollection(marker);
 
     if (typeof this.map.getSource("stopMarker") === "undefined") {
       this.addStopMarkerSource(GJFeatureCollection(geojson));

@@ -27,6 +27,8 @@
             "styles": [
               "node_modules/@trimblemaps/trimblemaps-js/trimblemaps.css",
               "node_modules/@trimblemaps/trimblemaps-mapmenus/trimblemaps-mapmenus.css",
+              "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "node_modules/@trimble-oss/modus-bootstrap/dist/css/modus-bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -115,5 +117,31 @@
   },
   "cli": {
     "schematicCollections": ["@angular-eslint/schematics"]
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   }
 }

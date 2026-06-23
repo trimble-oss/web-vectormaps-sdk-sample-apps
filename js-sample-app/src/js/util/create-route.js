@@ -20,7 +20,9 @@ function createRoute(
     hwyOnly = false;
   }
   try {
-    $("#loadingModal").modal("show");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("loadingModal")
+    ).show();
     mapService.myRoute = new TrimbleMaps.Route({
       stops: routeStops,
       routeColor: "blue",
@@ -52,7 +54,8 @@ function createRoute(
     mapService.routeReports = reports;
     document.getElementById("reportsBtn").removeAttribute("hidden");
     if (!enableReportBtn) {
-      $("#routeBtns").prepend(
+      document.getElementById("routeBtns").insertAdjacentHTML(
+        "afterbegin",
         `
       <span class="ms-3 float-right tooltip-unlicensed-report" title="unlicensed">
         <i class="modus-icons notranslate help-icon" aria-hidden="true">
@@ -60,28 +63,39 @@ function createRoute(
         </i>
       </span>`
       );
-      $(".tooltip-unlicensed-report").attr("title", constants.UNLICENSED_MSG);
-      $(".tooltip-unlicensed-report").tooltip({
-        placement: "top",
-        trigger: "hover",
-        delay: { show: 500, hide: 100 }, // Delay in ms
-      });
-      $("#reportsBtn").prop("disabled", true);
+      document
+        .querySelectorAll(".tooltip-unlicensed-report")
+        .forEach((el) => {
+          el.setAttribute("title", constants.UNLICENSED_MSG);
+          new bootstrap.Tooltip(el, {
+            placement: "top",
+            trigger: "hover",
+            delay: { show: 500, hide: 100 },
+          });
+        });
+      document.getElementById("reportsBtn").disabled = true;
     }
   });
   mapService.myRoute.on("error", function (error) {
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(error_toast);
-    $("#error_toast .message").text("Error in creating route");
+    document.querySelector("#error_toast .message").textContent =
+      "Error in creating route";
     toastBootstrap.show();
-    $("#loadingModal").modal("hide");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("loadingModal")
+    ).hide();
   });
   mapService.myRoute.on("routeloading", () => {
     console.log("Route loading");
-    $("#loadingModal").modal("show");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("loadingModal")
+    ).show();
   });
   mapService.myRoute.on("route", () => {
     console.log("Route loading complete");
-    $("#loadingModal").modal("hide");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("loadingModal")
+    ).hide();
   });
   mapService.myRoute.addTo(mapService.map);
 }

@@ -1,17 +1,22 @@
 function addEventListenerToDiv(mapService, tokenService) {
   var routing = new Routing(mapService);
   var license;
-  $("#authModal").on("click", "#getApikey", function () {
+  document.getElementById("authModal").addEventListener("click", (e) => {
+    if (!e.target.closest("#getApikey")) return;
     tokenService.getToken().then(
       (res) => {
-        $("#authModal").modal("hide");
+        bootstrap.Modal.getOrCreateInstance(
+          document.getElementById("authModal")
+        ).hide();
         license = res;
         mapService.init(license);
-        $(".tooltip-unlicensed").attr("title", constants.UNLICENSED_MSG);
-        $(".tooltip-unlicensed").tooltip({
-          placement: "top",
-          trigger: "hover",
-          delay: { show: 500, hide: 100 }, // Delay in ms
+        document.querySelectorAll(".tooltip-unlicensed").forEach((el) => {
+          el.setAttribute("title", constants.UNLICENSED_MSG);
+          new bootstrap.Tooltip(el, {
+            placement: "top",
+            trigger: "hover",
+            delay: { show: 500, hide: 100 },
+          });
         });
       },
       (err) => {
@@ -23,32 +28,40 @@ function addEventListenerToDiv(mapService, tokenService) {
     );
   });
 
-  $("#mapStyle").on("change", function () {
+  document.getElementById("mapStyle").addEventListener("change", () => {
     setMapStyle(mapService);
   });
 
-  $("#mapRegionSelector").on("change", function () {
+  document.getElementById("mapRegionSelector").addEventListener("change", () => {
     selectRegion(mapService);
   });
 
-  $(".sidebar").on("click", function () {
-    const index = $(".sidebar").index(this);
-    //hide time window optimization if not licensed
-    if (index === 4 && !license.includes("time window optimization")) return;
-    document.querySelectorAll(".accordion-collapse.show").forEach((item) => {
-      new bootstrap.Collapse(item, { toggle: true });
+  document.querySelectorAll(".sidebar").forEach((el) => {
+    el.addEventListener("click", function () {
+      const index = Array.from(document.querySelectorAll(".sidebar")).indexOf(
+        this
+      );
+      //hide time window optimization if not licensed
+      if (index === 4 && !license.includes("time window optimization")) return;
+      document.querySelectorAll(".accordion-collapse.show").forEach((item) => {
+        new bootstrap.Collapse(item, { toggle: true });
+      });
+      hidePanels(index, mapService, license);
     });
-    hidePanels(index, mapService, license);
   });
 
-  $(".layer-select").on("click", function () {
-    if ($(this).hasClass("unlicensed")) return;
-    const index = $(".layer-select").index(this);
-    layerSelect(index, mapService);
+  document.querySelectorAll(".layer-select").forEach((el) => {
+    el.addEventListener("click", function () {
+      if (this.classList.contains("unlicensed")) return;
+      const index = Array.from(
+        document.querySelectorAll(".layer-select")
+      ).indexOf(this);
+      layerSelect(index, mapService);
+    });
   });
 
   const debouncedInputHandler = debounce(function () {
-    const text = $("#routeLocationInput").val()?.trim();
+    const text = document.getElementById("routeLocationInput").value?.trim();
     if (text !== "") {
       routing.singlesearchLookup(
         mapService.apiKey,
@@ -65,24 +78,26 @@ function addEventListenerToDiv(mapService, tokenService) {
         .setAttribute("hidden", null);
     }
   }, 200);
-  $("#routeLocationInput").on("input", debouncedInputHandler);
-  $("#locationSelection").on("click", function (e) {
+  document
+    .getElementById("routeLocationInput")
+    .addEventListener("input", debouncedInputHandler);
+  document.getElementById("locationSelection").addEventListener("click", (e) => {
     routing.locationSelect(e);
   });
 
-  $("#vehicleType").on("click", function (e) {
+  document.getElementById("vehicleType").addEventListener("click", () => {
     modifyRouteType(mapService.regionName, license);
   });
 
-  $("#routeBtn").on("click", function (e) {
+  document.getElementById("routeBtn").addEventListener("click", () => {
     routing.addRouteLayer(license.includes("premium reports"));
   });
 
-  $("#reportsBtn").on("click", function (e) {
+  document.getElementById("reportsBtn").addEventListener("click", () => {
     routing.createReports();
   });
 
-  $("#clearLocationsBtn").on("click", function (e) {
+  document.getElementById("clearLocationsBtn").addEventListener("click", () => {
     clearLocations(mapService);
   });
 

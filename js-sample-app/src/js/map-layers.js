@@ -45,10 +45,9 @@ function layerSelect(layerVar, mapService) {
         mapService.map.getStyle().name.toLowerCase() ===
         TrimbleMaps.Common.Style.SATELLITE
       ) {
-        $("#building_3d_toast .message").text(
-          "3D buildings are unavailable in Satellite view"
-        );
-        $("#building_3d_toast").show();
+        document.querySelector("#building_3d_toast .message").textContent =
+          "3D buildings are unavailable in Satellite view";
+        document.getElementById("building_3d_toast").style.display = "block";
       } else {
         mapService.map.toggle3dBuildingVisibility();
         mapService.map.setPitch(60);

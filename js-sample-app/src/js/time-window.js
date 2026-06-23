@@ -45,7 +45,9 @@ class TimeWindowRouting {
     if (document.activeElement) {
       document.activeElement.blur();
     }
-    $("#timeWindowModal").modal("hide");
+    bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("timeWindowModal")
+    ).hide();
   }
 
   async getTimeWindowRequest(x, regionName, apiKey) {
@@ -98,7 +100,9 @@ class TimeWindowRouting {
       if (document.activeElement) {
         document.activeElement.blur();
       }
-      $("#timeWindowModal").modal("hide");
+      bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("timeWindowModal")
+    ).hide();
 
       for (let x = 0; x < values.length; x++) {
         const timeWindowJson = values[x];
@@ -141,7 +145,9 @@ class TimeWindowRouting {
       if (document.activeElement) {
         document.activeElement.blur();
       }
-      $("#timeWindowModal").modal("hide");
+      bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("timeWindowModal")
+    ).hide();
     });
   }
   getTableHeader() {

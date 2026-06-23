@@ -1,105 +1,105 @@
 function processLicense(licensedFeatures) {
   const license = {};
+  const euOption = document
+    .getElementById("mapRegionSelector")
+    .querySelector("#euOption");
   if (licensedFeatures.includes("eu streets")) {
-    $("#mapRegionSelector").find("#euOption").show();
-    $("#mapRegionSelector").find("#euOption").removeClass("disabled");
-    $("#mapRegionSelector").find("#euOption").prop("disabled", false);
+    euOption.style.display = "";
+    euOption.classList.remove("disabled");
+    euOption.disabled = false;
   } else {
-    $("#mapRegionSelector").find("#euOption").addClass("disabled");
-    $("#mapRegionSelector").find("#euOption").prop("disabled", true);
-    $("#mapRegionSelector")
-      .find("#euOption")
-      .text(function (index, text) {
-        return text + " - (Unlicensed feature)";
-      });
+    euOption.classList.add("disabled");
+    euOption.disabled = true;
+    euOption.textContent += " - (Unlicensed feature)";
   }
   if (licensedFeatures.includes("truck restrictions on map")) {
-    $("#truckRestrictionCard").show();
+    document.getElementById("truckRestrictionCard").style.display = "";
   } else {
     disableFeature("truckRestrictionsHeader");
   }
+  const truckOption = document
+    .getElementById("vehicleType")
+    .querySelector("#truckOption");
   if (licensedFeatures.includes("truck routing")) {
-    $("#vehicleType").find("#truckOption").show();
+    truckOption.style.display = "";
     document.getElementById("vehicleType").value = "Truck";
-    $("#vehicleType").find("#truckOption").removeClass("disabled");
-    $("#vehicleType").find("#truckOption").prop("disabled", false);
+    truckOption.classList.remove("disabled");
+    truckOption.disabled = false;
   } else {
     document.getElementById("vehicleType").value = "Auto";
-    $("#vehicleType").find("#truckOption").addClass("disabled");
-    $("#vehicleType").find("#truckOption").prop("disabled", true);
-    $("#vehicleType")
-      .find("#truckOption")
-      .text(function (index, text) {
-        return text + " - (Unlicensed feature)";
-      });
+    truckOption.classList.add("disabled");
+    truckOption.disabled = true;
+    truckOption.textContent += " - (Unlicensed feature)";
   }
   if (licensedFeatures.includes("time window optimization")) {
-    $("#timeWindow").show();
+    document.getElementById("timeWindow").style.display = "";
   } else {
-    $("#timeWindowHeader").addClass("disabled");
-    $("#timeWindow").attr(
-      "title",
-      "Time Window Routing" + " - " + constants.UNLICENSED_MSG
-    );
+    document.getElementById("timeWindowHeader").classList.add("disabled");
+    document
+      .getElementById("timeWindow")
+      .setAttribute(
+        "title",
+        "Time Window Routing" + " - " + constants.UNLICENSED_MSG
+      );
     disableFeature("timeWindow");
   }
   if (licensedFeatures.includes("weather alerts")) {
-    $("#weatherAlertCard").show();
+    document.getElementById("weatherAlertCard").style.display = "";
   } else {
     disableFeature("weatherAlertsHeader");
   }
   if (licensedFeatures.includes("weather")) {
-    $("#weatherRadarCard").show();
+    document.getElementById("weatherRadarCard").style.display = "";
   } else {
     disableFeature("weatherRadarHeader");
   }
   if (licensedFeatures.includes("traffic")) {
-    $("#trafficCard").show();
+    document.getElementById("trafficCard").style.display = "";
   } else {
     disableFeature("trafficLayerHeader");
     disableFeature("trafficIncidentHeader");
   }
   if (licensedFeatures.includes("tolls")) {
-    $("#tolls").show();
+    document.getElementById("tolls").style.display = "";
   } else {
     disableFeature("tolls");
-    $("#avoidTollsForm").addClass("disabled");
+    document.getElementById("avoidTollsForm").classList.add("disabled");
   }
   if (licensedFeatures.includes("road surface")) {
-    $("#roadSurfaceCard").show();
+    document.getElementById("roadSurfaceCard").style.display = "";
   } else {
     disableFeature("roadSurfaceHeader");
   }
+  const satellitePremiumOption = document
+    .getElementById("mapStyle")
+    .querySelector("#satellitePremiumOption");
   if (licensedFeatures.includes("premium satellite")) {
-    $("#mapStyle").find("#satellitePremiumOption").show();
-    $("#mapStyle").find("#satellitePremiumOption").removeClass("disabled");
-    $("#mapStyle").find("#satellitePremiumOption").prop("disabled", false);
+    satellitePremiumOption.style.display = "";
+    satellitePremiumOption.classList.remove("disabled");
+    satellitePremiumOption.disabled = false;
   } else {
-    $("#mapStyle").find("#satellitePremiumOption").addClass("disabled");
-    $("#mapStyle").find("#satellitePremiumOption").prop("disabled", true);
-    $("#mapStyle")
-      .find("#satellitePremiumOption")
-      .text(function (index, text) {
-        return text + " - (Unlicensed feature)";
-      });
+    satellitePremiumOption.classList.add("disabled");
+    satellitePremiumOption.disabled = true;
+    satellitePremiumOption.textContent += " - (Unlicensed feature)";
   }
   if (licensedFeatures.includes("premium reports")) {
-    $("#reportsBtn").show();
-    $("#reportsBtn").prop("disabled", false);
+    const reportsBtn = document.getElementById("reportsBtn");
+    reportsBtn.style.display = "";
+    reportsBtn.disabled = false;
   } else {
   }
   if (licensedFeatures.includes("hazmat")) {
-    $("#hazmat").show();
+    document.getElementById("hazmat").style.display = "";
   } else {
     document.getElementById("hazMat").disabled = true;
   }
   if (licensedFeatures.includes("custom data")) {
-    $("#customDataCard").show();
+    document.getElementById("customDataCard").style.display = "";
   } else {
     disableFeature("customContentHeader");
   }
   if (licensedFeatures.includes("poi search")) {
-    $("#poiCard").show();
+    document.getElementById("poiCard").style.display = "";
   } else {
     disableFeature("poiHeader");
   }
@@ -112,12 +112,15 @@ function disableFeature(feature) {
         help
       </i>
     </span>`;
-  $("#" + feature).on("click", function (e) {
+  const featureEl = document.getElementById(feature);
+  featureEl.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
   });
 
-  $("#" + feature).addClass("unlicensed");
-  $("#" + feature).removeAttr("data-bs-toggle");
-  $("#" + feature + ">.supporting-label").append(toolTipContent);
+  featureEl.classList.add("unlicensed");
+  featureEl.removeAttribute("data-bs-toggle");
+  featureEl
+    .querySelector(".supporting-label")
+    .insertAdjacentHTML("beforeend", toolTipContent);
 }
