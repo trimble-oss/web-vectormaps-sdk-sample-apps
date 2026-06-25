@@ -14,5 +14,8 @@
   "author": "Trimble Maps",
   "scripts": {
     "prettier": "npx prettier --write \"**/*.{css,scss,yml}\""
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
