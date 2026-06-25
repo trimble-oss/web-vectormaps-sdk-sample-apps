@@ -9,6 +9,9 @@ on:
       - react-js-sample-app/**
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
