@@ -11,7 +11,7 @@ import DetailedReport from "./DetailedReport";
 import DirectionReport from "./DirectionReport";
 import RoadReport from "./RoadReport";
 import StateReport from "./StateReport";
-import CustomTooltip from "../ToolTip/CustomToolTip";
+import CustomTooltip from "../ToolTip/CustomTooltip";
 
 function ShowReports(props) {
   const { map } = useMapContext();

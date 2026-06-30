@@ -8,7 +8,7 @@ import Accordion from "react-bootstrap/Accordion";
 import AccordionBody from "react-bootstrap/AccordionBody";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import AccordionHeader from "react-bootstrap/AccordionHeader";
-import CustomTooltip from "../ToolTip/CustomToolTip";
+import CustomTooltip from "../ToolTip/CustomTooltip";
 
 function ContentLayers() {
   const { map, mapService } = useMapContext();
@@ -21,7 +21,7 @@ function ContentLayers() {
   }, [selected]);
   const openLayer = (i) => {
     setShowToast(false);
-    mapService.resetMapLayers(map);
+    mapService.resetMapLayers();
 
     switch (i) {
       case 0: {

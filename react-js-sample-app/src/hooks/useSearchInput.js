@@ -10,7 +10,7 @@ function useSearchInput(input, searchRegion, apiKey) {
   useEffect(() => {
     if (input.length >= 1) {
       fetch(
-        ` ${constants.SINGLE_SEARCH_URL}${searchRegion}/api/search?${queryParams}`
+        `${constants.SINGLE_SEARCH_URL}${searchRegion}/api/search?${queryParams}`
       )
         .then((res) => res.json())
         .then((res) => {

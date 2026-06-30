@@ -20,10 +20,14 @@ function MapStyle() {
     }
   }, [licensedFeature]);
   const selectStyle = (event) => {
-    const optionIndex = event.target.value;
-    const setValue = mapStyleOptions[optionIndex];
+    const optionIndex = Number(event.target.value);
+    const selectedOption = mapStyles[optionIndex];
     setSelectedStyle(optionIndex);
-    mapService.changeStyle(map, setValue.value, setValue?.satelliteProvider);
+    mapService.changeStyle(
+      map,
+      selectedOption.value,
+      selectedOption?.satelliteProvider
+    );
   };
 
   return (
