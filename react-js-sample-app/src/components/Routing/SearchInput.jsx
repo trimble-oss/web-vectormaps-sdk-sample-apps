@@ -57,7 +57,6 @@ function SearchInput(props) {
   };
   const clearLocations = () => {
     clearSearchInput();
-    routeLocations.length = 0;
     setRouteLocation([]);
     setLocationListContents([]);
     setDisableInput(false);
@@ -70,23 +69,27 @@ function SearchInput(props) {
   };
 
   const locationSelect = (location) => {
-    if (!_.isUndefined(location.Coords)) {
-      routeLocations.push({
+    if (_.isUndefined(location.Coords)) {
+      return;
+    }
+
+    const updatedLocations = [
+      ...routeLocations,
+      {
         coord: new TrimbleMaps.LngLat(location.Coords.Lon, location.Coords.Lat),
         address: location.ShortString,
-      });
-      setRouteLocation(routeLocations);
-      setLocationListContents([]);
-      mapService.centerOnMap([location.Coords.Lon, location.Coords.Lat]);
-      mapService.addMarker(routeLocations);
-    }
-    if (routeLocations.length > 2) {
+      },
+    ];
+    setRouteLocation(updatedLocations);
+    mapService.centerOnMap([location.Coords.Lon, location.Coords.Lat]);
+    mapService.addMarker(updatedLocations);
+
+    if (updatedLocations.length > 2) {
       setDisableInput((prev) => !prev);
       setPlaceholderText("This sample app is limited to a max of three stops");
     }
     clearSearchInput();
-    let stopsList = [];
-    stopsList = routeLocations.map((s) => s.address);
+    const stopsList = updatedLocations.map((s) => s.address);
     const locationListContents = stopsList.map((s, index) =>
       transformStops(s, index, stopsList)
     );

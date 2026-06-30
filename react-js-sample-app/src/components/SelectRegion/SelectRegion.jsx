@@ -10,9 +10,10 @@ function SelectRegion() {
   const [selectedRegion, setSelectedRegion] = useState(map.getRegion());
   const [regionOptions, setRegionOptions] = useState(regions);
 
-  if (map) {
-    mapService.resetMapLayers(map);
-  }
+  useEffect(() => {
+    mapService.resetMapLayers();
+  }, [mapService]);
+
   useEffect(() => {
     if (!licensedFeature.euSupport) {
       setRegionOptions([

@@ -30,15 +30,26 @@ function Layout() {
   // Persisting mapService across renders
   const [mapService] = useState(() => new MapService());
 
-  if (map) {
-    map.on("style.load", () => {
+  useEffect(() => {
+    if (location.pathname === "/") {
+      navigate("/selectRegion", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+    const onStyleLoad = () => {
       setMapStyleLoaded(true);
       setShow(false);
-    });
-  }
-  if (location.pathname === "/") {
-    navigate("/selectRegion");
-  }
+    };
+    map.on("style.load", onStyleLoad);
+    return () => {
+      map.off("style.load", onStyleLoad);
+    };
+  }, [map]);
+
   useEffect(() => {
     if (!showModal) {
       setShow(true);

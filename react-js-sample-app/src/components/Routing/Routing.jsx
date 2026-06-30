@@ -9,15 +9,14 @@ import { useMapContext } from "../../context/mapContext";
 import { useOutletContext } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import ShowReports from "./Reports";
-import AutoDescription from "./autoDescription";
-import CustomTooltip from "../ToolTip/CustomToolTip";
+import AutoDescription from "./AutoDescription";
+import CustomTooltip from "../ToolTip/CustomTooltip";
 import LoadingModal from "../sharedComponents/LoadingModal";
 
 function Routing() {
   const { register } = useForm({
     mode: "onChange",
   });
-  // eslint-disable-next-line no-unused-vars
   const [routeLocations, setRouteLocation] = useState([]);
   const { licensedFeature, setShowToast, setMessage } = useOutletContext();
   const { map, mapService } = useMapContext();
@@ -107,8 +106,9 @@ function Routing() {
     });
   };
 
-  const setRouteLocationValue = (routeLocations) => {
-    if (routeLocations.length > 1) {
+  const handleRouteLocationsChange = (locations) => {
+    setRouteLocation(locations);
+    if (locations.length > 1) {
       setDisabledRouteBtn(false);
     } else {
       setDisabledRouteBtn(true);
@@ -147,7 +147,7 @@ function Routing() {
         </div>
         <SearchInput
           routeLocations={routeLocations}
-          setRouteLocation={setRouteLocationValue}
+          setRouteLocation={handleRouteLocationsChange}
           setShowToast={setShowToast}
         />
         <div className="panel-header bg-transparent border-bottom align-items-center">

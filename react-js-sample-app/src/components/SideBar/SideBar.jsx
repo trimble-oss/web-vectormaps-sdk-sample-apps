@@ -4,21 +4,23 @@ import TrimbleMaps from "@trimblemaps/trimblemaps-js";
 import { constants } from "../../Utils/constants";
 
 function SideBar(props) {
-  const { mapService, region, map, licensedFeature, setShowToast } = props;
+  const { mapService, region, licensedFeature, setShowToast } = props;
 
   const resetMap = () => {
     mapService.removeRoutes();
-    mapService.resetMapLayers(map);
+    mapService.resetMapLayers();
     setShowToast(false);
   };
+
+  const navLinkClass = ({ isActive }) =>
+    isActive ? "nav-link active" : "nav-link";
   return (
     <nav id="mainSidebar" className="nav flex-column modus-sidebar">
       <ul>
         <li>
           <NavLink
-            className="nav-link"
+            className={navLinkClass}
             to="/selectRegion"
-            activeclassname="active"
             onClick={resetMap}
             title="Select Region"
           >
@@ -32,8 +34,7 @@ function SideBar(props) {
         </li>
         <li>
           <NavLink
-            className="nav-link"
-            activeclassname="active"
+            className={navLinkClass}
             to="/mapStyle"
             title="Base Map and Styles"
             onClick={resetMap}
@@ -48,8 +49,7 @@ function SideBar(props) {
         </li>
         <li>
           <NavLink
-            className="nav-link"
-            activeclassname="active"
+            className={navLinkClass}
             to="/contentLayers"
             onClick={resetMap}
             title="Content Layers"
@@ -64,8 +64,7 @@ function SideBar(props) {
         </li>
         <li>
           <NavLink
-            className="nav-link"
-            activeclassname="active"
+            className={navLinkClass}
             to="/routing"
             onClick={resetMap}
             title="Basic Routing"
@@ -82,13 +81,8 @@ function SideBar(props) {
         {licensedFeature.timeWindowOptimization ? (
           <li>
             <NavLink
-              className="nav-link"
-              activeclassname="active"
-              to={
-                licensedFeature.timeWindowOptimization
-                  ? "/timeWindowRouting"
-                  : null
-              }
+              className={navLinkClass}
+              to="/timeWindowRouting"
               onClick={licensedFeature.timeWindowOptimization ? resetMap : null}
               title={
                 licensedFeature.timeWindowOptimization
@@ -121,9 +115,8 @@ function SideBar(props) {
         <li>
           {region === TrimbleMaps.Common.Region.NA ? (
             <NavLink
-              className="nav-link"
+              className={navLinkClass}
               title="Site Location and Routing"
-              activeclassname="active"
               to="/siteLocationRouting"
               onClick={resetMap}
             >
@@ -139,9 +132,8 @@ function SideBar(props) {
         <li>
           {region === TrimbleMaps.Common.Region.NA ? (
             <NavLink
-              className="nav-link"
+              className={navLinkClass}
               title="Rail Routing Display"
-              activeclassname="active"
               to="/railRouting"
               onClick={resetMap}
             >
