@@ -41,7 +41,7 @@
     "@angular-eslint/eslint-plugin": "^20.7.0",
     "@angular-eslint/eslint-plugin-template": "^20.7.0",
     "@angular-eslint/schematics": "^20.7.0",
-    "@angular-eslint/template-parser": "^20.7.0",
+    "@angular-eslint/template-parser": "^22.0.0",
     "@angular/cli": "^20.3.29",
     "@angular/compiler-cli": "^20.3.25",
     "@types/geojson": "^7946.0.16",
