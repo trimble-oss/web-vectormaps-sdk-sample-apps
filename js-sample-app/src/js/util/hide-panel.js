@@ -1,5 +1,5 @@
 function hidePanels(panel, mapService, license) {
-  //Performs highlightning of the currently selected option in the navigation panel as well as hiding/revealing their associated panels.
+  //Performs highlighting of the currently selected option in the navigation panel as well as hiding/revealing their associated panels.
   //To cut down on the lines of code this will eventually be switched over to a for loop with the panels being organized into an array.
   let twr, sr, rr;
   //Fully reset the map.

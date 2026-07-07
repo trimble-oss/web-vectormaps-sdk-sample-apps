@@ -159,7 +159,7 @@ class SiteRouting {
       this.mapService.map.togglePlacesVisibility();
 
       htmlContents =
-        "<li>Verified Trimble Maps Places are publicly available locations that contain site information such as place name," +
+        "<li>Verified Trimble Maps Places are publicly available locations that contain site information such as place name, " +
         "address, operating hours, amenities and entry/exit gates.</li>" +
         "<li>Over 5 million locations with unique site geofence data (as of October 2023).</li>" +
         "<li>Site gates used in routing can increase routing accuracy for final mile stretches and alleviate driver frustration when arriving at new locations.</li>" +
